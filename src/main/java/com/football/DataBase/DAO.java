@@ -7,6 +7,7 @@ import com.football.Domain.Game.Game;
 import com.football.Domain.Game.Team;
 import com.football.Domain.League.ASchedulingPolicy;
 import com.football.Domain.League.League;
+import com.football.Domain.League.LeagueInSeason;
 import com.football.Domain.League.Season;
 import com.football.Domain.Users.*;
 import com.football.Exception.AlreadyExistException;
@@ -16,14 +17,11 @@ import com.football.Exception.ObjectNotExist;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.LinkedList;
 
 public interface DAO {
 
     /***************************************Getters******************************************/
-
-    //TODO
-    List<Team> getTeamsByOwner(String id);
 
     HashMap<String, Role> getRoles();
 
@@ -73,50 +71,50 @@ public interface DAO {
 
     /***************************************delete function************************************************/
 
-    void deleteRole(Role role, String id) throws MemberNotExist,DontHavePermissionException;
+    void deleteRole(Role role, String id) throws MemberNotExist, DontHavePermissionException;
 
     void deleteReferee(Role role, String id) throws DontHavePermissionException, MemberNotExist;
 
-    void deleteFan(Role role, String id) throws MemberNotExist,DontHavePermissionException;
+    void deleteFan(Role role, String id) throws MemberNotExist, DontHavePermissionException;
 
-    void deleteMember(Role role, String id) throws MemberNotExist,DontHavePermissionException;
+    void deleteMember(Role role, String id) throws MemberNotExist, DontHavePermissionException;
 
-    void removeTeam(Role role, String id) throws ObjectNotExist,DontHavePermissionException;
+    void removeTeam(Role role, String id) throws ObjectNotExist, DontHavePermissionException;
 
     void deleteOwner(Role role, String id) throws DontHavePermissionException, MemberNotExist;
 
-    void deleteAssociationDelegate(Role role, String id) throws MemberNotExist,DontHavePermissionException;
+    void deleteAssociationDelegate(Role role, String id) throws MemberNotExist, DontHavePermissionException;
 
-    void deleteSystemManager(Role role, String id) throws MemberNotExist,DontHavePermissionException;
+    void deleteSystemManager(Role role, String id) throws MemberNotExist, DontHavePermissionException;
 
     /***************************************add function******************************************/
     void addAssociationDelegate(Role role, AssociationDelegate associationDelegate) throws DontHavePermissionException, AlreadyExistException;
 
-    void addSystemManager(Role role, SystemManager systemManager) throws AlreadyExistException,DontHavePermissionException;
+    void addSystemManager(Role role, SystemManager systemManager) throws AlreadyExistException, DontHavePermissionException;
 
-    void addOwner(Role role, Owner owner) throws AlreadyExistException,DontHavePermissionException;
+    void addOwner(Role role, Owner owner) throws AlreadyExistException, DontHavePermissionException;
 
-    void addFan(Role role, Fan fan) throws AlreadyExistException,DontHavePermissionException;
+    void addFan(Role role, Fan fan) throws AlreadyExistException, DontHavePermissionException;
 
     void addReferee(Role role, Referee referee) throws DontHavePermissionException, AlreadyExistException;
 
-    void addManager(Role role, Manager manager) throws AlreadyExistException,DontHavePermissionException;
+    void addManager(Role role, Manager manager) throws AlreadyExistException, DontHavePermissionException;
 
-    void addPlayer(Role role, Player player) throws AlreadyExistException,DontHavePermissionException;
+    void addPlayer(Role role, Player player) throws AlreadyExistException, DontHavePermissionException;
 
-    void addCoach(Role role, Coach coach) throws AlreadyExistException,DontHavePermissionException;
+    void addCoach(Role role, Coach coach) throws AlreadyExistException, DontHavePermissionException;
 
-    void addTeam(Role role, Team team) throws AlreadyExistException,DontHavePermissionException;
+    void addTeam(Role role, Team team) throws AlreadyExistException, DontHavePermissionException;
 
-    void addSeason(Role role, Season season) throws AlreadyExistException,DontHavePermissionException;
+    void addSeason(Role role, Season season) throws AlreadyExistException, DontHavePermissionException;
 
-    void addLeague(Role role, League league) throws AlreadyExistException,DontHavePermissionException;
+    void addLeague(Role role, League league) throws AlreadyExistException, DontHavePermissionException;
 
     /***************************************isExist function******************************************/
 
     boolean existReferee(String refereeId);
 
-    boolean existFan(String fanId) ;
+    boolean existFan( String fanId) ;
 
     boolean existTeam(String teamName);
 
@@ -129,7 +127,19 @@ public interface DAO {
     boolean existOwner(String ownerId);
 
     boolean existSeason(String id);
+    /***************************************update function******************************************/
 
+    void updateTeam(Role role,Team team)throws DontHavePermissionException;
+    void updateOwner(Role role,Owner owner)throws MemberNotExist, DontHavePermissionException;
+    void updateManager(Role role,Manager manager) throws MemberNotExist, DontHavePermissionException;
+    void updateReferee(Role role,Referee referee) throws MemberNotExist, DontHavePermissionException;
+    void updateGame(Role role,Game game) throws MemberNotExist, DontHavePermissionException;
+    void updateCoach(Role role,Coach coach) throws MemberNotExist, DontHavePermissionException ;
+    void updateFan(Role role,Fan fan) throws MemberNotExist, DontHavePermissionException;
+    void updatePlayer(Role role,Player player) throws MemberNotExist, DontHavePermissionException;
+    void updateLeague(Role role,League league) throws ObjectNotExist, DontHavePermissionException ;
+    void updateSeason(Role role, Season season) throws ObjectNotExist, DontHavePermissionException;
+    void updateLeagueInSeason(Role role, LeagueInSeason leagueInSeason) throws ObjectNotExist, DontHavePermissionException ;
 
 
 

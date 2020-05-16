@@ -72,7 +72,6 @@ public class DBController implements DAO {
         return ans;
     }
 
-    @Override
     public List<Team> getTeamsByOwner(String id) {
         return null;
     }
@@ -640,6 +639,46 @@ public class DBController implements DAO {
 
     public boolean existSeason(String id) {
         return SeasonDao.getInstance().exist(id);
+    }
+
+    @Override
+    public void updateTeam(Role role, Team team) throws DontHavePermissionException {
+
+    }
+
+    @Override
+    public void updateOwner(Role role, Owner owner) throws MemberNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void updateManager(Role role, Manager manager) throws MemberNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void updateReferee(Role role, Referee referee) throws MemberNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void updateGame(Role role, Game game) throws MemberNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void updateCoach(Role role, Coach coach) throws MemberNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void updateFan(Role role, Fan fan) throws MemberNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void updatePlayer(Role role, Player player) throws MemberNotExist, DontHavePermissionException {
+
     }
 
     /******************************************** update function ***********************************/
