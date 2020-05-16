@@ -1,12 +1,12 @@
 package com.football.DataBase;
 
-import Domain.Game.Team;
-import Domain.League.Season;
+import com.football.Domain.Game.Team;
+import com.football.Domain.League.Season;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
+
 
 public class SeasonDao  implements DAOTEMP<Season> {
 

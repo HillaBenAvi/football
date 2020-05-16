@@ -92,4 +92,33 @@ public class Game extends Observable {
         return countObservers();
     }
 
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public void addEvents(String events) {
+        String[] eventsToAdd = events.split(",");
+        this.eventLog = new EventLog(this);
+        for( String eventString : eventsToAdd){
+            String[] eventToAdd = eventString.split(";");
+            Event event = new Event(eventToAdd);
+            this.eventLog.addEvent(event);
+        }
+    }
+
+    @Override
+    public String toString(){
+        String details =
+                id + ":" + dateAndTime.toString()+ ":" +
+                        hostTeam.getName() + ":" +
+                        visitorTeam.getName() + ":" +
+                        field.getName() + ":" + result + ":" + eventLog.toString() + ":" +
+                        leagueInSeason.getLeague().getName() + ":" +
+                        leagueInSeason.getSeason().getYear() + ":" ;
+        for ( Referee referee : referees){
+            details = details + referee.getUserMail();
+        }
+        return details;
+    }
+
 }

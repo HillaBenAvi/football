@@ -14,8 +14,7 @@ import java.util.LinkedList;
 @RestController
 @RequestMapping(value="/service")
 public class ServiceController {
-    //private static final ServiceController instance = new ServiceController();
-    //public static ServiceController getInstance() {return instance;}
+
     @Autowired
     private Manager manager;
 
@@ -35,15 +34,46 @@ public class ServiceController {
        return manager.stringLogIn(id, password);
     }
 
-    @RequestMapping(value="/fans",method = RequestMethod.GET)
-    public LinkedList<String> getFans() throws DontHavePermissionException {
-        HashMap<String, Fan> fans = new HashMap<>();//systemController.getFans();
-        Fan f = new Fan("guy","mail","pass",null);
-        Fan g = new Fan("daniel","mdail","dpass",null);
+    /*****************add assets to team ********************/
 
-        fans.put("guy",f);
-        fans.put("daniel",g);
-        LinkedList<String> linkedList = new LinkedList<>(fans.keySet());
-        return linkedList;
+    @RequestMapping(value="/addManagerToTeam",method = RequestMethod.POST)
+    public void addManagerToTeam(@RequestParam(value = "id") String id,
+                                 @RequestParam(value = "teamName")String teamName,
+                                 @RequestParam(value = "mailId")String mailId)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
+        manager.addManagerToTeam(id, teamName, mailId);
     }
+
+    @RequestMapping(value="/addCoachToTeam",method = RequestMethod.POST)
+    public void addCoachToTeam(@RequestParam(value = "id") String id,
+                                 @RequestParam(value = "teamName")String teamName,
+                                 @RequestParam(value = "mailId")String mailId)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
+        manager.addCoachToTeam(id, teamName, mailId);
+    }
+
+    @RequestMapping(value="/addCoachToTeam",method = RequestMethod.POST)
+    public void addCoachToTeam(@RequestParam(value = "id") String id,
+                                 @RequestParam(value = "teamName")String teamName,
+                                 @RequestParam(value = "mailId")String mailId,
+                               @RequestParam(value = "year")int year,
+                               @RequestParam(value = "month")int month,
+                               @RequestParam(value = "day")int day,
+                               @RequestParam(value = "roleInPlayers")String roleInPlayers)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
+        manager.addPlayerToTeam(id, teamName, mailId, year, month, day, roleInPlayers);
+    }
+
+    @RequestMapping(value="/addFieldToTeam",method = RequestMethod.POST)
+    public void addFieldToTeam(@RequestParam(value = "id") String id,
+                                 @RequestParam(value = "teamName")String teamName,
+                                 @RequestParam(value = "fieldName")String fieldName)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
+        manager.addFieldToTeam(id, teamName, fieldName);
+    }
+
+    /*****************remove assets to team ********************/
+
+
+
 }

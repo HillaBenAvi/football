@@ -1,8 +1,5 @@
 package com.football.DataBase;
 
-import com.football.Domain.Users.AssociationDelegate;
-import com.football.Domain.Users.SystemManager;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

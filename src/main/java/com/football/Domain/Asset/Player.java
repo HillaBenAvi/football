@@ -8,7 +8,7 @@ import java.util.HashSet;
 public class Player extends TeamMember{
     private HashSet<Event> events;
     private String role;
-  //  private Team team;//maybe just one team
+    //  private Team team;//maybe just one team
 
 
 
@@ -23,8 +23,16 @@ public class Player extends TeamMember{
         super(name, userMail , birthDate);
 
         this.role = role;
+        events= new HashSet<>();
         setPassword(null);
     }
+
+    public Player(String[] playerDetails) {
+        super(playerDetails[1],playerDetails[0],new Date(Integer.parseInt(playerDetails[2]),Integer.parseInt(playerDetails[3]),Integer.parseInt(playerDetails[4])));
+        this.role = playerDetails[5] ;
+        this.addEvents(playerDetails[6]);
+    }
+
     public void deleteAllTheData()
     {
         for (String strTeam:team.keySet()
@@ -39,5 +47,15 @@ public class Player extends TeamMember{
 
     public String getRole() {
         return role;
+    }
+
+    public void addEvents(String events) {
+        String[] eventsString = events.split("!");
+        Event event = new Event(eventsString);
+        this.events.add(event);
+    }
+    @Override
+    public String toString(){
+        return "";
     }
 }

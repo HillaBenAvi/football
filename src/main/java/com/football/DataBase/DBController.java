@@ -122,7 +122,7 @@ public class DBController implements DAO {
         HashMap<String,SystemManager> systemManagerHashMap= new HashMap<>();
         for(String sMString : sMList ){
             String[] splited = sMString.split(":");
-            SystemManager systemManager = new SystemManager(splited,this);
+            SystemManager systemManager = new SystemManager(splited);
             systemManagerHashMap.put(splited[0],systemManager);
         }
         return systemManagerHashMap;
@@ -135,7 +135,7 @@ public class DBController implements DAO {
         HashMap<String,AssociationDelegate> associationDelegateHashMap= new HashMap<>();
         for(String aDString : aDList ){
             String[] splited = aDString.split(":");
-            AssociationDelegate associationDelegate = new AssociationDelegate(splited,this);
+            AssociationDelegate associationDelegate = new AssociationDelegate(splited);
             associationDelegateHashMap.put(splited[0],associationDelegate);
         }
         return associationDelegateHashMap;
@@ -147,7 +147,7 @@ public class DBController implements DAO {
         this.dao = SystemManagerDao.getInstance();
         if(dao.exist(id)){
             String splited = dao.get(id);
-            SystemManager systemManager = new SystemManager(splited.split(":"),this);
+            SystemManager systemManager = new SystemManager(splited.split(":"));
             return systemManager;
         }
         throw new MemberNotExist();
@@ -157,7 +157,7 @@ public class DBController implements DAO {
         this.dao = SystemManagerDao.getInstance();
         if(dao.exist(id)){
             String splited = dao.get(id);
-            AssociationDelegate systemManager = new AssociationDelegate(splited.split(":"),this);
+            AssociationDelegate systemManager = new AssociationDelegate(splited.split(":"));
             return systemManager;
         }
         throw new MemberNotExist();

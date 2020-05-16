@@ -1,6 +1,6 @@
 package com.football.DataBase;
 
-import Domain.League.LeagueInSeason;
+import com.football.Domain.League.LeagueInSeason;
 
 import java.sql.*;
 import java.util.LinkedList;

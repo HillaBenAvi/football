@@ -12,12 +12,6 @@ public abstract class Role {
         this.birthDate = birthDate;
     }
 
-    public Role(String name) {
-        this.name = name;
-        this.birthDate = null;
-    }
-
-
     public Date getBirthDate()
     {
         return birthDate;
