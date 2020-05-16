@@ -17,24 +17,22 @@ public class ServiceController {
     //private static final ServiceController instance = new ServiceController();
     //public static ServiceController getInstance() {return instance;}
     @Autowired
-    Manager manager;
+    private Manager manager;
 
-    @RequestMapping(value="/signin",method = RequestMethod.POST)
-    public void signIn(@RequestParam(value = "userName") String userName,
+    @RequestMapping(value="/register",method = RequestMethod.POST)
+    public void register(@RequestParam(value = "userName") String userName,
                        @RequestParam(value = "userMail") String userMail,
                        @RequestParam(value = "password") String password
     ) throws IncorrectInputException, DontHavePermissionException, AlreadyExistException {
-       // systemController.signIn(userName, userMail,  password , birthDate);
-        manager.signIn(userName,userMail,password);
+        manager.register(userName,userMail,password);
 
     }
 
     @RequestMapping(value="/login",method = RequestMethod.POST)
     public String login(@RequestParam(value = "id") String id,
-                        @RequestParam(value = "password")String password) throws PasswordDontMatchException, MemberNotExist, DontHavePermissionException {
-      //  String type = systemController.login(id,pass);
-
-        return id + password;
+                        @RequestParam(value = "password")String password)
+            throws PasswordDontMatchException, MemberNotExist, DontHavePermissionException {
+       return manager.stringLogIn(id, password);
     }
 
     @RequestMapping(value="/fans",method = RequestMethod.GET)

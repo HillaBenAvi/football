@@ -3,9 +3,11 @@ package com.football.Domain.Users;
 import com.football.DataBase.DBController;
 import com.football.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.regex.Pattern;
 
+@Repository
 public class GuestController {
 
     @Autowired
@@ -19,12 +21,12 @@ public class GuestController {
         if (! checkMailInput(userMail)) {
             throw new IncorrectInputException("incorrect mail input");
         }
-        if (! checkPasswordValue(password)) {
+        if (!checkPasswordValue(password)) {
             throw new IncorrectPasswordInputException();
         }
         String encryptPassword = password;//TODO securityMachine.encrypt(password);
         Fan newMember = new Fan(userName, userMail, encryptPassword, null);
-        //dbController.addFan(this,newMember);
+        dbController.addFan(new Guest(),newMember);
         return newMember;
     }
 

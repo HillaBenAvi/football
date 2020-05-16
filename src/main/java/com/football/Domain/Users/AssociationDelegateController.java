@@ -5,11 +5,12 @@ import com.football.Domain.Game.Team;
 import com.football.Domain.League.*;
 import com.football.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
+@Repository
 public class AssociationDelegateController {
 
     @Autowired

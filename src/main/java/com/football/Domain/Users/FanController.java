@@ -8,16 +8,16 @@ import com.football.Exception.DontHavePermissionException;
 import com.football.Exception.IncorrectInputException;
 import com.football.Exception.MemberNotExist;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+@Repository
 public class FanController {
-
 
     @Autowired
     private DBController dbController;
