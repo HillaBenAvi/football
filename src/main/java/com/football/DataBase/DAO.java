@@ -16,10 +16,14 @@ import com.football.Exception.ObjectNotExist;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 public interface DAO {
 
     /***************************************Getters******************************************/
+
+    //TODO
+    List<Team> getTeamsByOwner(String id);
 
     HashMap<String, Role> getRoles();
 

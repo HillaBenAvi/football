@@ -1,7 +1,7 @@
 package com.football.DataBase;
 
-import Domain.Game.Game;
-import Domain.Game.Team;
+import com.football.Domain.Game.Game;
+import com.football.Domain.Game.Team;
 
 import java.sql.*;
 import java.util.LinkedList;

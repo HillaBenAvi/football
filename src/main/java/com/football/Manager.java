@@ -74,6 +74,43 @@ public class Manager {
         }
     }
 
+    /****************remove assets****************/
+
+    public void removeTeamManager(String id, String teamName, String mailId) throws PasswordDontMatchException, MemberNotExist, DontHavePermissionException, AlreadyExistException {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof Owner){
+                ((Owner) member).removeManager(teamName, mailId);
+            }
+        }
+    }
+
+    public void removeTeamCoach(String id, String teamName, String mailId) throws PasswordDontMatchException, MemberNotExist, DontHavePermissionException, AlreadyExistException {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof Owner){
+                ((Owner) member).removeCoach(teamName, mailId);
+            }
+        }
+    }
+
+    public void removeTeamPlayer(String id, String teamName, String mailId) throws PasswordDontMatchException, MemberNotExist, DontHavePermissionException, AlreadyExistException {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof Owner){
+                ((Owner) member).removePlayer(teamName, mailId);
+            }
+        }
+    }
+
+    public void removeTeamField(String id, String teamName, String mailId) throws PasswordDontMatchException, MemberNotExist, DontHavePermissionException, AlreadyExistException {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof Owner){
+                ((Owner) member).removeField(teamName, mailId);
+            }
+        }
+    }
 
 
 }

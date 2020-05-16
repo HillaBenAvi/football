@@ -4,7 +4,6 @@ import com.football.Domain.Asset.Coach;
 import com.football.Domain.Asset.Field;
 import com.football.Domain.Asset.Manager;
 import com.football.Domain.Asset.Player;
-import com.football.Domain.Game.Event;
 import com.football.Domain.League.*;
 import com.football.Domain.Users.*;
 import com.football.Exception.AlreadyExistException;
@@ -71,6 +70,11 @@ public class DBController implements DAO {
                 ans.put(list.get(i).getName() , (Referee)list.get(i));
         }
         return ans;
+    }
+
+    @Override
+    public List<Team> getTeamsByOwner(String id) {
+        return null;
     }
 
     public HashMap<String, Role> getRoles()  {

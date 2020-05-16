@@ -3,10 +3,7 @@ package com.football;
 import com.football.Domain.Users.Fan;
 import com.football.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -73,6 +70,39 @@ public class ServiceController {
     }
 
     /*****************remove assets to team ********************/
+
+    @DeleteMapping(value="/removeTeamManager")
+    public void removeTeamManager(@RequestParam(value = "id") String id,
+                                 @RequestParam(value = "teamName")String teamName,
+                                 @RequestParam(value = "mailId")String mailId)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
+        manager.removeTeamManager(id, teamName, mailId);
+    }
+
+    @RequestMapping(value="/removeTeamCoach",method = RequestMethod.POST)
+    public void removeTeamCoach(@RequestParam(value = "id") String id,
+                                  @RequestParam(value = "teamName")String teamName,
+                                  @RequestParam(value = "mailId")String mailId)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
+        manager.removeTeamCoach(id, teamName, mailId);
+    }
+
+    @RequestMapping(value="/removeTeamPlayer",method = RequestMethod.POST)
+    public void removeTeamPlayer(@RequestParam(value = "id") String id,
+                                  @RequestParam(value = "teamName")String teamName,
+                                  @RequestParam(value = "mailId")String mailId)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
+        manager.removeTeamPlayer(id, teamName, mailId);
+    }
+
+    @RequestMapping(value="/removeTeamField",method = RequestMethod.POST)
+    public void removeTeamField(@RequestParam(value = "id") String id,
+                                  @RequestParam(value = "teamName")String teamName,
+                                  @RequestParam(value = "mailId")String mailId)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
+        manager.removeTeamField(id, teamName, mailId);
+    }
+
 
 
 
