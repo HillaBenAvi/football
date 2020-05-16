@@ -41,7 +41,7 @@ public class SystemManager extends Member {
         if (dbController.existAssociationDelegate( id)) {
             if (inputAreLegal(id)) {
                 AssociationDelegate temp = dbController.getAssociationDelegate( id);
-                Fan newFan = new Fan(temp.getName(), temp.getUserMail(), temp.getPassword(), temp.getBirthDate(), dbController);
+                Fan newFan = new Fan(temp.getName(), temp.getUserMail(), temp.getPassword(), temp.getBirthDate());
                 dbController.deleteAssociationDelegate(this, id);
                 dbController.addFan(temp, newFan);
             } else {
@@ -94,7 +94,7 @@ public class SystemManager extends Member {
             if (inputAreLegal(id)) {
                 if (dbController.getSystemManagers().size() > 1 && !(this.getUserMail().equals(id))) {
                     SystemManager systemManager=dbController.getSystemManagers( id);
-                    Fan fan=new Fan(systemManager.getName(),systemManager.getUserMail(),systemManager.getPassword(),systemManager.getBirthDate(),dbController);
+                    Fan fan=new Fan(systemManager.getName(),systemManager.getUserMail(),systemManager.getPassword(),systemManager.getBirthDate());
                     dbController.deleteSystemManager(this, id);
                     dbController.addFan(this,fan);
                     return true;
@@ -128,7 +128,7 @@ public class SystemManager extends Member {
                 }
                 else {
                     dbController.deleteReferee(this, id);
-                    Fan newFan = new Fan(referee.getName(), referee.getUserMail(), referee.getPassword(), referee.getBirthDate(), dbController);
+                    Fan newFan = new Fan(referee.getName(), referee.getUserMail(), referee.getPassword(), referee.getBirthDate());
                     dbController.addFan(this, newFan);
                     return true;
                 }
@@ -184,7 +184,7 @@ public class SystemManager extends Member {
                 else if(role instanceof SystemManager)
                 {
                     removeSystemManager(((Owner) role).getUserMail());
-                    // removeFan(((SystemManager) role).getUserMail());
+                    // removeFan(((Manager) role).getUserMail());
                 }
                 else if(role instanceof Fan)
                 {
@@ -534,7 +534,7 @@ public class SystemManager extends Member {
         for (Owner owner : allTheOwnerOfTheGroup
         ) {
             if (owner.getTeams().size() == 0) {
-                Fan newFan = new Fan(owner.getName(), owner.getUserMail(), owner.getPassword(), owner.getBirthDate(), dbController);
+                Fan newFan = new Fan(owner.getName(), owner.getUserMail(), owner.getPassword(), owner.getBirthDate());
                 dbController.deleteOwner(this, owner.getUserMail());
                 dbController.addFan(this, newFan);
             }
@@ -583,6 +583,6 @@ public class SystemManager extends Member {
     }
     @Override
     public String getType() {
-        return "SystemManager";
+        return "Manager";
     }
 }

@@ -13,20 +13,25 @@ import com.football.Exception.AlreadyExistException;
 import com.football.Exception.DontHavePermissionException;
 import com.football.Exception.MemberNotExist;
 import com.football.Exception.ObjectNotExist;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
+@Service
 public class DBController implements DAO{
 
+    @Autowired
     private DB db;
 
-    private static final DBController instance = new DBController();
-
-    public static DBController getInstance(){
-        return instance;
-    }
+//    private static final DBController instance = new DBController();
+//
+//    public static DBController getInstance(){
+//        return instance;
+//    }
 
     private DBController() {
         this.db = new DB();
@@ -323,7 +328,7 @@ public class DBController implements DAO{
 
     public void addSeason(Role role, Season season) throws AlreadyExistException, DontHavePermissionException {
         if (role instanceof SystemManager || role instanceof AssociationDelegate) {
-            // if (id in AssTable || id in SystemManager)
+            // if (id in AssTable || id in Manager)
             if (db.existSeason(season.getYear()))
                 throw new AlreadyExistException();
             db.addSeason(season);
