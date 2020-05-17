@@ -19,7 +19,7 @@ public class Owner extends Member {
     private DBController dbController;
 
 
-    public Owner(String name, String userMail, String password, Date birthDate) throws DontHavePermissionException {
+    public Owner(String name, String userMail, String password, Date birthDate)  {
         super(name, userMail, password, birthDate);
         teams = new HashMap<>();
     }

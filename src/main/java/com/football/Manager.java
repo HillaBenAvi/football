@@ -1,10 +1,7 @@
 package com.football;
 
 import com.football.DataBase.DBController;
-import com.football.Domain.Users.Guest;
-import com.football.Domain.Users.Member;
-import com.football.Domain.Users.Owner;
-import com.football.Domain.Users.Role;
+import com.football.Domain.Users.*;
 import com.football.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +14,7 @@ public class Manager {
     @Autowired
     private DBController dbController;
 
-    private Guest guestController;
+    private GuestService guestController;
 
 
     public Member register(String userName, String userMail, String password) throws IncorrectInputException, AlreadyExistException, DontHavePermissionException {

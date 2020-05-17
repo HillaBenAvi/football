@@ -1,5 +1,6 @@
 package com.football.Service;
 
+import org.springframework.stereotype.Repository;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 import java.io.IOException;
@@ -7,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+@Repository
 public class SecurityMachine {
     public static final String DEFAULT_ENCODING = "UTF-8";
     BASE64Encoder enc = new BASE64Encoder();
