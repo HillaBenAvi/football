@@ -247,6 +247,21 @@ public class DBController implements DAO {
         }
     }
 
+    @Override
+    public Player getPlayer(String id) throws MemberNotExist {
+        return null;
+    }
+
+    @Override
+    public Manager getManager(String id) throws MemberNotExist {
+        return null;
+    }
+
+    @Override
+    public Coach getCoach(String id) throws MemberNotExist {
+        return null;
+    }
+
     public HashSet<Game> getGames(String league, String season) throws ObjectNotExist {
         dao = GameDao.getInstance();
         List<String> gamesStrings = dao.getAll();

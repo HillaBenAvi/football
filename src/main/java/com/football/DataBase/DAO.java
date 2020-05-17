@@ -142,4 +142,16 @@ public interface DAO {
     void updateLeagueInSeason(Role role, LeagueInSeason leagueInSeason) throws ObjectNotExist, DontHavePermissionException ;
 
 
+    /************************to add in the DBController********************/
+
+    Owner getOwner(String id) throws MemberNotExist;
+
+    Player getPlayer(String id) throws MemberNotExist;
+
+    Manager getManager(String id) throws MemberNotExist;
+
+    Coach getCoach(String id) throws MemberNotExist;
+
+
+
 }

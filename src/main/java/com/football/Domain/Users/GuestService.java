@@ -21,7 +21,6 @@ public class GuestService {
     @Autowired
     private DBmemory dbController;
 
-
     public Member signIn(String userMail, String userName, String password , Date birthDate) throws AlreadyExistException, IncorrectPasswordInputException, IncorrectInputException, DontHavePermissionException {
         if (! checkMailInput(userMail)) {
             throw new IncorrectInputException("incorrect mail input");
