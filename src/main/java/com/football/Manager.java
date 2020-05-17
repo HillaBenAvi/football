@@ -15,10 +15,16 @@ public class Manager {
     private DBController dbController;
     @Autowired
     private GuestService guestController;
+    @Autowired
+    private SystemManagerService systemManagerService;
+    @Autowired
+    private AssociationDelegateService associationDelegateService;
+    @Autowired
+    private OwnerService ownerService;
 
 
     public Member register(String userName, String userMail, String password) throws IncorrectInputException, AlreadyExistException, DontHavePermissionException {
-        Member newMember = guestController.signIn(userName, userMail, password ,new Date());
+        Member newMember = guestController.signIn(userMail, userName,  password ,new Date());
         return newMember;
     }
 
@@ -109,5 +115,19 @@ public class Manager {
         }
     }
 
+    public void addNewTeam(String id, String teamName, String ownerId) throws DontHavePermissionException, IncorrectInputException, ObjectNotExist, ObjectAlreadyExist, AlreadyExistException, MemberNotExist {
+        systemManagerService.addNewTeam(id, teamName, ownerId);
+    }
 
+    public void schedulingGames(String id, String seasonId, String leagueId) {
+    }
+
+    public void setLeagueByYear(String id, String seasonId, String leagueId) {
+    }
+
+    public void closeTeam(String id, String teamName) {
+    }
+
+    public void stringLogOut(String id, String password) {
+    }
 }

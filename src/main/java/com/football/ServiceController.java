@@ -31,6 +31,13 @@ public class ServiceController {
        return manager.stringLogIn(id, password);
     }
 
+    @RequestMapping(value="/logout",method = RequestMethod.POST)
+    public void logout(@RequestParam(value = "id") String id,
+                        @RequestParam(value = "password")String password)
+            throws PasswordDontMatchException, MemberNotExist, DontHavePermissionException {
+    }
+
+
     /*****************add assets to team ********************/
 
     @RequestMapping(value="/addManagerToTeam",method = RequestMethod.POST)
@@ -49,8 +56,8 @@ public class ServiceController {
         manager.addCoachToTeam(id, teamName, mailId);
     }
 
-    @RequestMapping(value="/addCoachToTeam",method = RequestMethod.POST)
-    public void addCoachToTeam(@RequestParam(value = "id") String id,
+    @RequestMapping(value="/addPlayerToTeam",method = RequestMethod.POST)
+    public void addPlayerToTeam(@RequestParam(value = "id") String id,
                                  @RequestParam(value = "teamName")String teamName,
                                  @RequestParam(value = "mailId")String mailId,
                                @RequestParam(value = "year")int year,
@@ -103,7 +110,51 @@ public class ServiceController {
         manager.removeTeamField(id, teamName, mailId);
     }
 
+    @RequestMapping(value="/addNewTeam",method = RequestMethod.POST)
+    public void addNewTeam(@RequestParam(value = "id") String id,
+                                @RequestParam(value = "teamName")String teamName,
+                                @RequestParam(value = "ownerId")String ownerId)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException, ObjectNotExist, IncorrectInputException, ObjectAlreadyExist {
+        manager.addNewTeam(id, teamName, ownerId);
+    }
 
+    @RequestMapping(value="/schedulingGames",method = RequestMethod.POST)
+    public void schedulingGames(@RequestParam(value = "id") String id,
+                           @RequestParam(value = "seasonId")String seasonId,
+                           @RequestParam(value = "leagueId")String leagueId)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException, ObjectNotExist, IncorrectInputException, ObjectAlreadyExist {
+        manager.schedulingGames(id, seasonId, leagueId);
+    }
 
+    @RequestMapping(value="/setLeagueByYear",method = RequestMethod.POST)
+    public void setLeagueByYear(@RequestParam(value = "id") String id,
+                                @RequestParam(value = "seasonId")String seasonId,
+                                @RequestParam(value = "leagueId")String leagueId)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException, ObjectNotExist, IncorrectInputException, ObjectAlreadyExist {
+        manager.setLeagueByYear(id, seasonId, leagueId);
+    }
+
+    //todo: after the client
+//    @RequestMapping(value="/updateGameEvents",method = RequestMethod.POST)
+//    public void updateGameEvents(@RequestParam(value = "id") String id,
+//                                 @RequestParam(value = "leagueId") String leagueId)
+//            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException, ObjectNotExist, IncorrectInputException, ObjectAlreadyExist {
+//        manager.setLeagueByYear(id, seasonId, leagueId);
+//    }
+
+    @RequestMapping(value="/closeTeam",method = RequestMethod.DELETE)
+    public void closeTeam(@RequestParam(value = "id") String id,
+                                 @RequestParam(value = "teamName") String teamName)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException, ObjectNotExist, IncorrectInputException, ObjectAlreadyExist {
+        manager.closeTeam(id, teamName);
+    }
+
+    //todo: after the client
+//    @RequestMapping(value="/initSystem",method = RequestMethod.DELETE)
+//    public void initSystem(@RequestParam(value = "id") String id,
+//                          @RequestParam(value = "teamName") String teamName)
+//            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException, ObjectNotExist, IncorrectInputException, ObjectAlreadyExist {
+//        manager.closeTeam(id, teamName);
+//    }
 
 }
