@@ -39,7 +39,7 @@ public class Manager {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
-                ((Owner) member).addManager(teamName, mailId);
+            //    ((Owner) member).addManager(teamName, mailId);
             }
         }
     }
@@ -48,7 +48,7 @@ public class Manager {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
-                ((Owner) member).addCoach(teamName, mailId);
+           //     ((Owner) member).addCoach(teamName, mailId);
             }
         }
     }
@@ -57,7 +57,7 @@ public class Manager {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
-                ((Owner) member).addPlayer(teamName, mailId, year, month, day, roleInPlayers);
+           //     ((Owner) member).addPlayer(teamName, mailId, year, month, day, roleInPlayers);
             }
         }
     }
@@ -66,7 +66,7 @@ public class Manager {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
-                ((Owner) member).addField(teamName, fieldName);
+          //      ((Owner) member).addField(teamName, fieldName);
             }
         }
     }
@@ -77,7 +77,7 @@ public class Manager {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
-                ((Owner) member).removeManager(teamName, mailId);
+           //     ((Owner) member).removeManager(teamName, mailId);
             }
         }
     }
@@ -86,7 +86,7 @@ public class Manager {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
-                ((Owner) member).removeCoach(teamName, mailId);
+            //    ((Owner) member).removeCoach(teamName, mailId);
             }
         }
     }
@@ -95,7 +95,7 @@ public class Manager {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
-                ((Owner) member).removePlayer(teamName, mailId);
+           //     ((Owner) member).removePlayer(teamName, mailId);
             }
         }
     }
@@ -104,7 +104,7 @@ public class Manager {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
-                ((Owner) member).removeField(teamName, mailId);
+            //    ((Owner) member).removeField(teamName, mailId);
             }
         }
     }

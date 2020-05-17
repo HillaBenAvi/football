@@ -75,7 +75,7 @@ public class SystemManagerService {
             if (dbController.existOwner(ownerId)) {
                 if (isLegalid(ownerId)) {
                     Owner owner = dbController.getOwner(ownerId);
-                    if (owner.notHaveTeams() == true) {
+                    if ( owner.notHaveTeams()) {
                         dbController.deleteOwner(manager, ownerId);
                         return true;
                     } else {
@@ -391,7 +391,7 @@ public class SystemManagerService {
         if (dbController.existTeam(teamName)) {
             Team team = dbController.getTeam( teamName);
             if(team.getGamesSize()==0) {
-                HashSet<Owner> allTheOwnerOfTheGroup = team.deleteTheData();
+                HashSet<Owner> allTheOwnerOfTheGroup = team.getOwners();
                 changeTheOwnerToFan(manager, allTheOwnerOfTheGroup);
                 dbController.removeTeam(manager, teamName);
                 return true;
@@ -441,7 +441,8 @@ public class SystemManagerService {
                 if (owner != null) {
                     Account account = new Account();
                     Team newTeam = new Team(teamName, account, owner);
-                    owner.addTeam(newTeam);
+                    owner.getTeams().put(teamName, newTeam);
+                    dbController.updateOwner(manager, owner);
                     dbController.addTeam(manager, newTeam);
                 }
             }

@@ -585,12 +585,6 @@ public class OwnerService {
     }
 
 
-    public boolean notHaveTeams(String id) throws MemberNotExist {
-        if (!dbController.existOwner(id)){
-            throw new MemberNotExist();
-        }
-        Owner currOwner = dbController.getOwner(id);
-        return currOwner.getTeams().size()==0;
-    }
+
 
 }

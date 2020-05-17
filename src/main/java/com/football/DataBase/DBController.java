@@ -241,7 +241,6 @@ public class DBController implements DAO {
     public Owner getOwner(String idOwner) throws MemberNotExist {
         if (db.existOwner(idOwner)) {
             Owner owner = db.getOwnerOrFan(idOwner);
-            owner.setDb(this);
             return owner;
         } else {
             throw new MemberNotExist();

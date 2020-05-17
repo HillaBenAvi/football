@@ -2,6 +2,7 @@ package com.football.Domain.Users;
 
 import com.football.Domain.Game.Team;
 import com.football.Exception.DontHavePermissionException;
+import com.football.Exception.MemberNotExist;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -21,6 +22,10 @@ public class Owner extends Member {
 
     public HashMap<String, Team> getTeams() {
         return teams;
+    }
+
+    public boolean notHaveTeams() throws MemberNotExist {
+        return teams.size()==0;
     }
 
     @Override

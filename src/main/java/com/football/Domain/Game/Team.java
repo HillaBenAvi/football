@@ -66,10 +66,6 @@ public class Team {
         this.players.addAll(players);
         this.owners.addAll(owners);
         this.managers.addAll(managers);
-        updateTheTeamListCoach(coaches);
-        updateTheTeamListPlayer(players);
-        updateTheTeamListManager(managers);
-        updateTheTeamListForOwner(owners);
 
     }
 
@@ -95,38 +91,32 @@ public class Team {
         }
     }
 
-    private void updateTheTeamListForOwner(LinkedList<Owner> list) throws AlreadyExistException, DontHavePermissionException {
-        for (int i = 0; i < list.size(); i++) {
-            Owner owner = list.get(i);
-            owner.addTeam(this);
-        }
-    }
 
     public String getName() {
         return name;
     }
 
-    public HashSet<Owner> deleteTheData(){
-
-        HashSet<Owner> newHash=owners;
-        for (Player player : players
-        ) {
-            player.removeTheTeamFromMyList(this.name);
-        }
-        for (Owner owner : owners
-        ) {
-            owner.removeTheTeamFromMyList(this.name);
-        }
-        for (Coach coach : coaches
-        ) {
-            coach.removeTheTeamFromMyList(this.name);
-        }
-        for (Manager manager : managers
-        ) {
-            manager.removeTheTeamFromMyList(this.name);
-        }
-return newHash;
-    }
+//    public HashSet<Owner> deleteTheData(){
+//
+//        HashSet<Owner> newHash=owners;
+//        for (Player player : players
+//        ) {
+//            player.removeTheTeamFromMyList(this.name);
+//        }
+//        for (Owner owner : owners
+//        ) {
+//            owner.removeTheTeamFromMyList(this.name);
+//        }
+//        for (Coach coach : coaches
+//        ) {
+//            coach.removeTheTeamFromMyList(this.name);
+//        }
+//        for (Manager manager : managers
+//        ) {
+//            manager.removeTheTeamFromMyList(this.name);
+//        }
+//return newHash;
+//    }
 
 
     /***Getters***/
