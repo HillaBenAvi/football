@@ -1,19 +1,26 @@
 package com.football.Domain.Users;
 
 import com.football.DataBase.DBController;
+import com.football.DataBase.DBmemory;
 import com.football.Exception.*;
 import com.football.Service.SecurityMachine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.regex.Pattern;
 
+@Service
 public class GuestService {
 
-    @Autowired
-    private DBController dbController;
+//    @Autowired
+//    private DBController dbController;
     @Autowired
     private SecurityMachine securityMachine;
+
+    @Autowired
+    private DBmemory dbController;
+
 
     public Member signIn(String userMail, String userName, String password , Date birthDate) throws AlreadyExistException, IncorrectPasswordInputException, IncorrectInputException, DontHavePermissionException {
         if (! checkMailInput(userMail)) {

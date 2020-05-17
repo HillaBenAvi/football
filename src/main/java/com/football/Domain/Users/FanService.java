@@ -1,6 +1,7 @@
 package com.football.Domain.Users;
 
 import com.football.DataBase.DBController;
+import com.football.DataBase.DBmemory;
 import com.football.Domain.Game.Game;
 import com.football.Domain.Game.Team;
 import com.football.Exception.AlreadyExistException;
@@ -8,6 +9,7 @@ import com.football.Exception.DontHavePermissionException;
 import com.football.Exception.IncorrectInputException;
 import com.football.Exception.MemberNotExist;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,10 +17,14 @@ import java.io.FileWriter;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+@Service
 public class FanService {
 
+//    @Autowired
+//    private DBController dbController;
+
     @Autowired
-    private DBController dbController;
+    private DBmemory dbController;
 
     public void followTeam(String id, Team team) throws MemberNotExist {
         if(dbController.existFan(id)){

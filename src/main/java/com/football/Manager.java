@@ -13,7 +13,7 @@ public class Manager {
 
     @Autowired
     private DBController dbController;
-
+    @Autowired
     private GuestService guestController;
 
 

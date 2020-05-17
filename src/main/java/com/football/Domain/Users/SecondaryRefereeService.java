@@ -3,7 +3,9 @@ package com.football.Domain.Users;
 import com.football.DataBase.DBController;
 import com.football.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SecondaryRefereeService {
 
     @Autowired

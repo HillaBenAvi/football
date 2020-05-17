@@ -1,21 +1,27 @@
 package com.football.Domain.Users;
 
 import com.football.DataBase.DBController;
+import com.football.DataBase.DBmemory;
 import com.football.Domain.Asset.Player;
 import com.football.Domain.Game.Event;
 import com.football.Domain.Game.EventInGame;
 import com.football.Domain.Game.Game;
 import com.football.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 
+@Service
 public class MainRefereeService {
 
+//    @Autowired
+//    private DBController dbController;
+
     @Autowired
-    private DBController dbController;
+    private DBmemory dbController;
 
     /**
      * in this function a main referee can update an event in a game

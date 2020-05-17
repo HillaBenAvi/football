@@ -13,12 +13,14 @@ import com.football.Domain.League.Season;
 import com.football.Exception.*;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.*;
 
+@Service
 public class SystemManagerService {
 
     @Autowired

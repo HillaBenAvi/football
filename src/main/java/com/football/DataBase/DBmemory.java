@@ -3,16 +3,24 @@ package com.football.DataBase;
 import com.football.Domain.Asset.Coach;
 import com.football.Domain.Asset.Manager;
 import com.football.Domain.Asset.Player;
+import com.football.Domain.Game.Game;
 import com.football.Domain.Game.Team;
 import com.football.Domain.League.ASchedulingPolicy;
 import com.football.Domain.League.League;
+import com.football.Domain.League.LeagueInSeason;
 import com.football.Domain.League.Season;
 import com.football.Domain.Users.*;
+import com.football.Exception.AlreadyExistException;
+import com.football.Exception.DontHavePermissionException;
 import com.football.Exception.MemberNotExist;
+import com.football.Exception.ObjectNotExist;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
-public class DBmemory {
+@Repository
+public class DBmemory implements DAO {
 
     private HashMap<String, League> leagues; //key-name of league, value-league
     private HashMap<String, Season> seasons; //key-year, value-season
@@ -52,6 +60,106 @@ public class DBmemory {
     public Team getTeam(String teamName) { return teams.get(teamName); }
 
     public Referee getReferee(String id) { return (Referee) roles.get(id); }
+
+    @Override
+    public void deleteRole(Role role, String id) throws MemberNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void deleteReferee(Role role, String id) throws DontHavePermissionException, MemberNotExist {
+
+    }
+
+    @Override
+    public void deleteFan(Role role, String id) throws MemberNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void deleteMember(Role role, String id) throws MemberNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void removeTeam(Role role, String id) throws ObjectNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void deleteOwner(Role role, String id) throws DontHavePermissionException, MemberNotExist {
+
+    }
+
+    @Override
+    public void deleteAssociationDelegate(Role role, String id) throws MemberNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void deleteSystemManager(Role role, String id) throws MemberNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void addAssociationDelegate(Role role, AssociationDelegate associationDelegate) throws DontHavePermissionException, AlreadyExistException {
+
+    }
+
+    @Override
+    public void addSystemManager(Role role, SystemManager systemManager) throws AlreadyExistException, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void addOwner(Role role, Owner owner) throws AlreadyExistException, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void addFan(Role role, Fan fan) throws AlreadyExistException, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void addReferee(Role role, Referee referee) throws DontHavePermissionException, AlreadyExistException {
+
+    }
+
+    @Override
+    public void addManager(Role role, Manager manager) throws AlreadyExistException, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void addPlayer(Role role, Player player) throws AlreadyExistException, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void addCoach(Role role, Coach coach) throws AlreadyExistException, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void addTeam(Role role, Team team) throws AlreadyExistException, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void addSeason(Role role, Season season) throws AlreadyExistException, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void addLeague(Role role, League league) throws AlreadyExistException, DontHavePermissionException {
+
+    }
+
+    @Override
+    public boolean existReferee(String refereeId) {
+        return false;
+    }
 
     public Owner getOwner(String id) { return (Owner) roles.get(id); }
 
@@ -189,6 +297,11 @@ public class DBmemory {
 
     public HashMap<String, ASchedulingPolicy> getSchedulingPolicies(){
         return schedulingPolicies;
+    }
+
+    @Override
+    public HashSet<Game> getGames(String league, String season) throws ObjectNotExist {
+        return null;
     }
 
     public HashMap<String, AssociationDelegate> getAssociationDelegate() {
@@ -335,6 +448,61 @@ public class DBmemory {
     /*****************************************exist function****************************************/
     public boolean existSeason(String year){
         return this.seasons.containsKey(year);
+    }
+
+    @Override
+    public void updateTeam(Role role, Team team) throws DontHavePermissionException {
+
+    }
+
+    @Override
+    public void updateOwner(Role role, Owner owner) throws MemberNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void updateManager(Role role, Manager manager) throws MemberNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void updateReferee(Role role, Referee referee) throws MemberNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void updateGame(Role role, Game game) throws MemberNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void updateCoach(Role role, Coach coach) throws MemberNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void updateFan(Role role, Fan fan) throws MemberNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void updatePlayer(Role role, Player player) throws MemberNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void updateLeague(Role role, League league) throws ObjectNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void updateSeason(Role role, Season season) throws ObjectNotExist, DontHavePermissionException {
+
+    }
+
+    @Override
+    public void updateLeagueInSeason(Role role, LeagueInSeason leagueInSeason) throws ObjectNotExist, DontHavePermissionException {
+
     }
 
     public boolean existLeague(String name){
