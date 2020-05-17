@@ -1,7 +1,8 @@
 package com.football.DataBase;
 
-import Domain.League.League;
-import Domain.Users.SystemManager;
+import com.football.Domain.League.League;
+import com.football.Domain.Users.SystemManager;
+import com.football.Domain.Users.SystemManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

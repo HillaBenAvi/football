@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class Owner extends Member {
     private HashMap<String, Team> teams;
 
-    public Owner(String name, String userMail, String password, Date birthDate) throws DontHavePermissionException {
+    public Owner(String name, String userMail, String password, Date birthDate)  {
         super(name, userMail, password, birthDate);
         this.teams = new HashMap<>();
     }

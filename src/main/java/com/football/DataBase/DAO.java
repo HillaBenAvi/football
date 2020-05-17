@@ -142,7 +142,4 @@ public interface DAO {
     void updateLeagueInSeason(Role role, LeagueInSeason leagueInSeason) throws ObjectNotExist, DontHavePermissionException ;
 
 
-
-
-
 }
