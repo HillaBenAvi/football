@@ -38,6 +38,9 @@ public class Manager {
         return member.getType();
     }
 
+    public void logOut(String id, String password) {
+       //todo!
+    }
 
     /****************add assets****************/
 
@@ -45,7 +48,7 @@ public class Manager {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
-                //((Owner) member).addManager(teamName, mailId);
+                ownerService.addManager(id,teamName,mailId);
             }
         }
     }
@@ -54,7 +57,7 @@ public class Manager {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
-              //  ((Owner) member).addCoach(teamName, mailId);
+                ownerService.addCoach(id,teamName,mailId);
             }
         }
     }
@@ -63,7 +66,7 @@ public class Manager {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
-            //    ((Owner) member).addPlayer(teamName, mailId, year, month, day, roleInPlayers);
+                ownerService.addPlayer(id,teamName,mailId,year,month,day,roleInPlayers);
             }
         }
     }
@@ -72,7 +75,7 @@ public class Manager {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
-            //    ((Owner) member).addField(teamName, fieldName);
+                ownerService.addField(id,teamName,fieldName);
             }
         }
     }
@@ -83,7 +86,7 @@ public class Manager {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
-           //     ((Owner) member).removeManager(teamName, mailId);
+                ownerService.removeManager(id,teamName, mailId);
             }
         }
     }
@@ -92,7 +95,7 @@ public class Manager {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
-               // ((Owner) member).removeCoach(teamName, mailId);
+                ownerService.removeCoach(id,teamName, mailId);
             }
         }
     }
@@ -101,16 +104,16 @@ public class Manager {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
-             //   ((Owner) member).removePlayer(teamName, mailId);
+             ownerService.removePlayer(id,teamName, mailId);
             }
         }
     }
 
-    public void removeTeamField(String id, String teamName, String mailId) throws PasswordDontMatchException, MemberNotExist, DontHavePermissionException, AlreadyExistException {
+    public void removeTeamField(String id, String teamName, String fieldId) throws PasswordDontMatchException, MemberNotExist, DontHavePermissionException, AlreadyExistException {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
-             //   ((Owner) member).removeField(teamName, mailId);
+            ownerService.removeField(id,teamName, fieldId);
             }
         }
     }
@@ -119,15 +122,17 @@ public class Manager {
         systemManagerService.addNewTeam(id, teamName, ownerId);
     }
 
-    public void schedulingGames(String id, String seasonId, String leagueId) {
+    public void schedulingGames(String id, String seasonId, String leagueId) throws ObjectNotExist, AlreadyExistException, DontHavePermissionException, MemberNotExist, IncorrectInputException {
+        systemManagerService.schedulingGames(id,seasonId,leagueId);
     }
 
-    public void setLeagueByYear(String id, String seasonId, String leagueId) {
+    public void setLeagueByYear(String id, String year, String leagueId) throws ObjectNotExist, AlreadyExistException, MemberNotExist, DontHavePermissionException {
+        associationDelegateService.setLeagueByYear(id,leagueId,year);
     }
 
-    public void closeTeam(String id, String teamName) {
+    public void closeTeam(String id, String teamName) throws DontHavePermissionException, AlreadyExistException, MemberNotExist, ObjectNotExist, IncorrectInputException {
+        systemManagerService.closeTeam(id,teamName);
     }
 
-    public void stringLogOut(String id, String password) {
-    }
+
 }

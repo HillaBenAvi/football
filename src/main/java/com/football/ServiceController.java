@@ -33,10 +33,9 @@ public class ServiceController {
 
     @RequestMapping(value="/logout",method = RequestMethod.POST)
     public void logout(@RequestParam(value = "id") String id,
-                        @RequestParam(value = "password")String password)
-            throws PasswordDontMatchException, MemberNotExist, DontHavePermissionException {
+                        @RequestParam(value = "password")String password){
+        manager.logOut(id,password);
     }
-
 
     /*****************add assets to team ********************/
 
@@ -86,7 +85,7 @@ public class ServiceController {
         manager.removeTeamManager(id, teamName, mailId);
     }
 
-    @RequestMapping(value="/removeTeamCoach",method = RequestMethod.POST)
+    @DeleteMapping(value="/removeTeamCoach")
     public void removeTeamCoach(@RequestParam(value = "id") String id,
                                   @RequestParam(value = "teamName")String teamName,
                                   @RequestParam(value = "mailId")String mailId)
@@ -94,7 +93,7 @@ public class ServiceController {
         manager.removeTeamCoach(id, teamName, mailId);
     }
 
-    @RequestMapping(value="/removeTeamPlayer",method = RequestMethod.POST)
+    @DeleteMapping(value="/removeTeamPlayer")
     public void removeTeamPlayer(@RequestParam(value = "id") String id,
                                   @RequestParam(value = "teamName")String teamName,
                                   @RequestParam(value = "mailId")String mailId)
@@ -102,12 +101,12 @@ public class ServiceController {
         manager.removeTeamPlayer(id, teamName, mailId);
     }
 
-    @RequestMapping(value="/removeTeamField",method = RequestMethod.POST)
+    @DeleteMapping(value="/removeTeamField")
     public void removeTeamField(@RequestParam(value = "id") String id,
                                   @RequestParam(value = "teamName")String teamName,
-                                  @RequestParam(value = "mailId")String mailId)
+                                  @RequestParam(value = "fieldId")String fieldId)
             throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
-        manager.removeTeamField(id, teamName, mailId);
+        manager.removeTeamField(id, teamName, fieldId);
     }
 
     @RequestMapping(value="/addNewTeam",method = RequestMethod.POST)
@@ -128,10 +127,10 @@ public class ServiceController {
 
     @RequestMapping(value="/setLeagueByYear",method = RequestMethod.POST)
     public void setLeagueByYear(@RequestParam(value = "id") String id,
-                                @RequestParam(value = "seasonId")String seasonId,
+                                @RequestParam(value = "yearId")String yearId,
                                 @RequestParam(value = "leagueId")String leagueId)
             throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException, ObjectNotExist, IncorrectInputException, ObjectAlreadyExist {
-        manager.setLeagueByYear(id, seasonId, leagueId);
+        manager.setLeagueByYear(id, yearId, leagueId);
     }
 
     //todo: after the client
