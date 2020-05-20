@@ -113,26 +113,62 @@ public class Manager {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
-            ownerService.removeField(id,teamName, fieldId);
+                ownerService.removeField(id,teamName, fieldId);
             }
         }
     }
 
     public void addNewTeam(String id, String teamName, String ownerId) throws DontHavePermissionException, IncorrectInputException, ObjectNotExist, ObjectAlreadyExist, AlreadyExistException, MemberNotExist {
-        systemManagerService.addNewTeam(id, teamName, ownerId);
+        if(dbController.existMember(id)) {
+            Role member = dbController.getMember(id);
+            if (member instanceof SystemManager) {
+                systemManagerService.addNewTeam(id, teamName, ownerId);
+            }
+        }
     }
 
     public void schedulingGames(String id, String seasonId, String leagueId) throws ObjectNotExist, AlreadyExistException, DontHavePermissionException, MemberNotExist, IncorrectInputException {
-        systemManagerService.schedulingGames(id,seasonId,leagueId);
+        if(dbController.existMember(id)) {
+            Role member = dbController.getMember(id);
+            if (member instanceof SystemManager) {
+                systemManagerService.schedulingGames(id, seasonId, leagueId);
+            }
+        }
     }
 
     public void setLeagueByYear(String id, String year, String leagueId) throws ObjectNotExist, AlreadyExistException, MemberNotExist, DontHavePermissionException {
-        associationDelegateService.setLeagueByYear(id,leagueId,year);
+        if(dbController.existMember(id)) {
+            Role member = dbController.getMember(id);
+            if (member instanceof AssociationDelegate) {
+                associationDelegateService.setLeagueByYear(id, leagueId, year);
+            }
+        }
     }
 
     public void closeTeam(String id, String teamName) throws DontHavePermissionException, AlreadyExistException, MemberNotExist, ObjectNotExist, IncorrectInputException {
-        systemManagerService.closeTeam(id,teamName);
+        if(dbController.existMember(id)) {
+            Role member = dbController.getMember(id);
+            if (member instanceof SystemManager) {
+                systemManagerService.closeTeam(id, teamName);
+            }
+        }
     }
 
+    public void changeScorePolicy(String id, String league, String season, String sWinning, String sDraw, String sLosing) throws MemberNotExist, IncorrectInputException, ObjectNotExist {
+        if(dbController.existMember(id)) {
+            Role member = dbController.getMember(id);
+            if (member instanceof AssociationDelegate) {
+                associationDelegateService.changeScorePolicy(id, league, season, sWinning, sDraw, sLosing);
+            }
+        }
+    }
 
+    public void insertSchedulingPolicy(String id, String league, String season, String sPolicy) throws MemberNotExist, DontHavePermissionException, ObjectNotExist {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof AssociationDelegate){
+                associationDelegateService.insertSchedulingPolicy(id, league, season, sPolicy);
+            }
+        }
+    }
 }
