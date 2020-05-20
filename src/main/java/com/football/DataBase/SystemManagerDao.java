@@ -18,7 +18,7 @@ public class SystemManagerDao implements DAOTEMP<SystemManager> {
     public static SystemManagerDao getInstance(){
         return instance;
     }
-    DBConnector dbc= DBConnector.getInstance();
+    DBConnector dbc;//= DBConnector.getInstance();
     Connection connection;
 
     @Override

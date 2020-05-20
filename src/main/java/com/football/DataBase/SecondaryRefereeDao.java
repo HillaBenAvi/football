@@ -21,7 +21,7 @@ public class SecondaryRefereeDao implements DAOTEMP<SecondaryReferee>{
         return instance;
     }
 
-    DBConnector dbc= DBConnector.getInstance();
+    DBConnector dbc;//= DBConnector.getInstance();
     Connection connection;
 
     @Override

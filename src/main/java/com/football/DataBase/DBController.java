@@ -4,7 +4,6 @@ import com.football.Domain.Asset.Coach;
 import com.football.Domain.Asset.Field;
 import com.football.Domain.Asset.Manager;
 import com.football.Domain.Asset.Player;
-import com.football.Domain.Game.Event;
 import com.football.Domain.League.*;
 import com.football.Domain.Users.*;
 import com.football.Exception.AlreadyExistException;
@@ -15,38 +14,38 @@ import com.football.Domain.Game.Game;
 import com.football.Domain.Game.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.*;
 @Repository
 public class DBController {
-   // private DAOTEMP associationDeligateDao = AssociationDeligateDao.getInstance();
+   // private DAOTEMP associationDelegateDao = AssociationDelegateDao.getInstance();
+   @Autowired
+   AssociationDelegateDao associationDelegateDao;
 
-    private AssociationDeligateDao associationDeligateDao = AssociationDeligateDao.getInstance();
-    private CoachDao coachDao = CoachDao.getInstance();
-    private FanDao fanDao = FanDao.getInstance() ;
-    private FieldDao fieldDao = FieldDao.getInstance() ;
-    private GameDao gameDao = GameDao.getInstance();
-    private LeagueDao leagueDao = LeagueDao.getInstance();
-    private LeagueInSeasonDao leagueInSesonDao = LeagueInSeasonDao.getInstance();
-    private MainRefereeDao mainRefereeDao= MainRefereeDao.getInstance();
-    private ManagerDao managerDao= ManagerDao.getInstance();
-    private OwnerDao ownerDao= OwnerDao.getInstance();
-    private PlayerDao playerDao= PlayerDao.getInstance();
-    private SeasonDao seasonDao= SeasonDao.getInstance();
-    private SecondaryRefereeDao seconaryRefereeDao= SecondaryRefereeDao.getInstance();
-    private SystemManagerDao systemManagerDao= SystemManagerDao.getInstance();
-    private TeamDao teamDao= TeamDao.getInstance();
+   // private AssociationDelegateDao associationDelegateDao;// = AssociationDelegateDao.getInstance();
+    private CoachDao coachDao;// = CoachDao.getInstance();
+    private FanDao fanDao;// = FanDao.getInstance() ;
+    private FieldDao fieldDao;// = FieldDao.getInstance() ;
+    private GameDao gameDao;// = GameDao.getInstance();
+    private LeagueDao leagueDao;// = LeagueDao.getInstance();
+    private LeagueInSeasonDao leagueInSesonDao ;//= LeagueInSeasonDao.getInstance();
+    private MainRefereeDao mainRefereeDao;//= MainRefereeDao.getInstance();
+    private ManagerDao managerDao;//= ManagerDao.getInstance();
+    private OwnerDao ownerDao;//= OwnerDao.getInstance();
+    private PlayerDao playerDao;//= PlayerDao.getInstance();
+    private SeasonDao seasonDao;//= SeasonDao.getInstance();
+    private SecondaryRefereeDao seconaryRefereeDao;//= SecondaryRefereeDao.getInstance();
+    private SystemManagerDao systemManagerDao;//= SystemManagerDao.getInstance();
+    private TeamDao teamDao;//= TeamDao.getInstance();
 
 
-    private static final DBController instance = new DBController();
+   // private static final DBController instance = new DBController();
 
-    public static DBController getInstance(){
-        return instance;
-    }
-
-    private DBController() { }
+    //public static DBController getInstance(){
+   //     return instance;
+  //  }
+//
+    public DBController() { }
     /*************************************** Presentation.Guest function ******************************************/
 
     /*************************************** Getters ******************************************/
@@ -161,7 +160,7 @@ public class DBController {
     }
 
     public HashMap<String, AssociationDelegate> getAssociationDelegate()   {
-        List<String> aDList = associationDeligateDao.getAll();
+        List<String> aDList = associationDelegateDao.getAll();
         HashMap<String,AssociationDelegate> associationDelegateHashMap= new HashMap<>();
         for(String aDString : aDList ){
             String[] splited = aDString.split(":");
@@ -183,8 +182,8 @@ public class DBController {
     }
 
     public AssociationDelegate getAssociationDelegate( String id) throws MemberNotExist {
-        if(associationDeligateDao.exist(id)){
-            String splited = associationDeligateDao.get(id);
+        if(associationDelegateDao.exist(id)){
+            String splited = associationDelegateDao.get(id);
             AssociationDelegate systemManager = new AssociationDelegate(splited.split(":"));
             return systemManager;
         }
@@ -204,8 +203,8 @@ public class DBController {
         } else if (systemManagerDao.exist(id)) {
             String details = systemManagerDao.get(id);
             return new SystemManager(details.split(":"));
-        } else if (associationDeligateDao.exist(id)) {
-            return new AssociationDelegate(associationDeligateDao.get(id).split(":"));
+        } else if (associationDelegateDao.exist(id)) {
+            return new AssociationDelegate(associationDelegateDao.get(id).split(":"));
         }else if (playerDao.exist(id)) {
             //return new Player(playerDao.get(id).split(":"),this);
         } else if (managerDao.exist(id)) {
@@ -328,8 +327,8 @@ public class DBController {
                 ownerDao.delete(id);
             } else if (systemManagerDao.exist(id)) {
                 systemManagerDao.delete(id);
-            } else if (associationDeligateDao.exist(id)) {
-                associationDeligateDao.delete(id);
+            } else if (associationDelegateDao.exist(id)) {
+                associationDelegateDao.delete(id);
             }else if (playerDao.exist(id)) {
                 playerDao.delete(id);
             } else if (managerDao.exist(id)) {
@@ -431,8 +430,8 @@ public class DBController {
 
     public void deleteAssociationDelegate(Role role, String id) throws MemberNotExist, DontHavePermissionException {
         if (role instanceof SystemManager || role instanceof AssociationDelegate) {
-            if (associationDeligateDao.exist(id)) {
-                associationDeligateDao.delete(id);
+            if (associationDelegateDao.exist(id)) {
+                associationDelegateDao.delete(id);
             } else {
                 throw new MemberNotExist();
             }
@@ -467,10 +466,10 @@ public class DBController {
     public void addAssociationDelegate(Role role, AssociationDelegate associationDelegate) throws
             DontHavePermissionException, AlreadyExistException {
         if (role instanceof SystemManager) {
-            if (associationDeligateDao.exist(associationDelegate.getUserMail()))
+            if (associationDelegateDao.exist(associationDelegate.getUserMail()))
                 throw new AlreadyExistException();
 
-            associationDeligateDao.save(associationDelegate);
+            associationDelegateDao.save(associationDelegate);
 
             return;
         } else {
@@ -675,14 +674,14 @@ public class DBController {
     }
 
     public boolean existMember(String id)  {
-        if(fanDao.exist(id) || seconaryRefereeDao.exist(id) || associationDeligateDao.exist(id) || ownerDao.exist(id) ||
+        if(fanDao.exist(id) || seconaryRefereeDao.exist(id) || associationDelegateDao.exist(id) || ownerDao.exist(id) ||
             systemManagerDao.exist(id) || mainRefereeDao.exist(id) || coachDao.exist(id) || playerDao.exist(id) || managerDao.exist(id))
                 return true;
         return false;
     }
 
     public boolean existAssociationDelegate(String id)  {
-        return associationDeligateDao.exist(id);
+        return associationDelegateDao.exist(id);
     }
 
     public boolean existSystemManager( String id)  {

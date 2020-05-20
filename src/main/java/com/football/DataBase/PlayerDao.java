@@ -19,7 +19,7 @@ public class PlayerDao implements DAOTEMP<Player> {
     public static PlayerDao getInstance(){
         return instance;
     }
-    DBConnector  dbc= DBConnector.getInstance();
+    DBConnector  dbc;//= DBConnector.getInstance();
    Connection connection;
 
     @Override

@@ -14,7 +14,7 @@ public class LeagueDao  implements DAOTEMP<League> {
         return instance;
     }
 
-    DBConnector  dbc= DBConnector.getInstance();
+    DBConnector  dbc;//= DBConnector.getInstance();
     Connection connection;
 
     @Override
