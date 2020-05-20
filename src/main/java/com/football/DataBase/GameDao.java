@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
-@Repository
+
 public class GameDao implements DAOTEMP<Game> {
     private static final GameDao instance = new GameDao();
     DBConnector dbc = DBConnector.getInstance();

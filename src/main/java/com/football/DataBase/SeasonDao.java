@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+
 public class SeasonDao  implements DAOTEMP<Season> {
 
     private static final SeasonDao instance = new SeasonDao();
@@ -18,7 +18,7 @@ public class SeasonDao  implements DAOTEMP<Season> {
     public static SeasonDao getInstance(){
         return instance;
     }
-    DBConnector dbc ;
+    DBConnector dbc= DBConnector.getInstance();
     Connection connection;
 
     @Override
@@ -27,7 +27,7 @@ public class SeasonDao  implements DAOTEMP<Season> {
     }
 
     private SeasonDao() {
-        dbc= DBConnector.getInstance();
+
         connection=dbc.getConnection();
     }
 

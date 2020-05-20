@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
-@Repository
+
 public class FieldDao implements DAOTEMP<Field> {
 
     private static final FieldDao instance = new FieldDao();
@@ -19,7 +19,7 @@ public class FieldDao implements DAOTEMP<Field> {
     public static FieldDao getInstance(){
         return instance;
     }
-    DBConnector dbc ;
+    DBConnector dbc= DBConnector.getInstance();
     Connection connection;
 
     @Override
@@ -28,7 +28,7 @@ public class FieldDao implements DAOTEMP<Field> {
     }
 
     private FieldDao() {
-        dbc= DBConnector.getInstance();
+
         connection=dbc.getConnection();
     }
 

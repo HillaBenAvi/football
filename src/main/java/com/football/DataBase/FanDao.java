@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
-@Repository
+
 public class FanDao implements DAOTEMP<Fan> {
 
 
@@ -21,7 +21,7 @@ public class FanDao implements DAOTEMP<Fan> {
     public static FanDao getInstance(){
         return instance;
     }
-    DBConnector dbc ;
+    DBConnector dbc= DBConnector.getInstance();
     Connection connection;
 
     @Override
@@ -30,7 +30,7 @@ public class FanDao implements DAOTEMP<Fan> {
     }
 
     private FanDao() {
-        dbc= DBConnector.getInstance();
+
         connection=dbc.getConnection();
     }
 

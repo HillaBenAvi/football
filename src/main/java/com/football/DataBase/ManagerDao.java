@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
-@Repository
+
 public class ManagerDao implements DAOTEMP<Manager> {
 
 
@@ -21,8 +21,8 @@ public class ManagerDao implements DAOTEMP<Manager> {
     public static ManagerDao getInstance(){
         return instance;
     }
-    DBConnector dbc ;
-    Connection connection;
+    DBConnector  dbc= DBConnector.getInstance();
+   Connection connection;
 
     @Override
     public String getTableName() {
@@ -30,7 +30,7 @@ public class ManagerDao implements DAOTEMP<Manager> {
     }
 
     private ManagerDao() {
-        dbc= DBConnector.getInstance();
+
         connection=dbc.getConnection();
     }
 

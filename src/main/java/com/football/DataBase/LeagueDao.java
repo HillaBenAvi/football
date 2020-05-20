@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
-@Repository
+
 public class LeagueDao  implements DAOTEMP<League> {
     private static final LeagueDao instance = new LeagueDao();
 
@@ -15,7 +15,7 @@ public class LeagueDao  implements DAOTEMP<League> {
         return instance;
     }
 
-    DBConnector dbc ;
+    DBConnector  dbc= DBConnector.getInstance();
     Connection connection;
 
     @Override
@@ -24,8 +24,8 @@ public class LeagueDao  implements DAOTEMP<League> {
     }
 
     private LeagueDao() {
-        dbc= DBConnector.getInstance();
-        connection=dbc.getConnection();
+
+       connection=dbc.getConnection();
     }
 
     @Override
