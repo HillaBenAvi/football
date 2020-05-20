@@ -319,6 +319,10 @@ public class ServiceController {
             return "1Object Not Exist";
         } catch (IncorrectInputException incorrectInputException) {
             return "1Incorrect Input Exception";
+        } catch (DontHavePermissionException dontHavePermissionException) {
+            return "1Dont Have Permission Exception";
+        } catch (AlreadyExistException alreadyExistException) {
+            return "1Already Exist Exception";
         }
     }
 
@@ -336,6 +340,8 @@ public class ServiceController {
             return "1Member Not Exist";
         } catch (ObjectNotExist objectNotExist) {
             return "1Object Not Exist";
+        } catch (AlreadyExistException alreadyExistException) {
+            return "1Already Exist Exception";
         }
     }
 }

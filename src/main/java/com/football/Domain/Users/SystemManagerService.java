@@ -119,8 +119,6 @@ public class SystemManagerService {
             errorLogService.addErrorLog("Member Not Exist");
         } catch (DontHavePermissionException dontHavePermissionException) {
             errorLogService.addErrorLog("Dont Have Permission Exception");
-        } catch (AlreadyExistException alreadyExistException) {
-            errorLogService.addErrorLog("Already Exist Exception");
         }
         return false;
     }

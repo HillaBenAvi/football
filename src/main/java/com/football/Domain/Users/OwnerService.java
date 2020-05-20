@@ -69,12 +69,8 @@ public class OwnerService {
             }
         } catch (ObjectNotExist objectNotExist) {
             errorLogService.addErrorLog("Object Not Exist");
-        } catch (DontHavePermissionException dontHavePermissionException) {
-            errorLogService.addErrorLog("Dont Have Permission Exception");
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
-        } catch (AlreadyExistException alreadyExistException) {
-            errorLogService.addErrorLog("Already Exist Exception");
         }
     }
 
@@ -292,12 +288,8 @@ public class OwnerService {
                 dbController.updateTeam(currOwner, team);
             }
             //todo: return !
-        } catch (DontHavePermissionException dontHavePermissionException) {
-            errorLogService.addErrorLog("Dont Have Permission Exception");
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
-        } catch (AlreadyExistException alreadyExistException) {
-            errorLogService.addErrorLog("Already Exist Exception");
         }
     }
 
@@ -454,12 +446,8 @@ public class OwnerService {
                 }
             }
             //todo : return !
-        } catch (DontHavePermissionException dontHavePermissionException) {
-            errorLogService.addErrorLog("Dont Have Permission Exception");
-        } catch (MemberNotExist memberNotExist) {
+        }catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
-        } catch (AlreadyExistException alreadyExistException) {
-            errorLogService.addErrorLog("Already Exist Exception");
         }
     }
 
@@ -546,12 +534,8 @@ public class OwnerService {
 //        HashMap<String, Team> teams = dbController.getTeams();
 //        teams.replace(teamName, team);
             dbController.updateTeam(currOwner, team);
-        } catch (DontHavePermissionException dontHavePermissionException) {
-            errorLogService.addErrorLog("Dont Have Permission Exception");
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
-        } catch (AlreadyExistException alreadyExistException) {
-            errorLogService.addErrorLog("Already Exist Exception");
         }
     }
 
@@ -574,12 +558,8 @@ public class OwnerService {
 //        HashMap<String, Team> teams = dbController.getTeams();
 //        teams.replace(teamName, team);
             dbController.updateTeam(currOwner, team);
-        } catch (DontHavePermissionException dontHavePermissionException) {
-            errorLogService.addErrorLog("Dont Have Permission Exception");
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
-        } catch (AlreadyExistException alreadyExistException) {
-            errorLogService.addErrorLog("Already Exist Exception");
         }
     }
 
@@ -604,12 +584,8 @@ public class OwnerService {
             team.getAccount().setAmountOfTeam(team.getAccount().getAmountOfTeam() - amount);
 //        dbController.getTeams().replace(teamName, team);
             dbController.updateTeam(currOwner, team);
-        } catch (DontHavePermissionException dontHavePermissionException) {
-            errorLogService.addErrorLog("Dont Have Permission Exception");
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
-        } catch (AlreadyExistException alreadyExistException) {
-            errorLogService.addErrorLog("Already Exist Exception");
         }
     }
 
@@ -634,12 +610,8 @@ public class OwnerService {
 //        dbController.getTeams().replace(teamName, team);
             dbController.updateTeam(currOwner, team);
 
-        } catch (DontHavePermissionException dontHavePermissionException) {
-            errorLogService.addErrorLog("Dont Have Permission Exception");
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
-        } catch (AlreadyExistException alreadyExistException) {
-            errorLogService.addErrorLog("Already Exist Exception");
         }
     }
 
@@ -677,8 +649,6 @@ public class OwnerService {
             errorLogService.addErrorLog("Dont Have Permission Exception");
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
-        } catch (AlreadyExistException alreadyExistException) {
-            errorLogService.addErrorLog("Already Exist Exception");
         }
     }
 
@@ -711,12 +681,8 @@ public class OwnerService {
 //        HashMap<String, Team> teams = dbController.getTeams();
 //        teams.replace(teamName, team);
             //todo : return !
-        } catch (DontHavePermissionException dontHavePermissionException) {
-            errorLogService.addErrorLog("Dont Have Permission Exception");
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
-        } catch (AlreadyExistException alreadyExistException) {
-            errorLogService.addErrorLog("Already Exist Exception");
         }
     }
 
@@ -734,12 +700,8 @@ public class OwnerService {
             }
             currOwner.getTeams().get(teamName).getAccount().setAmountOfTeam(amount);
             dbController.updateTeam(currOwner, currOwner.getTeams().get(teamName));
-        } catch (DontHavePermissionException dontHavePermissionException) {
-            errorLogService.addErrorLog("Dont Have Permission Exception");
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
-        } catch (AlreadyExistException alreadyExistException) {
-            errorLogService.addErrorLog("Already Exist Exception");
         }
     }
 
@@ -764,12 +726,8 @@ public class OwnerService {
             }
             return currOwner.getTeams().get(teamName).getAccount().getAmountOfTeam();
 
-        } catch (DontHavePermissionException dontHavePermissionException) {
-            errorLogService.addErrorLog("Dont Have Permission Exception");
-        } catch (MemberNotExist memberNotExist) {
+        }catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
-        } catch (AlreadyExistException alreadyExistException) {
-            errorLogService.addErrorLog("Already Exist Exception");
         }
         return -1;
     }
