@@ -26,7 +26,7 @@ public class Fan extends Member implements Observer {
 
     @Override
     public String getType() {
-        return "Fan";
+        return "0Fan";
     }
 
     @Override
