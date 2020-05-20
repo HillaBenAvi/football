@@ -13,6 +13,7 @@ import com.football.Service.EventLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,7 +34,7 @@ public class OwnerService {
     public void addTeam(Owner owner, Team team) throws AlreadyExistException, DontHavePermissionException {
         try {
             dbController.addTeam(owner, team);
-            eventLogService.addEventLog(owner.getUserMail(),"addTeam");
+            eventLogService.addEventLog(owner.getUserMail(), "addTeam");
         } catch (AlreadyExistException alreadyExistException) {
             errorLogService.addErrorLog("Already Exist Exception");
         } catch (DontHavePermissionException dontHavePermissionException) {
@@ -46,7 +47,7 @@ public class OwnerService {
             if (dbController.existOwner(id)) {
                 Owner currOwner = dbController.getOwner(id);
                 dbController.addTeam(currOwner, team);
-                eventLogService.addEventLog(id,"addTeam");
+                eventLogService.addEventLog(id, "addTeam");
             } else {
                 errorLogService.addErrorLog("Member Not Exist");
                 throw new MemberNotExist();
@@ -69,7 +70,7 @@ public class OwnerService {
                 Team team = dbController.getTeam(name);
                 team.getOwners().remove(currOwner);
                 dbController.updateTeam(currOwner, team);
-                eventLogService.addEventLog(id,"removeTheTeamFromMyList");
+                eventLogService.addEventLog(id, "removeTheTeamFromMyList");
             } else {
                 errorLogService.addErrorLog("Member Not Exist");
                 throw new MemberNotExist();
@@ -130,7 +131,7 @@ public class OwnerService {
 //            HashMap<String, Team> teams = dbController.getTeams();
 //            teams.replace(teamName, team);
                 dbController.updateTeam(currOwner, team);
-                eventLogService.addEventLog(id,"addManager");
+                eventLogService.addEventLog(id, "addManager");
             }
 
         } catch (DontHavePermissionException dontHavePermissionException) {
@@ -191,7 +192,7 @@ public class OwnerService {
 //            HashMap<String, Team> teams = dbController.getTeams();
 //            teams.replace(teamName, team);
                 dbController.updateTeam(currOwner, team);
-                eventLogService.addEventLog(id,"addCoach");
+                eventLogService.addEventLog(id, "addCoach");
             }
             //todo : return !
         } catch (DontHavePermissionException dontHavePermissionException) {
@@ -250,7 +251,7 @@ public class OwnerService {
 //            HashMap<String, Team> teams = dbController.getTeams();
 //            teams.replace(teamName, team);
                 dbController.updateTeam(currOwner, team);
-                eventLogService.addEventLog(id,"addPlayer");
+                eventLogService.addEventLog(id, "addPlayer");
             }
             //todo: return!
         } catch (DontHavePermissionException dontHavePermissionException) {
@@ -296,7 +297,7 @@ public class OwnerService {
 //            HashMap<String, Team> teams = dbController.getTeams(); //what is the meaning?
 //            teams.replace(teamName, team);
                 dbController.updateTeam(currOwner, team);
-                eventLogService.addEventLog(id,"addField");
+                eventLogService.addEventLog(id, "addField");
             }
             //todo: return !
         } catch (MemberNotExist memberNotExist) {
@@ -335,7 +336,7 @@ public class OwnerService {
                     //teams.replace(teamName, team);
                     dbController.addFan(currOwner, fan);
                     dbController.updateTeam(currOwner, team);
-                    eventLogService.addEventLog(id,"removeManager");
+                    eventLogService.addEventLog(id, "removeManager");
                     break;
                 }
             }
@@ -376,7 +377,7 @@ public class OwnerService {
 //                HashMap<String, Team> teams = dbController.getTeams(); why?
 //                teams.replace(teamName, team);
                     dbController.updateTeam(currOwner, team);
-                    eventLogService.addEventLog(id,"removeCoach");
+                    eventLogService.addEventLog(id, "removeCoach");
                     break;
                 }
             }
@@ -417,7 +418,7 @@ public class OwnerService {
 //                HashMap<String, Team> teams = dbController.getTeams();
 //                teams.replace(teamName, team);
                     dbController.updateTeam(currOwner, team);
-                    eventLogService.addEventLog(id,"removePlayer");
+                    eventLogService.addEventLog(id, "removePlayer");
                     break;
                 }
             }
@@ -457,11 +458,11 @@ public class OwnerService {
 //                allFields.remove(field);
 //                teams.replace(teamName, team);
                     dbController.updateTeam(currOwner, team);
-                    eventLogService.addEventLog(id,"removeField");
+                    eventLogService.addEventLog(id, "removeField");
                 }
             }
             //todo : return !
-        }catch (MemberNotExist memberNotExist) {
+        } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
         }
     }
@@ -520,7 +521,7 @@ public class OwnerService {
 //            HashMap<String, Team> teams = dbController.getTeams();
 //            teams.replace(teamName, team);
                 dbController.updateTeam(currOwner, team);
-                eventLogService.addEventLog(id,"addNewOwner");
+                eventLogService.addEventLog(id, "addNewOwner");
             }
             //todo : return !
         } catch (DontHavePermissionException dontHavePermissionException) {
@@ -550,7 +551,7 @@ public class OwnerService {
 //        HashMap<String, Team> teams = dbController.getTeams();
 //        teams.replace(teamName, team);
             dbController.updateTeam(currOwner, team);
-            eventLogService.addEventLog(id,"temporaryTeamClosing");
+            eventLogService.addEventLog(id, "temporaryTeamClosing");
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
         }
@@ -575,7 +576,7 @@ public class OwnerService {
 //        HashMap<String, Team> teams = dbController.getTeams();
 //        teams.replace(teamName, team);
             dbController.updateTeam(currOwner, team);
-            eventLogService.addEventLog(id,"reopenClosedTeam");
+            eventLogService.addEventLog(id, "reopenClosedTeam");
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
         }
@@ -602,7 +603,7 @@ public class OwnerService {
             team.getAccount().setAmountOfTeam(team.getAccount().getAmountOfTeam() - amount);
 //        dbController.getTeams().replace(teamName, team);
             dbController.updateTeam(currOwner, team);
-            eventLogService.addEventLog(id,"addOutCome");
+            eventLogService.addEventLog(id, "addOutCome");
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
         }
@@ -628,7 +629,7 @@ public class OwnerService {
             team.getAccount().setAmountOfTeam(team.getAccount().getAmountOfTeam() + amount);
 //        dbController.getTeams().replace(teamName, team);
             dbController.updateTeam(currOwner, team);
-            eventLogService.addEventLog(id,"addInCome");
+            eventLogService.addEventLog(id, "addInCome");
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
         }
@@ -659,7 +660,7 @@ public class OwnerService {
 //                teams.replace(teamName, team);
                     dbController.updateTeam(currOwner, team);
                     dbController.updatePlayer(currOwner, team.getPlayer(player.getUserMail()));
-                    eventLogService.addEventLog(id,"updatePlayerRole");
+                    eventLogService.addEventLog(id, "updatePlayerRole");
                     break;
                 }
             }
@@ -697,7 +698,7 @@ public class OwnerService {
             }
             team.setTrainingFields(fields);
             dbController.updateTeam(currOwner, team);
-            eventLogService.addEventLog(id,"updateHomeField");
+            eventLogService.addEventLog(id, "updateHomeField");
 //        HashMap<String, Team> teams = dbController.getTeams();
 //        teams.replace(teamName, team);
             //todo : return !
@@ -720,7 +721,7 @@ public class OwnerService {
             }
             currOwner.getTeams().get(teamName).getAccount().setAmountOfTeam(amount);
             dbController.updateTeam(currOwner, currOwner.getTeams().get(teamName));
-            eventLogService.addEventLog(id,"setMoneyToAccount");
+            eventLogService.addEventLog(id, "setMoneyToAccount");
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
         }
@@ -748,11 +749,74 @@ public class OwnerService {
 
             return currOwner.getTeams().get(teamName).getAccount().getAmountOfTeam();
 
-        }catch (MemberNotExist memberNotExist) {
+        } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
         }
         return -1;
     }
 
 
+    public ArrayList<String> getTeamsById(String id) throws ObjectNotExist {
+
+        ArrayList<String> teams = new ArrayList<>();
+        HashMap<String, Team> teamDB = dbController.getTeams();
+        if (teamDB == null || teamDB.size() == 0) {
+            errorLogService.addErrorLog("Object Not Exist");
+            throw new ObjectNotExist("team not exist");
+        }
+        for (String nameTeam : teamDB.keySet()) {
+            if (teamDB.get(nameTeam).getOwner(id) != null) {
+                teams.add(nameTeam);
+            }
+        }
+        return teams;
+
+
+    }
+
+    public ArrayList<String> getFieldsOfOwner(String id, String teamName) throws ObjectNotExist {
+        try {
+            ArrayList<String> fields = new ArrayList<>();
+            Team team = dbController.getTeam(teamName);
+
+            for (Field field : team.getTrainingFields()) {
+                fields.add(field.getNameOfField());
+            }
+            return fields;
+        } catch (ObjectNotExist objectNotExist) {
+            errorLogService.addErrorLog("Object Not Exist");
+        }
+
+        return null;
+    }
+
+    public ArrayList<String> getRolesToAddManager(String id) throws ObjectNotExist {
+        ArrayList<String> roles = new ArrayList<>();
+        HashMap<String, Role> rolesDB = dbController.getRoles();
+        if (rolesDB == null || rolesDB.size() == 0) {
+            errorLogService.addErrorLog("Object Not Exist");
+            throw new ObjectNotExist("team not exist");
+        }
+        for (String role : rolesDB.keySet()) {
+            if (!(rolesDB.get(role) instanceof Manager) && !(rolesDB.get(role) instanceof Owner)) {
+                roles.add(role);
+            }
+        }
+        return roles;
+
+
+    }
+
+    public ArrayList<String> getAllRoles(String id) throws ObjectNotExist {
+        ArrayList<String> roles = new ArrayList<>();
+        HashMap<String, Role> rolesDB = dbController.getRoles();
+        if (rolesDB == null || rolesDB.size() == 0) {
+            errorLogService.addErrorLog("Object Not Exist");
+            throw new ObjectNotExist("team not exist");
+        }
+        for (String role : rolesDB.keySet()) {
+            roles.add(role);
+        }
+        return roles;
+    }
 }

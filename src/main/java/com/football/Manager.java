@@ -6,6 +6,7 @@ import com.football.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 @Service
@@ -170,5 +171,21 @@ public class Manager {
                 associationDelegateService.insertSchedulingPolicy(id, league, season, sPolicy);
             }
         }
+    }
+
+    public ArrayList<String> getTeamsOfOwner(String id) throws ObjectNotExist {
+       return ownerService.getTeamsById(id);
+    }
+
+    public ArrayList<String> getFieldsOfOwner(String id,String teamName) throws ObjectNotExist {
+        return ownerService.getFieldsOfOwner(id,teamName);
+    }
+
+    public ArrayList<String> getRolesToAddManager(String id) throws ObjectNotExist {
+        return ownerService.getRolesToAddManager(id);
+    }
+
+    public ArrayList<String> getAllRoles(String id) throws ObjectNotExist {
+        return ownerService.getAllRoles(id);
     }
 }

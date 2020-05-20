@@ -5,6 +5,7 @@ import com.football.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -35,7 +36,7 @@ public class ServiceController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@RequestParam(value = "id") String id,
-                        @RequestParam(value = "password") String password){
+                        @RequestParam(value = "password") String password) {
         try {
             return manager.stringLogIn(id, password);
         } catch (PasswordDontMatchException passwordDontMatchException) {
@@ -342,6 +343,44 @@ public class ServiceController {
             return "1Object Not Exist";
         } catch (AlreadyExistException alreadyExistException) {
             return "1Already Exist Exception";
+        }
+    }
+
+
+    @RequestMapping(value = "/getTeamsOfOwner", method = RequestMethod.GET)
+    public ArrayList<String> getTeamsOfOwner(@RequestParam(value = "id") String id) throws ObjectNotExist {
+        try {
+            return manager.getTeamsOfOwner(id);
+        } catch (ObjectNotExist objectNotExist) {
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/getFieldsOfOwner", method = RequestMethod.GET)
+    public ArrayList<String> getFieldsOfOwner(@RequestParam(value = "id") String id,
+                                              @RequestParam(value = "teamName") String teamName){
+        try {
+            return manager.getFieldsOfOwner(id,teamName);
+        } catch (ObjectNotExist objectNotExist) {
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/getRolesToAddManager", method = RequestMethod.GET)
+    public ArrayList<String> getRolesToAddManager(@RequestParam(value = "id") String id){
+        try {
+            return manager.getRolesToAddManager(id);
+        } catch (ObjectNotExist objectNotExist) {
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/getAllRoles", method = RequestMethod.GET)
+    public ArrayList<String> getAllRoles(@RequestParam(value = "id") String id){
+        try {
+            return manager.getAllRoles(id);
+        } catch (ObjectNotExist objectNotExist) {
+            return null;
         }
     }
 }
