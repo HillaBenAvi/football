@@ -56,6 +56,7 @@ public class DBConnector {
         private void disconnect(){
             try {
                 this.conn.close();
+                System.out.println("DISCONNECT");
             }catch (Exception e) {
                 e.printStackTrace();
             }
