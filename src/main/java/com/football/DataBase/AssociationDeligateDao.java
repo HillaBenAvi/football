@@ -2,7 +2,6 @@ package com.football.DataBase;
 
 import com.football.Domain.Users.AssociationDelegate;
 import com.football.Domain.Users.SystemManager;
-import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
-@Repository
+
 public class AssociationDeligateDao implements DAOTEMP<AssociationDelegate> {
 
 

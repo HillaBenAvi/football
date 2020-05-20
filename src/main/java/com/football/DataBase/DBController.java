@@ -15,45 +15,29 @@ import com.football.Domain.Game.Game;
 import com.football.Domain.Game.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.*;
-@Service
-public class DBController {
+@Repository
+public class DBController implements DAO{
 
 //    private DB db;
 //    private DAOTEMP dao;
-    @Autowired
-    private AssociationDeligateDao associationDeligateDao;
-    @Autowired
-    private CoachDao coachDao;
-    @Autowired
-    private FanDao fanDao ;
-    @Autowired
-    private FieldDao fieldDao ;
-    @Autowired
-    private GameDao gameDao ;
-    @Autowired
-    private LeagueDao leagueDao;
-    @Autowired
-    private LeagueInSeasonDao leagueInSesonDao;
-    @Autowired
-    private MainRefereeDao mainRefereeDao ;
-    @Autowired
-    private ManagerDao managerDao;
-    @Autowired
-    private OwnerDao ownerDao ;
-    @Autowired
-    private PlayerDao playerDao ;
-    @Autowired
-    private SeasonDao seasonDao ;
-    @Autowired
-    private SecondaryRefereeDao seconaryRefereeDao ;
-    @Autowired
-    private SystemManagerDao systemManagerDao;
-    @Autowired
-    private TeamDao teamDao;
+    private DAOTEMP associationDeligateDao = AssociationDeligateDao.getInstance();
+    private DAOTEMP coachDao = CoachDao.getInstance();
+    private DAOTEMP fanDao = FanDao.getInstance();
+    private DAOTEMP fieldDao = FieldDao.getInstance() ;
+    private DAOTEMP gameDao = GameDao.getInstance();
+    private DAOTEMP leagueDao = LeagueDao.getInstance();
+    private DAOTEMP leagueInSesonDao = LeagueInSeasonDao.getInstance();
+    private DAOTEMP mainRefereeDao = MainRefereeDao.getInstance() ;
+    private DAOTEMP managerDao = ManagerDao.getInstance();
+    private DAOTEMP ownerDao = OwnerDao.getInstance();
+    private DAOTEMP playerDao = PlayerDao.getInstance();
+    private DAOTEMP seasonDao = SeasonDao.getInstance();
+    private DAOTEMP seconaryRefereeDao = SecondaryRefereeDao.getInstance() ;
+    private DAOTEMP systemManagerDao = SystemManagerDao.getInstance();
+    private DAOTEMP teamDao = TeamDao.getInstance();
 
 
     private static final DBController instance = new DBController();

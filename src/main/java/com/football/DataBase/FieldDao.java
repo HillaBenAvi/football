@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
-@Repository
 public class FieldDao implements DAOTEMP<Field> {
 
     private static final FieldDao instance = new FieldDao();

@@ -9,6 +9,8 @@ public class DBConnector {
     public static final String USER = "root";
     public static final String PASS = "noa112233123";
 
+    public static Connection conn;//=makeConnection();
+
     private static final DBConnector instance = new DBConnector();
 
     //private constructor to avoid client applications to use constructor
@@ -17,7 +19,16 @@ public class DBConnector {
     }
 
     private DBConnector() {
-
+        conn=makeConnection();
+    }
+    public static Connection makeConnection() {
+        System.out.println("i enter to make connection");
+        try {
+            conn = DriverManager.getConnection(URL,USER,PASS);
+            return conn;
+        } catch (SQLException ex) {
+            throw new RuntimeException("Error connecting to the database", ex);
+        }
     }
     /**
      * Get a connection to database
@@ -25,17 +36,15 @@ public class DBConnector {
      * @return Connection object
      */
     public static Connection getConnection() {
+       return conn;
+    }
+    private void disconnect(){
         try {
-            //  DriverManager.registerDriver(new Driver());
-            // return  DriverManager.getConnection(URL, USER, PASS);
-            Connection conn =
-                    DriverManager.getConnection(URL,USER,PASS);
-            return conn;
-        } catch (SQLException ex) {
-            throw new RuntimeException("Error connecting to the database", ex);
+            this.conn.close();
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
-
 
 //
 //    /**

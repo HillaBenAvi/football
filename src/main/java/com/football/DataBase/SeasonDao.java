@@ -2,14 +2,12 @@ package com.football.DataBase;
 
 import com.football.Domain.Game.Team;
 import com.football.Domain.League.Season;
-import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public class SeasonDao  implements DAOTEMP<Season> {
 
     private static final SeasonDao instance = new SeasonDao();

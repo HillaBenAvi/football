@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
-@Repository
+
 public class LeagueInSeasonDao  implements DAOTEMP<LeagueInSeason> {
 
     private static final LeagueInSeasonDao instance = new LeagueInSeasonDao();

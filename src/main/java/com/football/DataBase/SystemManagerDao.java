@@ -2,7 +2,6 @@ package com.football.DataBase;
 
 import com.football.Domain.League.League;
 import com.football.Domain.Users.SystemManager;
-import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +10,6 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
-@Repository
 public class SystemManagerDao implements DAOTEMP<SystemManager> {
     private static final SystemManagerDao instance = new SystemManagerDao();
 

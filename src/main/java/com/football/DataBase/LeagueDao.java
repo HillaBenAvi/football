@@ -1,12 +1,10 @@
 package com.football.DataBase;
 
 import com.football.Domain.League.League;
-import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
-@Repository
 public class LeagueDao  implements DAOTEMP<League> {
     private static final LeagueDao instance = new LeagueDao();
 
