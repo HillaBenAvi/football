@@ -1,6 +1,9 @@
 package com.football;
 
 import com.football.DataBase.DBController;
+import com.football.Domain.League.ASchedulingPolicy;
+import com.football.Domain.League.League;
+import com.football.Domain.League.Season;
 import com.football.Domain.Users.*;
 import com.football.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 @Service
 public class Manager {
@@ -249,5 +253,41 @@ public class Manager {
             teams.add(teamName);
         }
         return teams;
+    }
+
+    public ArrayList<String> getRefereesDoesntExistInTheLeagueAndSeason(String leagueId, String seasonId) throws DontHavePermissionException, ObjectNotExist {
+        ArrayList<String> referees=new ArrayList<>();
+        HashMap<String,Referee> gerReferees= associationDelegateService.getRefereesDoesntExistInTheLeagueAndSeason(leagueId,seasonId);
+        for (String name:gerReferees.keySet()) {
+            referees.add(name);
+        }
+        return referees;
+    }
+
+    public ArrayList<String> getSeasons() {
+        ArrayList<String> seasons=new ArrayList<>();
+        HashMap<String, Season> getSeasons= dbController.getSeasons();
+        for (String name:getSeasons.keySet()) {
+            seasons.add(name);
+        }
+        return seasons;
+    }
+
+    public ArrayList<String> getLeagues() {
+        ArrayList<String> leagues=new ArrayList<>();
+        HashMap<String, League> getLeagues= dbController.getLeagues();
+        for (String name:getLeagues.keySet()) {
+            leagues.add(name);
+        }
+        return leagues;
+    }
+
+    public ArrayList<String> getSchedulingPolicies() {
+        ArrayList<String> scheduling=new ArrayList<>();
+        HashMap<String, ASchedulingPolicy> getSchedulingPolicies= dbController.getSchedulingPolicies();
+        for (String name:getSchedulingPolicies.keySet()) {
+            scheduling.add(name);
+        }
+        return scheduling;
     }
 }

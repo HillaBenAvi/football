@@ -1,13 +1,10 @@
 package com.football;
 
-import com.football.Domain.Users.Fan;
 import com.football.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 
 @RestController
 @RequestMapping(value = "/service")
@@ -348,7 +345,7 @@ public class ServiceController {
 
 
     @RequestMapping(value = "/getTeamsOfOwner", method = RequestMethod.GET)
-    public ArrayList<String> getTeamsOfOwner(@RequestParam(value = "id") String id) throws ObjectNotExist {
+    public ArrayList<String> getTeamsOfOwner(@RequestParam(value = "id") String id) {
         try {
             return manager.getTeamsOfOwner(id);
         } catch (ObjectNotExist objectNotExist) {
@@ -404,7 +401,7 @@ public class ServiceController {
 
     @RequestMapping(value = "/getPlayersOfTeam", method = RequestMethod.GET)
     public ArrayList<String> getPlayersOfTeam(@RequestParam(value = "id") String id,
-                                               @RequestParam(value = "teamName") String teamName) {
+                                              @RequestParam(value = "teamName") String teamName) {
         try {
             return manager.getPlayersOfTeam(id, teamName);
         } catch (MemberNotExist objectNotExist) {
@@ -414,7 +411,7 @@ public class ServiceController {
 
     @RequestMapping(value = "/getCoachesOfTeam", method = RequestMethod.GET)
     public ArrayList<String> getCoachesOfTeam(@RequestParam(value = "id") String id,
-                                               @RequestParam(value = "teamName") String teamName) {
+                                              @RequestParam(value = "teamName") String teamName) {
         try {
             return manager.getCoachesOfTeam(id, teamName);
         } catch (MemberNotExist objectNotExist) {
@@ -426,6 +423,32 @@ public class ServiceController {
     public ArrayList<String> getTeams() {
         return manager.getTeams();
     }
+
+    @RequestMapping(value = "/getRefereesDoesntExistInLegaueAndSeason", method = RequestMethod.GET)
+    public ArrayList<String> getTeams(@RequestParam(value = "leagueId") String leagueId,
+                                      @RequestParam(value = "seasonId") String seasonId) {
+        try {
+            return manager.getRefereesDoesntExistInTheLeagueAndSeason(leagueId, seasonId);
+        } catch (DontHavePermissionException | ObjectNotExist dontHavePermissionException) {
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/getSeasons", method = RequestMethod.GET)
+    public ArrayList<String> getSeasons() {
+        return manager.getSeasons();
+    }
+
+    @RequestMapping(value = "/getLeagues", method = RequestMethod.GET)
+    public ArrayList<String> getLeagues() {
+        return manager.getLeagues();
+    }
+
+    @RequestMapping(value = "/getSchedulingPolicies", method = RequestMethod.GET)
+    public ArrayList<String> getSchedulingPolicies() {
+        return manager.getSchedulingPolicies();
+    }
+
 
 }
 
