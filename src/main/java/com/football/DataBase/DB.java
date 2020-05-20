@@ -3,17 +3,16 @@ package com.football.DataBase;
 import com.football.Domain.Asset.Coach;
 import com.football.Domain.Asset.Manager;
 import com.football.Domain.Asset.Player;
+import com.football.Domain.Users.*;
+import com.football.Exception.MemberNotExist;
 import com.football.Domain.Game.Team;
 import com.football.Domain.League.ASchedulingPolicy;
 import com.football.Domain.League.League;
 import com.football.Domain.League.Season;
-import com.football.Domain.Users.*;
-import com.football.Exception.MemberNotExist;
-import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.HashMap;
 
-@Repository
 public class DB {
 
     private HashMap<String, League> leagues; //key-name of league, value-league
@@ -215,9 +214,9 @@ public class DB {
         /*
         for (String str: roles.keySet()
         ) {
-            if(roles.get(str) instanceof  Manager)
+            if(roles.get(str) instanceof  SystemManager)
             {
-                systemManagerHashMap.put(str , (Manager) roles.get(str));
+                systemManagerHashMap.put(str , (SystemManager) roles.get(str));
             }
         }
         return systemManagerHashMap;
@@ -253,7 +252,7 @@ public class DB {
         seasons.clear();
         SystemManager systemManager=getSystemManager("admin@gmail.com");
         systemManagers.clear();
-        systemManagers.put("admin@gmail.com" ,systemManager);// new Manager("admin ",  "admin@gmail.com" ,"123" , DBController.getInstance() , new Date(1995,1,1)));
+        systemManagers.put("admin@gmail.com" ,systemManager);// new SystemManager("admin ",  "admin@gmail.com" ,"123" , DBController.getInstance() , new Date(1995,1,1)));
         roles.clear();
         teams.clear();
         schedulingPolicies.clear();

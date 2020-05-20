@@ -1,7 +1,6 @@
 package com.football.Domain.Users;
 
 import com.football.DataBase.DBController;
-import com.football.DataBase.DBmemory;
 import com.football.Domain.Game.Game;
 import com.football.Domain.Game.Team;
 import com.football.Exception.AlreadyExistException;
@@ -24,7 +23,7 @@ public class FanService {
 //    private DBController dbController;
 
     @Autowired
-    private DBmemory dbController;
+    private DBController dbController;
 
     public void followTeam(String id, Team team) throws MemberNotExist {
         if(dbController.existFan(id)){

@@ -2,11 +2,12 @@ package com.football.DataBase;
 
 import com.football.Domain.Game.Game;
 import com.football.Domain.Game.Team;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
-
+@Repository
 public class GameDao implements DAOTEMP<Game> {
     private static final GameDao instance = new GameDao();
     DBConnector dbc = DBConnector.getInstance();
@@ -52,7 +53,7 @@ public class GameDao implements DAOTEMP<Game> {
             toReturn=idGame+":"+dateTime+":"+hostTeam+":"+visitorTeam+":"+field+":"+result+":"+eventList+":"+league+":"+season+":"+refereeList;
             rs.close();
 
-        } catch (SQLException e) {
+        } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
         }
 
@@ -88,7 +89,7 @@ public class GameDao implements DAOTEMP<Game> {
             }
 
             rs.close();
-        } catch (SQLException e) {
+        } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
         }
 
@@ -102,12 +103,12 @@ public class GameDao implements DAOTEMP<Game> {
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO"+getTableName()+
-                    "VALUES ("+game.getId()+","+game.getDateAndTimeString()+","+game.getHostTeam().getName()+","+game.getVisitorTeam().getName()+","+game.getField().getName()+");";
+                    "VALUES ("+game.toString()+");";//+game.getId()+","+game.getDateAndTimeString()+","+game.getHostTeam().getName()+","+game.getVisitorTeam().getName()+","+game.getField().getName()+");";
             //finish it
             // TODO: 12/05/2020
             System.out.println(sql);
             stmt.executeUpdate(sql);
-        } catch (SQLException e) {
+        } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
         }
     }
@@ -129,7 +130,7 @@ public class GameDao implements DAOTEMP<Game> {
                     "WHERE gameid="+id;
             System.out.println(sql);
             stmt.executeUpdate(sql);
-        } catch (SQLException e) {
+        } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
         }
     }
@@ -146,7 +147,7 @@ public class GameDao implements DAOTEMP<Game> {
             ResultSet rs = stmt.executeQuery(sqlQuery);
             return rs.next();
 
-        } catch (SQLException e) {
+        } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
         }
         return false;

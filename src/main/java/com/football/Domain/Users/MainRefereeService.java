@@ -1,7 +1,6 @@
 package com.football.Domain.Users;
 
 import com.football.DataBase.DBController;
-import com.football.DataBase.DBmemory;
 import com.football.Domain.Asset.Player;
 import com.football.Domain.Game.Event;
 import com.football.Domain.Game.EventInGame;
@@ -21,7 +20,7 @@ public class MainRefereeService {
 //    private DBController dbController;
 
     @Autowired
-    private DBmemory dbController;
+    private DBController dbController;
 
     /**
      * in this function a main referee can update an event in a game

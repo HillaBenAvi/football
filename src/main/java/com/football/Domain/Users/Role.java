@@ -24,5 +24,7 @@ public abstract class Role {
     public void setName(String name) {
         this.name = name;
     }
-
+    protected String getBirthDateString() {
+        return birthDate.getYear()+"-"+birthDate.getMonth()+"-"+birthDate.getDay();
+    }
 }

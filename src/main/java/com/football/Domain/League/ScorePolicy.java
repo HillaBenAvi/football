@@ -51,4 +51,18 @@ public class ScorePolicy implements IScorePolicy{
     public double getScoreToLosingTeam(){
         return scoreToLosingTeam;
     }
+
+    @Override
+    public String toString() {
+        return ""+this.scoreToWinningTeam+"--"+this.scoreToDrawGame+"--"+this.scoreToLosingTeam;
+    }
+
+    @Override
+    public void setPolicy(String details) {
+        /*add ScorePolicy*/
+        String[] scoreP = details.split("--");
+        this.scoreToWinningTeam = Double.parseDouble(scoreP[0]);
+        this.scoreToDrawGame = Double.parseDouble(scoreP[1]);
+        this.scoreToLosingTeam = Double.parseDouble(scoreP[2]);
+    }
 }
