@@ -173,19 +173,73 @@ public class Manager {
         }
     }
 
-    public ArrayList<String> getTeamsOfOwner(String id) throws ObjectNotExist {
-       return ownerService.getTeamsById(id);
+    public ArrayList<String> getTeamsOfOwner(String id) throws ObjectNotExist, MemberNotExist {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof Owner){
+                return ownerService.getTeamsById(id);
+            }
+        }
+        return null;
     }
 
-    public ArrayList<String> getFieldsOfOwner(String id,String teamName) throws ObjectNotExist {
-        return ownerService.getFieldsOfOwner(id,teamName);
+    public ArrayList<String> getFieldsOfOwner(String id,String teamName) throws ObjectNotExist, MemberNotExist {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof Owner){
+                return ownerService.getFieldsOfOwner(id,teamName);
+            }
+        }
+        return null;
     }
 
-    public ArrayList<String> getRolesToAddManager(String id) throws ObjectNotExist {
-        return ownerService.getRolesToAddManager(id);
+    public ArrayList<String> getRolesToAddManager(String id) throws ObjectNotExist, MemberNotExist {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof Owner){
+                return ownerService.getRolesToAddManager(id);
+            }
+        }
+        return null;
     }
 
-    public ArrayList<String> getAllRoles(String id) throws ObjectNotExist {
-        return ownerService.getAllRoles(id);
+    public ArrayList<String> getAllRoles(String id) throws ObjectNotExist, MemberNotExist {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof Owner){
+                return ownerService.getAllRoles(id);
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<String> getManagersOfTeam(String id, String teamName) throws MemberNotExist {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof Owner){
+                return ownerService.getManagersOfTeam(id,teamName);
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<String> getPlayersOfTeam(String id, String teamName) throws MemberNotExist {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof Owner){
+                return ownerService.getPlayersOfTeam(id,teamName);
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<String> getCoachesOfTeam(String id, String teamName) throws MemberNotExist {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof Owner){
+                return ownerService.getCoachesOfTeam(id,teamName);
+            }
+        }
+        return null;
     }
 }

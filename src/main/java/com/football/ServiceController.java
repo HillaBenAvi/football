@@ -353,33 +353,71 @@ public class ServiceController {
             return manager.getTeamsOfOwner(id);
         } catch (ObjectNotExist objectNotExist) {
             return null;
+        } catch (MemberNotExist objectNotExist) {
+            return null;
         }
     }
 
     @RequestMapping(value = "/getFieldsOfOwner", method = RequestMethod.GET)
     public ArrayList<String> getFieldsOfOwner(@RequestParam(value = "id") String id,
-                                              @RequestParam(value = "teamName") String teamName){
+                                              @RequestParam(value = "teamName") String teamName) {
         try {
-            return manager.getFieldsOfOwner(id,teamName);
+            return manager.getFieldsOfOwner(id, teamName);
         } catch (ObjectNotExist objectNotExist) {
+            return null;
+        } catch (MemberNotExist objectNotExist) {
             return null;
         }
     }
 
     @RequestMapping(value = "/getRolesToAddManager", method = RequestMethod.GET)
-    public ArrayList<String> getRolesToAddManager(@RequestParam(value = "id") String id){
+    public ArrayList<String> getRolesToAddManager(@RequestParam(value = "id") String id) {
         try {
             return manager.getRolesToAddManager(id);
         } catch (ObjectNotExist objectNotExist) {
+            return null;
+        } catch (MemberNotExist objectNotExist) {
             return null;
         }
     }
 
     @RequestMapping(value = "/getAllRoles", method = RequestMethod.GET)
-    public ArrayList<String> getAllRoles(@RequestParam(value = "id") String id){
+    public ArrayList<String> getAllRoles(@RequestParam(value = "id") String id) {
         try {
             return manager.getAllRoles(id);
         } catch (ObjectNotExist objectNotExist) {
+            return null;
+        } catch (MemberNotExist objectNotExist) {
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/getManagersOfTeam", method = RequestMethod.GET)
+    public ArrayList<String> getManagersOfTeam(@RequestParam(value = "id") String id,
+                                               @RequestParam(value = "teamName") String teamName) {
+        try {
+            return manager.getManagersOfTeam(id, teamName);
+        } catch (MemberNotExist objectNotExist) {
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/getPlayersOfTeam", method = RequestMethod.GET)
+    public ArrayList<String> getPlayersOfTeam(@RequestParam(value = "id") String id,
+                                               @RequestParam(value = "teamName") String teamName) {
+        try {
+            return manager.getPlayersOfTeam(id, teamName);
+        } catch (MemberNotExist objectNotExist) {
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/getCoachesOfTeam", method = RequestMethod.GET)
+    public ArrayList<String> getCoachesOfTeam(@RequestParam(value = "id") String id,
+                                               @RequestParam(value = "teamName") String teamName) {
+        try {
+            return manager.getCoachesOfTeam(id, teamName);
+        } catch (MemberNotExist objectNotExist) {
             return null;
         }
     }
