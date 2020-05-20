@@ -792,7 +792,7 @@ public class SystemManagerService {
         return this.dbController.getRoles();
     }
 
-    public HashMap<String, Team> getTeams() throws DontHavePermissionException {
+    public HashMap<String, Team> getTeams() {
         return this.dbController.getTeams();
     }
 

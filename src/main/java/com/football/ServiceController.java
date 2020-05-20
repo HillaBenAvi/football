@@ -421,5 +421,11 @@ public class ServiceController {
             return null;
         }
     }
+
+    @RequestMapping(value = "/getTeams", method = RequestMethod.GET)
+    public ArrayList<String> getTeams() {
+        return manager.getTeams();
+    }
+
 }
 

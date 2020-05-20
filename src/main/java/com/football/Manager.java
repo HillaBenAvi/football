@@ -242,4 +242,12 @@ public class Manager {
         }
         return null;
     }
+
+    public ArrayList<String> getTeams(){
+        ArrayList<String> teams=new ArrayList<>();
+        for (String teamName: systemManagerService.getTeams().keySet()) {
+            teams.add(teamName);
+        }
+        return teams;
+    }
 }
