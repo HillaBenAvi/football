@@ -3,6 +3,7 @@ package com.football.Domain.Users;
 import com.football.DataBase.DBController;
 import com.football.Exception.*;
 import com.football.Service.ErrorLogService;
+import com.football.Service.EventLogService;
 import com.football.Service.SecurityMachine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,36 +20,50 @@ public class GuestService {
     private SecurityMachine securityMachine;
 
     @Autowired
-    ErrorLogService errorLogService;
+    private ErrorLogService errorLogService;
+
+    @Autowired
+    private EventLogService eventLogService;
 
     @Autowired
     private DBController dbController;
 
 
     public Member signIn(String userMail, String userName, String password , Date birthDate) throws AlreadyExistException, IncorrectPasswordInputException, IncorrectInputException, DontHavePermissionException {
-        if (! checkMailInput(userMail)) {
-            errorLogService.addErrorLog(" IncorrectInputException");
-            throw new IncorrectInputException("incorrect mail input");
-        }
-        if (! checkPasswordValue(password)) {
-            errorLogService.addErrorLog(" IncorrectPasswordInputException");
-            throw new IncorrectPasswordInputException();
-        }
-        String encryptPassword = securityMachine.encrypt(password);
-        Fan newMember = new Fan(userName, userMail, encryptPassword, birthDate);
-        dbController.addFan(newMember,newMember);
-        return newMember;
+           if (! checkMailInput(userMail)) {
+               errorLogService.addErrorLog("Incorrect Input Exception");
+               throw new IncorrectInputException("incorrect mail input");
+           }
+           if (! checkPasswordValue(password)) {
+               errorLogService.addErrorLog(" Incorrect Password Input Exception");
+               throw new IncorrectPasswordInputException();
+           }
+           String encryptPassword = securityMachine.encrypt(password);
+           Fan newMember = new Fan(userName, userMail, encryptPassword, birthDate);
+           dbController.addFan(newMember,newMember);
+           eventLogService.addEventLog("Guest", "sign in");
+           return newMember;
     }
 
     /**
      * this function fill the logIn-form : user name , user password
      * @return String array  - details[name,password]
      */
-    public Member logIn(String userMail, String userPassword) throws MemberNotExist, PasswordDontMatchException, DontHavePermissionException {
-        Member existingMember;
-        existingMember = (Member) dbController.getMember(userMail);
-        checkValidationPassword(existingMember, userPassword);
-        return existingMember;
+    public Member logIn(String userMail, String userPassword) throws MemberNotExist, PasswordDontMatchException{
+        try{
+            Member existingMember;
+            existingMember = (Member) dbController.getMember(userMail);
+            checkValidationPassword(existingMember, userPassword);
+            eventLogService.addEventLog(userMail, "log in");
+            return existingMember;
+        }
+       catch(MemberNotExist e){
+            errorLogService.addErrorLog("Member Not Exist");
+            throw new MemberNotExist();
+       }catch(PasswordDontMatchException e){
+            errorLogService.addErrorLog("Password Dont Match Exception");
+            throw new PasswordDontMatchException();
+        }
     }
 
     /******************************* function for guest exceptions **********************************/

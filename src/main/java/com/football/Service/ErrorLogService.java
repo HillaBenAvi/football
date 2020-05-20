@@ -21,12 +21,12 @@ public class ErrorLogService {
     //Logger logger = LoggerFactory.getLogger(ErrorLogService.class);
 
     @RequestMapping("/")
-    public void addErrorLog(String topic) throws AlreadyExistException, DontHavePermissionException {
+    public void addErrorLog(String topic){
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         String strDate = dateFormat.format(date);
         ErrorLog error = new ErrorLog(id, topic, strDate);
-        dbController.addTeam(null, null);
+
         //dbController.addErrorLog(error);
         id++;
     }

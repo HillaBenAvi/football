@@ -21,7 +21,7 @@ public class AssociationDelegate extends Member {
 
     @Override
     public String getType() {
-        return "AssociationDelegate";
+        return "0AssociationDelegate";
     }
     @Override
     public String toString() {
