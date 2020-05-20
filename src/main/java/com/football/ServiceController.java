@@ -424,8 +424,8 @@ public class ServiceController {
         return manager.getTeams();
     }
 
-    @RequestMapping(value = "/getRefereesDoesntExistInLegaueAndSeason", method = RequestMethod.GET)
-    public ArrayList<String> getTeams(@RequestParam(value = "leagueId") String leagueId,
+    @RequestMapping(value = "/getRefereesDoesntExistInLeagueAndSeason", method = RequestMethod.GET)
+    public ArrayList<String> getRefereesDoesntExistInLeagueAndSeason(@RequestParam(value = "leagueId") String leagueId,
                                       @RequestParam(value = "seasonId") String seasonId) {
         try {
             return manager.getRefereesDoesntExistInTheLeagueAndSeason(leagueId, seasonId);
