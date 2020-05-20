@@ -19,7 +19,7 @@ public class TeamDao implements DAOTEMP<Team> {
         return instance;
     }
 
-    DBConnector dbc = DBConnector.getInstance();
+    DBConnector dbc;// = DBConnector.getInstance();
     Connection connection;
 
     @Override

@@ -21,7 +21,7 @@ public class CoachDao implements DAOTEMP<Coach> {
     public static CoachDao getInstance(){
         return instance;
     }
-    DBConnector dbc= DBConnector.getInstance() ;
+    DBConnector dbc;//= DBConnector.getInstance() ;
     Connection connection;
 
     @Override
@@ -38,7 +38,7 @@ public class CoachDao implements DAOTEMP<Coach> {
     public String get(String id) {
         String toReturn="";
         try {
-            Connection connection = dbc.getConnection();
+          //  Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From "+getTableName()+" WHERE userName="+"\'"+id+"\'"+";";
             // System.out.println(sqlQuery);
 
@@ -65,7 +65,7 @@ public class CoachDao implements DAOTEMP<Coach> {
     public List<String> getAll() {
         LinkedList<String> allTheTable = new LinkedList<>();
         try {
-            Connection connection = dbc.getConnection();
+          //  Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From " + getTableName()+ ";";
             // System.out.println(sqlQuery);
 
@@ -95,7 +95,7 @@ public class CoachDao implements DAOTEMP<Coach> {
     @Override
     public void save(Coach coach){
         try {
-            Connection connection = dbc.getConnection();
+          //  Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO"+getTableName()+
@@ -120,7 +120,7 @@ public class CoachDao implements DAOTEMP<Coach> {
     @Override
     public void delete(String userMail) {
         try {
-            Connection connection = dbc.getConnection();
+         //   Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "DELETE FROM"+getTableName()+
@@ -137,7 +137,7 @@ public class CoachDao implements DAOTEMP<Coach> {
     public boolean exist(String coachName) {
 
         try {
-            Connection connection = dbc.getConnection();
+          //  Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sqlQuery = "SELECT * FROM"+getTableName()+

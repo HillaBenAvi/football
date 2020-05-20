@@ -18,7 +18,7 @@ public class FieldDao implements DAOTEMP<Field> {
     public static FieldDao getInstance(){
         return instance;
     }
-    DBConnector dbc= DBConnector.getInstance();
+    DBConnector dbc;//= DBConnector.getInstance();
     Connection connection;
 
     @Override

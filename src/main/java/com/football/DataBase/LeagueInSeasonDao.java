@@ -14,7 +14,7 @@ public class LeagueInSeasonDao  implements DAOTEMP<LeagueInSeason> {
     public static LeagueInSeasonDao getInstance(){
         return instance;
     }
-    DBConnector dbc= DBConnector.getInstance();
+    DBConnector dbc;//= DBConnector.getInstance();
     Connection connection;
 
     @Override
