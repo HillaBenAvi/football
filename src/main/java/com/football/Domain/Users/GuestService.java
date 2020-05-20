@@ -1,6 +1,6 @@
 package com.football.Domain.Users;
 
-import com.football.DataBase.DBmemory;
+import com.football.DataBase.DBController;
 import com.football.Exception.*;
 import com.football.Service.ErrorLogService;
 import com.football.Service.SecurityMachine;
@@ -22,7 +22,8 @@ public class GuestService {
     ErrorLogService errorLogService;
 
     @Autowired
-    private DBmemory dbController;
+    private DBController dbController;
+
 
     public Member signIn(String userMail, String userName, String password , Date birthDate) throws AlreadyExistException, IncorrectPasswordInputException, IncorrectInputException, DontHavePermissionException {
         if (! checkMailInput(userMail)) {

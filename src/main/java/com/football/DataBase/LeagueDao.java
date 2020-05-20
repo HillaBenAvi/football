@@ -1,11 +1,12 @@
 package com.football.DataBase;
 
 import com.football.Domain.League.League;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
-
+@Repository
 public class LeagueDao  implements DAOTEMP<League> {
     private static final LeagueDao instance = new LeagueDao();
 
@@ -13,17 +14,19 @@ public class LeagueDao  implements DAOTEMP<League> {
     public static LeagueDao getInstance(){
         return instance;
     }
-    DBConnector dbc = DBConnector.getInstance();
+
+    DBConnector dbc ;
+    Connection connection;
 
     @Override
     public String getTableName() {
-        return "`League`";
+        return " League ";
     }
 
     private LeagueDao() {
-
+        dbc= DBConnector.getInstance();
+        connection=dbc.getConnection();
     }
-
 
     @Override
     public String get(String id) {
@@ -32,17 +35,21 @@ public class LeagueDao  implements DAOTEMP<League> {
         String toReturn="";
         try {
             Connection connection = dbc.getConnection();
-            String sqlQuery = "SELECT * From "+getTableName()+" WHERE idLeague="+id+";";
+            String sqlQuery = "SELECT * From "+getTableName()+" WHERE idLeague="+"\'"+id+"\'"+";";
             System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs=ps.executeQuery();
-            String idLeague=rs.getString("`idLeague`");
-            String seasonsId=rs.getString("`seasonsId`");
-            toReturn=idLeague+":"+seasonsId;
-
+            if(rs.next()) {
+                String idLeague = rs.getString("idLeague");
+                String seasonsId="";
+                if (!rs.wasNull() || rs.getObject("seasonsId")!=null) {
+                    seasonsId = rs.getString("seasonsId");
+                }
+                toReturn = idLeague + ":" + seasonsId;
+            }
             rs.close();
-        } catch (SQLException e) {
+        } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
         }
         return toReturn;
@@ -59,15 +66,15 @@ public class LeagueDao  implements DAOTEMP<League> {
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
-                String idLeague=rs.getString("`idLeague`");
-                String seasonsId=rs.getString("`seasonsId`");
+                String idLeague=rs.getString("idLeague");
+                String seasonsId=rs.getString("seasonsId");
 
                 String toReturn=idLeague+":"+seasonsId;
                 allTheTable.add(toReturn);
             }
 
             rs.close();
-        } catch (SQLException e) {
+        } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
         }
 
@@ -80,18 +87,17 @@ public class LeagueDao  implements DAOTEMP<League> {
         try {
             Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
-
-            String sql = "INSERT INTO"+getTableName()+
-                    "VALUES ("+league.getName()+","+league.getSeasons().toString()+");";
+            String sql="";
+            sql = "INSERT INTO" + getTableName() +
+                    "VALUES ("+league.toString()+");";// + "\'" + league.getName() + "\'" + "," + "\'" + league.getSeasonString() + "\'" + ");";
             //finish it
             // TODO: 12/05/2020
             System.out.println(sql);
             stmt.executeUpdate(sql);
-        } catch (SQLException e) {
+        } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
         }
     }
-
 
     @Override
     public void update(String name , League league) {
@@ -107,10 +113,10 @@ public class LeagueDao  implements DAOTEMP<League> {
             Statement stmt = connection.createStatement();
 
             String sql = "DELETE FROM"+getTableName()+
-                    "WHERE name ="+leagueName;
+                    "WHERE idLeague ="+ "\'" +leagueName+ "\'" ;
             System.out.println(sql);
             stmt.executeUpdate(sql);
-        } catch (SQLException e) {
+        } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
         }
     }
@@ -124,12 +130,12 @@ public class LeagueDao  implements DAOTEMP<League> {
             Statement stmt = connection.createStatement();
 
             String sqlQuery = "SELECT * FROM"+getTableName()+
-                    "WHERE name ="+leagueName;
+                    "WHERE idLeague ="+ "\'" +leagueName+ "\'" ;
             System.out.println(sqlQuery);
             ResultSet rs = stmt.executeQuery(sqlQuery);
             return rs.next();
 
-        } catch (SQLException e) {
+        } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
         }
         return false;

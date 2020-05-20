@@ -23,6 +23,11 @@ public class AssociationDelegate extends Member {
     public String getType() {
         return "AssociationDelegate";
     }
+    @Override
+    public String toString() {
+        String str="";
+        str="\'"+this.getUserMail()+"\',\'"+this.getPassword()+"\',\'"+this.getName()+"\',\'"+this.getBirthDateString()+"\'";
+        return str;
+    }
 }
-
 

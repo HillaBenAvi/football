@@ -22,4 +22,10 @@ public class Field{
         return this.nameOfField;
     }
 
+    @Override
+    public String toString() {
+        String str="";
+        str="\'"+this.nameOfField+"\',\'"+this.team.toString()+"\'";
+        return str;
+    }
 }
