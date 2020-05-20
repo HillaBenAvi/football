@@ -14,4 +14,5 @@ public class PersonalPage extends Observable {
         notifyObservers(message);
     }
 
+
 }

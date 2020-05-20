@@ -49,4 +49,25 @@ public abstract class Referee extends Member{
     {
         return games.size()>0;
     }
+
+    @Override
+    public String toString()
+    {
+        String str="";
+        str="\'"+this.getUserMail()+"\',\'"+this.getPassword()+"\',\'"+this.getName()+"\',\'"+this.getBirthDateString()+"\',\'"+this.training+"\',\'"+this.getGamesString()+"\'";
+        return str;
+    }
+
+    private String getGamesString() {
+        String str="";
+        for (Game game:games
+        ) {
+            str+=game.toString()+";";
+        }
+        if(str.length()>0)
+        {
+            str=str.substring(0,str.length()-1);
+        }
+        return str;
+    }
 }

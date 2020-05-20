@@ -17,11 +17,8 @@ public class SecondaryReferee extends Referee{
         super(fan.getName(),fan.getUserMail(), fan.getPassword() , "" , fan.getBirthDate());
     }
 
-
-
-
     @Override
     public String getType() {
-        return ("Secondary Referee");
+        return ("0Secondary Referee");
     }
 }

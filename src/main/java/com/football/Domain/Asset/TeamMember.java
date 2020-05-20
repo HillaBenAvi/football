@@ -51,6 +51,15 @@ public class TeamMember extends Member {
         return false;
     }
 
+    protected String getTeamString() {
+        String str="";
+        for (String team:team.keySet()) {
+            str+=team+";";
+        }
+        if(str.length()>0)
+            str = str.substring(0,str.length()-1);
+        return str;
+    }
 
 
 }
