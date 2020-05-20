@@ -30,7 +30,7 @@ public class Owner extends Member {
 
     @Override
     public String getType() {
-        return "Owner";
+        return "0Owner";
     }
 
     @Override
