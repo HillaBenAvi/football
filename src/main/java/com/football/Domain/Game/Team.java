@@ -318,5 +318,79 @@ public class Team {
     public int getFollowersNumber(){
         return personalPage.countObservers();
     }
+
+    @Override
+    public String toString() {
+        String str="";
+        str="\'"+this.getName()+"\',\'"+account.toString()+"\',\'"+getCoachListString()+"\',\'"+getPlayersListString()+"\',\'"+this.getManagersListString()+"\',\'"
+                +this.getOwnersListString()+"\',\'"+homeField.toString()+"\',\'"+this.getGamesListString()+"\',\'"+
+                trainingFields.toString()+"\',\'"+this.status+"\',\'"+this.personalPage.toString()+"\'";
+        return str;
+    }
+
+    private String getPlayersListString() {
+        String str="";
+        for (Player player:players
+        ) {
+            str+=player.toString()+";";
+        }
+        if(str.length()>0)
+        {
+            str=str.substring(0,str.length()-1);
+        }
+        return str;
+    }
+
+    private String getCoachListString() {
+        String str="";
+        for (Coach coach:coaches
+        ) {
+            str+=coach.toString()+";";
+        }
+        if(str.length()>0)
+        {
+            str=str.substring(0,str.length()-1);
+        }
+        return str;
+    }
+
+    private String getManagersListString() {
+        String str="";
+        for (Manager manager:managers
+        ) {
+            str+=manager.toString()+";";
+        }
+        if(str.length()>0)
+        {
+            str=str.substring(0,str.length()-1);
+        }
+        return str;
+    }
+
+    private String getGamesListString() {
+        String str="";
+        for (Game game:games
+        ) {
+            str+=game.toString()+";";
+        }
+        if(str.length()>0)
+        {
+            str=str.substring(0,str.length()-1);
+        }
+        return str;
+    }
+
+    private String getOwnersListString() {
+        String str="";
+        for (Owner owner:owners
+        ) {
+            str+=owner.toString()+";";
+        }
+        if(str.length()>0)
+        {
+            str=str.substring(0,str.length()-1);
+        }
+        return str;
+    }
 }
 

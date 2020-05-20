@@ -129,7 +129,7 @@ public interface DAO {
     boolean existSeason(String id);
     /***************************************update function******************************************/
 
-    void updateTeam(Role role,Team team)throws DontHavePermissionException;
+    void updateTeam(Role role,Team team)throws ObjectNotExist, DontHavePermissionException;
     void updateOwner(Role role,Owner owner)throws MemberNotExist, DontHavePermissionException;
     void updateManager(Role role,Manager manager) throws MemberNotExist, DontHavePermissionException;
     void updateReferee(Role role,Referee referee) throws MemberNotExist, DontHavePermissionException;
@@ -142,15 +142,6 @@ public interface DAO {
     void updateLeagueInSeason(Role role, LeagueInSeason leagueInSeason) throws ObjectNotExist, DontHavePermissionException ;
 
 
-    /************************to add in the DBController********************/
-
-    Owner getOwner(String id) throws MemberNotExist;
-
-    Player getPlayer(String id) throws MemberNotExist;
-
-    Manager getManager(String id) throws MemberNotExist;
-
-    Coach getCoach(String id) throws MemberNotExist;
 
 
 

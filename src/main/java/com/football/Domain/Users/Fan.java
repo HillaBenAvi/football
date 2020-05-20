@@ -28,4 +28,24 @@ public class Fan extends Member implements Observer {
     public String getType() {
         return "Fan";
     }
+
+    @Override
+    public String toString() {
+        String str="";
+        str="\'"+this.getUserMail()+"\',\'"+this.getPassword()+"\',\'"+this.getName()+"\',\'"+this.getBirthDateString()+"\',\'"+this.getUpdatesString()+"\'";
+        return str;
+    }
+
+    private String getUpdatesString() {
+        String str="";
+        for (String update:updates
+        ) {
+            str+=update+";";
+        }
+        if(str.length()>0)
+        {
+            str=str.substring(0,str.length()-1);
+        }
+        return str;
+    }
 }

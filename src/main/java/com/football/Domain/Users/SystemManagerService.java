@@ -39,6 +39,8 @@ public class SystemManagerService {
      * @throws IncorrectInputException - if the id is not a mail
      */
     public void removeAssociationDelegate(String id, String idToRemove) throws DontHavePermissionException, MemberNotExist, AlreadyExistException, IncorrectInputException {
+
+
         if (dbController.existSystemManager(id)) {
             SystemManager manager = dbController.getSystemManagers(id);
             if (dbController.existAssociationDelegate(idToRemove)){
