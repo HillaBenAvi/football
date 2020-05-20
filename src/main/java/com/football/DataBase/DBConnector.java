@@ -18,9 +18,9 @@ public class DBConnector {
     }
 
 
-    public static final String URL = "jdbc:mysql://localhost:3306/football";
-    public static final String USER = "root";
-    public static final String PASS = "noa112233123";
+   // public static final String URL = "jdbc:mysql://localhost:3306/football";
+   // public static final String USER = "root";
+   // public static final String PASS = "noa112233123";
 
 
 
@@ -44,7 +44,7 @@ public class DBConnector {
         public Connection makeConnection() {
             System.out.println("i enter to make connection");
             try {
-                conn = DriverManager.getConnection(URL,USER,PASS);//DriverManager.getConnection("jdbc:mysql://132.72.65.124:3306/football?" +"user=root&password=root&useLegacyDatetimeCode=false&serverTimezone=UTC");
+                conn = DriverManager.getConnection("jdbc:mysql://132.72.65.124:3306/football?" +"user=root&password=root&useLegacyDatetimeCode=false&serverTimezone=UTC");
                 System.out.println("make connection");
 
                 return conn;

@@ -323,9 +323,25 @@ public class Team {
     public String toString() {
         String str="";
         str="\'"+this.getName()+"\',\'"+account.toString()+"\',\'"+getCoachListString()+"\',\'"+getPlayersListString()+"\',\'"+this.getManagersListString()+"\',\'"
-                +this.getOwnersListString()+"\',\'"+homeField.toString()+"\',\'"+this.getGamesListString()+"\',\'"+
-                trainingFields.toString()+"\',\'"+this.status+"\',\'"+this.personalPage.toString()+"\'";
+                +this.getOwnersListString()+"\',\'";
+        if(homeField!=null)
+       str+=homeField.toString();
+         str+="\',\'"+this.getGamesListString()+"\',\'";
+       str+=ToStringtrainingFields();
+       str+="\',\'"+this.status+"\'";
         return str;
+    }
+
+    private String ToStringtrainingFields() {
+        String s="";
+        for (Field field: trainingFields
+             ) {
+            if(field!=null)
+            s+=field.toString()+":";
+        }
+        if(s.length()>0)
+            s=s.substring(0,s.length()-1);
+        return s;
     }
 
     private String getPlayersListString() {
@@ -384,7 +400,8 @@ public class Team {
         String str="";
         for (Owner owner:owners
         ) {
-            str+=owner.toString()+";";
+            str+="("+owner.toString()+") ";
+
         }
         if(str.length()>0)
         {

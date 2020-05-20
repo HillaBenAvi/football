@@ -25,6 +25,10 @@ public abstract class Role {
         this.name = name;
     }
     protected String getBirthDateString() {
-        return birthDate.getYear()+"-"+birthDate.getMonth()+"-"+birthDate.getDay();
+        int year=birthDate.getYear();
+        int month=birthDate.getMonth();
+        int day=birthDate.getDate();
+        return year+"-"+month+"-"+day;
+       // return birthDate.getYear()+"-"+birthDate.getMonth()+"-"+birthDate.getDay();
     }
 }

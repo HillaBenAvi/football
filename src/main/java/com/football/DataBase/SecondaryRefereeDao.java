@@ -44,7 +44,7 @@ public class SecondaryRefereeDao implements DAOTEMP<SecondaryReferee>{
     public String get(String id) {
         String toReturn="";
         try {
-            Connection connection = dbc.getConnection();
+            //Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From "+getTableName()+" WHERE userName="+ "\'"+id+ "\'"+";";
             //System.out.println(sqlQuery);
 
@@ -71,7 +71,7 @@ public class SecondaryRefereeDao implements DAOTEMP<SecondaryReferee>{
     public List<String> getAll() {
         LinkedList<String> allTheTable = new LinkedList<>();
         try {
-            Connection connection = dbc.getConnection();
+           // Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From " + getTableName()+ ";";
             //System.out.println(sqlQuery);
 
@@ -103,7 +103,7 @@ public class SecondaryRefereeDao implements DAOTEMP<SecondaryReferee>{
     @Override
     public void save(SecondaryReferee secondaryReferee){
         try {
-            Connection connection = dbc.getConnection();
+            //Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO"+getTableName()+
@@ -128,7 +128,7 @@ public class SecondaryRefereeDao implements DAOTEMP<SecondaryReferee>{
     @Override
     public void delete(String userMail) {
         try {
-            Connection connection = dbc.getConnection();
+        //    Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "DELETE FROM"+getTableName()+
@@ -145,7 +145,7 @@ public class SecondaryRefereeDao implements DAOTEMP<SecondaryReferee>{
     public boolean exist(String fanName) {
 
         try {
-            Connection connection = dbc.getConnection();
+          //  Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sqlQuery = "SELECT * FROM"+getTableName()+

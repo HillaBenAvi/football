@@ -40,7 +40,7 @@ public class LeagueInSeasonDao  implements DAOTEMP<LeagueInSeason> {
         String seasonIdFromUser=id.split(":")[1];
         String toReturn="";
         try {
-            Connection connection = dbc.getConnection();
+        //    Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From "+getTableName()+" WHERE leagueId="+"\'"+leagueIdFromUser+"\'"+"AND seasonId="+"\'"+seasonIdFromUser+"\'"+";";
             //  System.out.println(sqlQuery);
 
@@ -70,7 +70,7 @@ public class LeagueInSeasonDao  implements DAOTEMP<LeagueInSeason> {
     public List<String> getAll() {
         LinkedList<String> allTheTable=new LinkedList<>();
         try {
-            Connection connection = dbc.getConnection();
+         //   Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From "+getTableName()+";";
             //  System.out.println(sqlQuery);
 
@@ -102,7 +102,7 @@ public class LeagueInSeasonDao  implements DAOTEMP<LeagueInSeason> {
     @Override
     public void save(LeagueInSeason leagueInSeason) {
         try {
-            Connection connection = dbc.getConnection();
+           // Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO"+getTableName()+
@@ -132,7 +132,7 @@ public class LeagueInSeasonDao  implements DAOTEMP<LeagueInSeason> {
         String seasonId=leagueInSeason.split(":")[1];
 
         try {
-            Connection connection = dbc.getConnection();
+      //      Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "DELETE FROM"+getTableName()+
@@ -149,7 +149,7 @@ public class LeagueInSeasonDao  implements DAOTEMP<LeagueInSeason> {
         String leagueId=leagueInSeason.split(":")[0];
         String seasonId=leagueInSeason.split(":")[1];
         try {
-            Connection connection = dbc.getConnection();
+       //     Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sqlQuery = "SELECT * FROM"+getTableName()+

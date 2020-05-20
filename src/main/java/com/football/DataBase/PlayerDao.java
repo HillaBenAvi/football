@@ -40,7 +40,7 @@ public class PlayerDao implements DAOTEMP<Player> {
     public String get(String id) {
         String toReturn="";
         try {
-            Connection connection = dbc.getConnection();
+       //     Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From "+getTableName()+" WHERE userName="+"\'"+id+"\'"+";";
             //  System.out.println(sqlQuery);
 
@@ -68,7 +68,7 @@ public class PlayerDao implements DAOTEMP<Player> {
     public List<String> getAll() {
         LinkedList<String> allTheTable = new LinkedList<>();
         try {
-            Connection connection = dbc.getConnection();
+         //   Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From " + getTableName()+ ";";
             //   System.out.println(sqlQuery);
 
@@ -99,7 +99,7 @@ public class PlayerDao implements DAOTEMP<Player> {
     @Override
     public void save(Player player){
         try {
-            Connection connection = dbc.getConnection();
+          //  Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO"+getTableName()+
@@ -124,7 +124,7 @@ public class PlayerDao implements DAOTEMP<Player> {
     @Override
     public void delete(String userMail) {
         try {
-            Connection connection = dbc.getConnection();
+       //     Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "DELETE FROM"+getTableName()+
@@ -141,7 +141,7 @@ public class PlayerDao implements DAOTEMP<Player> {
     public boolean exist(String playerName) {
 
         try {
-            Connection connection = dbc.getConnection();
+       //     Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sqlQuery = "SELECT * FROM"+getTableName()+

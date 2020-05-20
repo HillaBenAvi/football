@@ -34,7 +34,7 @@ public class AssociationDelegateDao implements DAOTEMP<AssociationDelegate> {
 
     @Override
     public String getTableName() {
-        return " associationDelegate ";
+        return " associationdeligate ";
     }
 
 
@@ -147,7 +147,7 @@ public class AssociationDelegateDao implements DAOTEMP<AssociationDelegate> {
             return rs.next();
 
         } catch (java.sql.SQLException e) {
-            System.out.println(e.toString());
+           // System.out.println(e.toString());
         }
         return false;
     }

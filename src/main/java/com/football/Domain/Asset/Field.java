@@ -25,7 +25,13 @@ public class Field{
     @Override
     public String toString() {
         String str="";
-        str="\'"+this.nameOfField+"\',\'"+this.team.toString()+"\'";
+        if(team!=null) {
+            str = "\'" + this.nameOfField + "\',\'" + this.team.toString() + "\'";
+        }
+        else
+        {
+            str = "\'" + this.nameOfField + "\'";
+        }
         return str;
     }
 }

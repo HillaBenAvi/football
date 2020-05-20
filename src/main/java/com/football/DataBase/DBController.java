@@ -25,35 +25,35 @@ public class DBController {
 
    // private DAOTEMP associationDelegateDao = AssociationDelegateDao.getInstance();
    @Autowired
-   public AssociationDelegateDao associationDelegateDao;
+   public AssociationDelegateDao associationDelegateDao=new AssociationDelegateDao();
     @Autowired
-   public CoachDao coachDao;
+   public CoachDao coachDao=new CoachDao();
     @Autowired
-   public FanDao fanDao;
+   public FanDao fanDao=new FanDao();
     @Autowired
-    public FieldDao fieldDao;// = FieldDao.getInstance() ;
+    public FieldDao fieldDao=new FieldDao();// = FieldDao.getInstance() ;
     @Autowired
-    public GameDao gameDao;// = GameDao.getInstance();
+    public GameDao gameDao=new GameDao();// = GameDao.getInstance();
     @Autowired
-    public LeagueDao leagueDao;// = LeagueDao.getInstance();
+    public LeagueDao leagueDao=new LeagueDao();// = LeagueDao.getInstance();
     @Autowired
-    public LeagueInSeasonDao leagueInSesonDao ;//= LeagueInSeasonDao.getInstance();
+    public LeagueInSeasonDao leagueInSesonDao =new LeagueInSeasonDao();//= LeagueInSeasonDao.getInstance();
     @Autowired
-    public MainRefereeDao mainRefereeDao;//= MainRefereeDao.getInstance();
+    public MainRefereeDao mainRefereeDao=new MainRefereeDao();//= MainRefereeDao.getInstance();
     @Autowired
-    public ManagerDao managerDao;//= ManagerDao.getInstance();
+    public ManagerDao managerDao=new ManagerDao();//= ManagerDao.getInstance();
     @Autowired
-    public OwnerDao ownerDao;//= OwnerDao.getInstance();
+    public OwnerDao ownerDao=new OwnerDao();//= OwnerDao.getInstance();
     @Autowired
-    public PlayerDao playerDao;//= PlayerDao.getInstance();
+    public PlayerDao playerDao=new PlayerDao();;//= PlayerDao.getInstance();
     @Autowired
-    public SeasonDao seasonDao;//= SeasonDao.getInstance();
+    public SeasonDao seasonDao=new SeasonDao();;//= SeasonDao.getInstance();
     @Autowired
-    public SecondaryRefereeDao seconaryRefereeDao;//= SecondaryRefereeDao.getInstance();
+    public SecondaryRefereeDao seconaryRefereeDao=new SecondaryRefereeDao();;//= SecondaryRefereeDao.getInstance();
     @Autowired
-    public SystemManagerDao systemManagerDao;//= SystemManagerDao.getInstance();
+    public SystemManagerDao systemManagerDao=new SystemManagerDao();//= SystemManagerDao.getInstance();
     @Autowired
-    public TeamDao teamDao;//= TeamDao.getInstance();
+    public TeamDao teamDao=new TeamDao();;//= TeamDao.getInstance();
 
 // private AssociationDelegateDao associationDelegateDao;// = AssociationDelegateDao.getInstance();
     //private CoachDao coachDao;// = CoachDao.getInstance();
@@ -65,7 +65,210 @@ public class DBController {
   //  }
 //
     public DBController() { }
-    /*************************************** Presentation.Guest function ******************************************/
+
+    /***************************************add function******************************************/
+      public void addAssociationDelegate(Role role, AssociationDelegate associationDelegate) throws
+            DontHavePermissionException, AlreadyExistException {
+        if (role instanceof SystemManager) {
+            if (associationDelegateDao.exist(associationDelegate.getUserMail()))
+                throw new AlreadyExistException();
+
+            associationDelegateDao.save(associationDelegate);
+
+            return;
+        } else {
+            throw new DontHavePermissionException();
+        }
+    }
+
+    public void addFan(Role role, Fan fan) throws AlreadyExistException, DontHavePermissionException {
+        if (fanDao.exist(fan.getUserMail()))
+            throw new AlreadyExistException();
+        else{
+            fanDao.save(fan);
+        }
+    }
+
+    public void addSeason(Role role, Season season) throws AlreadyExistException, DontHavePermissionException {
+        if (role instanceof SystemManager || role instanceof AssociationDelegate) {
+            if(seasonDao.exist(season.getYear()))
+                throw new AlreadyExistException();
+
+            seasonDao.save(season);
+            HashMap<League, LeagueInSeason> lsList = season.getLeagues();
+            if(season.getLeagues().size()>0){
+                for(League league : lsList.keySet()){
+                    if(leagueDao.exist(league.getName())) {
+                        leagueDao.update(league.getName(), league);
+                    }
+                    else{
+                        leagueDao.save(league);
+                    }
+
+                    if(leagueInSesonDao.exist(league.getName()+":"+season.getYear())){
+                        leagueInSesonDao.update(league.getName()+":"+season.getYear(),lsList.get(league));
+                    }
+                    else{
+                        leagueInSesonDao.save(lsList.get(league));
+                    }
+                }
+            }
+        } else {
+            throw new DontHavePermissionException();
+        }
+    }
+
+    public void addLeague(Role role, League league) throws AlreadyExistException, DontHavePermissionException {
+        if (role instanceof SystemManager || role instanceof AssociationDelegate) {
+            if(leagueDao.exist(league.getName()))
+                throw new AlreadyExistException();
+
+            leagueDao.save(league);
+            HashMap<Season, LeagueInSeason> lsList = league.getSeasons();
+            if(league.getSeasons().size()>0){
+                for(Season season : lsList.keySet()){
+                    if(seasonDao.exist(season.getYear())) {
+                        seasonDao.update(season.getYear(), season);
+                    }
+                    else {
+                        seasonDao.save(season);
+                    }
+                    if(leagueInSesonDao.exist(league.getName()+":"+season.getYear())){
+                        leagueInSesonDao.update(league.getName()+":"+season.getYear(),lsList.get(season));
+                    }
+                    else{
+                        leagueInSesonDao.save(lsList.get(season));
+                    }
+                }
+            }
+        } else {
+            throw new DontHavePermissionException();
+        }
+    }
+
+    public void addLeagueInSeason(Role role , LeagueInSeason leagueInSeason) throws AlreadyExistException, DontHavePermissionException {
+        if (role instanceof SystemManager || role instanceof AssociationDelegate) {
+            if(!leagueInSesonDao.exist(leagueInSeason.getLeague().getName()+":"+leagueInSeason.getSeason().getYear()))
+                leagueInSesonDao.save(leagueInSeason);
+            else{
+                throw new AlreadyExistException();
+            }
+        }
+        else{
+            throw new DontHavePermissionException();
+        }
+    }
+
+    public void addManager(Role role, Manager manager) throws AlreadyExistException, DontHavePermissionException {
+        if (role instanceof SystemManager || role instanceof Owner) {
+            if (managerDao.exist(manager.getUserMail()))
+                throw new AlreadyExistException();
+            managerDao.save(manager);
+        } else {
+            throw new DontHavePermissionException();
+        }
+    }
+
+    public void addPlayer(Role role, Player player) throws AlreadyExistException, DontHavePermissionException {
+        if (role instanceof SystemManager || role instanceof Owner) {
+
+            if (playerDao.exist(player.getUserMail()))
+                throw new AlreadyExistException();
+            playerDao.save(player);
+        } else {
+            throw new DontHavePermissionException();
+        }
+    }
+
+    public void addCoach(Role role, Coach coach) throws AlreadyExistException, DontHavePermissionException {
+        if (role instanceof SystemManager || role instanceof Owner) {
+            if (coachDao.exist(coach.getUserMail()))
+                throw new AlreadyExistException();
+            coachDao.save(coach);
+        } else {
+            throw new DontHavePermissionException();
+        }
+    }
+
+    public void addOwner(Role role, Owner owner) throws AlreadyExistException, DontHavePermissionException {
+        if (!(role instanceof SystemManager || role instanceof Owner)) {
+            throw new DontHavePermissionException();
+        }
+        if (ownerDao.exist(owner.getUserMail()))
+            throw new AlreadyExistException();
+        ownerDao.save(owner);
+    }
+
+    public void addSystemManager(Role role, SystemManager systemManager) throws AlreadyExistException, DontHavePermissionException {
+        if (role instanceof SystemManager) {
+            if (systemManagerDao.exist(systemManager.getUserMail()))
+                throw new AlreadyExistException();
+            systemManagerDao.save(systemManager);
+            return;
+        } else {
+            throw new DontHavePermissionException();
+        }
+    }
+
+
+    public void addReferee(Role role, Referee referee) throws DontHavePermissionException, AlreadyExistException {
+        if (role instanceof SystemManager || role instanceof MainReferee || role instanceof SecondaryReferee) {
+            if (!seconaryRefereeDao.exist(referee.getUserMail()) && !mainRefereeDao.exist(referee.getUserMail())) {
+                if(referee.getType().equals("0MainReferee"))
+                    mainRefereeDao.save((MainReferee)referee);
+                if(referee.getType().equals("0Secondary Referee"))
+                    seconaryRefereeDao.save((SecondaryReferee)referee);
+            } else {
+                throw new AlreadyExistException();
+            }
+        } else {
+            throw new DontHavePermissionException();
+        }
+    }
+    public void addTeam(Role role, Team team) throws AlreadyExistException, DontHavePermissionException {
+
+        if (role instanceof SystemManager || role instanceof Owner) {
+
+            if (teamDao.exist(team.getName()))
+                throw new AlreadyExistException();
+            teamDao.save(team);
+        } else {
+            throw new DontHavePermissionException();
+        }
+    }
+
+    public void addGames(Role role, Set<Game> games) throws DontHavePermissionException, AlreadyExistException {
+        if (role instanceof SystemManager ) {
+            for( Game game : games){
+                if (!gameDao.exist(game.getId())) {
+
+                    gameDao.save(game);
+
+                } else {
+                    throw new AlreadyExistException();
+                }
+            }
+        } else {
+            throw new DontHavePermissionException();
+        }
+    }
+
+    public void addSchedulingPolicies(Role role, ASchedulingPolicy policy) throws DontHavePermissionException {
+//        if (role instanceof AssociationDelegate || role instanceof Owner || role instanceof SystemManager) {
+//            db.addSchedulingPolicies(policy);
+//        } else {
+//            throw new DontHavePermissionException();
+//        }
+        //todo
+    }
+
+    public void addErrorLog(ErrorLog errorLog){
+        //todo
+    }
+
+    public void addEventLog(EventLog eventLog){
+        //todo
+    }
 
     /*************************************** Getters ******************************************/
 
@@ -471,211 +674,6 @@ public class DBController {
         }
     }
 
-//    public void deleteAll() {
-//        db.deleteAll();
-//    }
-
-    /***************************************add function******************************************/
-    public void addErrorLog(ErrorLog errorLog){
-        //todo
-    }
-    public void addEventLog(EventLog eventLog){
-        //todo
-    }
-    public void addAssociationDelegate(Role role, AssociationDelegate associationDelegate) throws
-            DontHavePermissionException, AlreadyExistException {
-        if (role instanceof SystemManager) {
-            if (associationDelegateDao.exist(associationDelegate.getUserMail()))
-                throw new AlreadyExistException();
-
-            associationDelegateDao.save(associationDelegate);
-
-            return;
-        } else {
-            throw new DontHavePermissionException();
-        }
-    }
-
-    public void addFan(Role role, Fan fan) throws AlreadyExistException, DontHavePermissionException {
-        if (fanDao.exist(fan.getUserMail()))
-            throw new AlreadyExistException();
-        else{
-            fanDao.save(fan);
-        }
-    }
-
-    public void addSeason(Role role, Season season) throws AlreadyExistException, DontHavePermissionException {
-        if (role instanceof SystemManager || role instanceof AssociationDelegate) {
-            if(seasonDao.exist(season.getYear()))
-                throw new AlreadyExistException();
-
-                seasonDao.save(season);
-                HashMap<League, LeagueInSeason> lsList = season.getLeagues();
-                if(season.getLeagues().size()>0){
-                    for(League league : lsList.keySet()){
-                        if(leagueDao.exist(league.getName())) {
-                            leagueDao.update(league.getName(), league);
-                        }
-                        else{
-                            leagueDao.save(league);
-                        }
-
-                        if(leagueInSesonDao.exist(league.getName()+":"+season.getYear())){
-                            leagueInSesonDao.update(league.getName()+":"+season.getYear(),lsList.get(league));
-                        }
-                        else{
-                            leagueInSesonDao.save(lsList.get(league));
-                        }
-                    }
-                }
-        } else {
-            throw new DontHavePermissionException();
-        }
-    }
-
-    public void addLeague(Role role, League league) throws AlreadyExistException, DontHavePermissionException {
-        if (role instanceof SystemManager || role instanceof AssociationDelegate) {
-            if(leagueDao.exist(league.getName()))
-                throw new AlreadyExistException();
-
-                leagueDao.save(league);
-                HashMap<Season, LeagueInSeason> lsList = league.getSeasons();
-                if(league.getSeasons().size()>0){
-                    for(Season season : lsList.keySet()){
-                        if(seasonDao.exist(season.getYear())) {
-                            seasonDao.update(season.getYear(), season);
-                        }
-                        else {
-                            seasonDao.save(season);
-                        }
-                        if(leagueInSesonDao.exist(league.getName()+":"+season.getYear())){
-                            leagueInSesonDao.update(league.getName()+":"+season.getYear(),lsList.get(season));
-                        }
-                        else{
-                            leagueInSesonDao.save(lsList.get(season));
-                        }
-                    }
-                }
-        } else {
-            throw new DontHavePermissionException();
-        }
-    }
-
-    public void addLeagueInSeason(Role role , LeagueInSeason leagueInSeason) throws AlreadyExistException, DontHavePermissionException {
-        if (role instanceof SystemManager || role instanceof AssociationDelegate) {
-            if(!leagueInSesonDao.exist(leagueInSeason.getLeague().getName()+":"+leagueInSeason.getSeason().getYear()))
-                leagueInSesonDao.save(leagueInSeason);
-            else{
-                throw new AlreadyExistException();
-            }
-        }
-        else{
-            throw new DontHavePermissionException();
-        }
-    }
-
-    public void addManager(Role role, Manager manager) throws AlreadyExistException, DontHavePermissionException {
-        if (role instanceof SystemManager || role instanceof Owner) {
-            if (managerDao.exist(manager.getUserMail()))
-                throw new AlreadyExistException();
-            managerDao.save(manager);
-        } else {
-            throw new DontHavePermissionException();
-        }
-    }
-
-    public void addPlayer(Role role, Player player) throws AlreadyExistException, DontHavePermissionException {
-        if (role instanceof SystemManager || role instanceof Owner) {
-
-            if (playerDao.exist(player.getUserMail()))
-                throw new AlreadyExistException();
-            playerDao.save(player);
-        } else {
-            throw new DontHavePermissionException();
-        }
-    }
-
-    public void addCoach(Role role, Coach coach) throws AlreadyExistException, DontHavePermissionException {
-        if (role instanceof SystemManager || role instanceof Owner) {
-            if (coachDao.exist(coach.getUserMail()))
-                throw new AlreadyExistException();
-            coachDao.save(coach);
-        } else {
-            throw new DontHavePermissionException();
-        }
-    }
-
-    public void addOwner(Role role, Owner owner) throws AlreadyExistException, DontHavePermissionException {
-        if (!(role instanceof SystemManager || role instanceof Owner)) {
-            throw new DontHavePermissionException();
-        }
-        if (ownerDao.exist(owner.getUserMail()))
-            throw new AlreadyExistException();
-        ownerDao.save(owner);
-    }
-
-    public void addSystemManager(Role role, SystemManager systemManager) throws AlreadyExistException, DontHavePermissionException {
-        if (role instanceof SystemManager) {
-            if (systemManagerDao.exist(systemManager.getUserMail()))
-                throw new AlreadyExistException();
-                systemManagerDao.save(systemManager);
-            return;
-        } else {
-            throw new DontHavePermissionException();
-        }
-    }
-
-    public void addTeam(Role role, Team team) throws AlreadyExistException, DontHavePermissionException {
-       //todo
-//        if (role instanceof SystemManager || role instanceof Owner) {
-//
-//            if (db.existTeam(team.getName()))
-//                throw new AlreadyExistException();
-//            db.addTeam(team);
-//        } else {
-//            throw new DontHavePermissionException();
-//        }
-    }
-
-    public void addReferee(Role role, Referee referee) throws DontHavePermissionException, AlreadyExistException {
-        if (role instanceof SystemManager || role instanceof MainReferee || role instanceof SecondaryReferee) {
-            if (!seconaryRefereeDao.exist(referee.getUserMail()) && !mainRefereeDao.exist(referee.getUserMail())) {
-               if(referee.getType().equals("MainReferee"))
-                    mainRefereeDao.save((MainReferee)referee);
-               if(referee.getType().equals("SecondaryReferee"))
-                   seconaryRefereeDao.save((SecondaryReferee)referee);
-            } else {
-                throw new AlreadyExistException();
-            }
-        } else {
-            throw new DontHavePermissionException();
-        }
-    }
-
-    public void addSchedulingPolicies(Role role, ASchedulingPolicy policy) throws DontHavePermissionException {
-//        if (role instanceof AssociationDelegate || role instanceof Owner || role instanceof SystemManager) {
-//            db.addSchedulingPolicies(policy);
-//        } else {
-//            throw new DontHavePermissionException();
-//        }
-        //todo
-    }
-
-    public void addGames(Role role, Set<Game> games) throws DontHavePermissionException, AlreadyExistException {
-        if (role instanceof SystemManager ) {
-            for( Game game : games){
-                if (!gameDao.exist(game.getId())) {
-
-                        gameDao.save(game);
-
-                } else {
-                    throw new AlreadyExistException();
-                }
-            }
-        } else {
-            throw new DontHavePermissionException();
-        }
-    }
 
     /********************************************exist function***********************************/
     public boolean existReferee( String refereeId) {

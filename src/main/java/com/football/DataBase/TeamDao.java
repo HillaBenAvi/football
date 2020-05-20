@@ -109,7 +109,7 @@ public class TeamDao implements DAOTEMP<Team> {
 
             String sql = "INSERT INTO"+getTableName()+
                     " VALUES ("+team.toString()+");";
-            System.out.println(sql);
+          //  System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
