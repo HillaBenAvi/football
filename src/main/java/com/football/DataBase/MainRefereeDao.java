@@ -19,7 +19,7 @@ public class MainRefereeDao implements DAOTEMP<MainReferee>{
     public static MainRefereeDao getInstance(){
         return instance;
     }
-    DBConnector dbc ;
+    DBConnector dbc;//= DBConnector.getInstance();
     Connection connection;
 
     @Override
@@ -28,8 +28,8 @@ public class MainRefereeDao implements DAOTEMP<MainReferee>{
     }
 
     private MainRefereeDao() {
-        dbc= DBConnector.getInstance();
-        connection=dbc.getConnection();
+
+       connection=dbc.getConnection();
     }
 
     @Override

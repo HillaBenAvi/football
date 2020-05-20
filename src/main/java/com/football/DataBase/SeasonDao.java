@@ -16,7 +16,7 @@ public class SeasonDao  implements DAOTEMP<Season> {
     public static SeasonDao getInstance(){
         return instance;
     }
-    DBConnector dbc ;
+    DBConnector dbc;//= DBConnector.getInstance();
     Connection connection;
 
     @Override
@@ -25,7 +25,7 @@ public class SeasonDao  implements DAOTEMP<Season> {
     }
 
     private SeasonDao() {
-        dbc= DBConnector.getInstance();
+
         connection=dbc.getConnection();
     }
 

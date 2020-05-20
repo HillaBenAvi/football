@@ -20,7 +20,7 @@ public class FanDao implements DAOTEMP<Fan> {
     public static FanDao getInstance(){
         return instance;
     }
-    DBConnector dbc ;
+    DBConnector dbc;//= DBConnector.getInstance();
     Connection connection;
 
     @Override
@@ -29,7 +29,7 @@ public class FanDao implements DAOTEMP<Fan> {
     }
 
     private FanDao() {
-        dbc= DBConnector.getInstance();
+
         connection=dbc.getConnection();
     }
 

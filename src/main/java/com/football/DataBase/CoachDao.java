@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
+
 public class CoachDao implements DAOTEMP<Coach> {
 
     private static final CoachDao instance = new CoachDao();
@@ -18,7 +19,7 @@ public class CoachDao implements DAOTEMP<Coach> {
     public static CoachDao getInstance(){
         return instance;
     }
-    DBConnector dbc ;
+    DBConnector dbc;// DBConnector.getInstance() ;
     Connection connection;
 
     @Override
@@ -27,7 +28,7 @@ public class CoachDao implements DAOTEMP<Coach> {
     }
 
     private CoachDao() {
-        dbc= DBConnector.getInstance();
+        //dbc= DBConnector.getInstance();
         connection=dbc.getConnection();
     }
 

@@ -1,7 +1,8 @@
 package com.football.DataBase;
 
 import com.football.Domain.Users.AssociationDelegate;
-import com.football.Domain.Users.SystemManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,25 +11,29 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
+@Repository
 public class AssociationDeligateDao implements DAOTEMP<AssociationDelegate> {
 
+    @Autowired
+    DBConnector dbc;
 
-    private static final AssociationDeligateDao instance = new AssociationDeligateDao();
+   // private static final AssociationDeligateDao instance = new AssociationDeligateDao();
 
     //private constructor to avoid client applications to use constructor
-    public static AssociationDeligateDao getInstance(){
-        return instance;
-    }
-    DBConnector dbc ;
+//    public static AssociationDeligateDao getInstance(){
+//
+//        return instance;
+//    }
+    //= DBConnector.getInstance(); ;
     Connection connection;
 
     @Override
     public String getTableName() {
-        return " associationDeligate ";
+        return " associationDelegate ";
     }
 
-    private AssociationDeligateDao() {
-        dbc= DBConnector.getInstance();
+    public AssociationDeligateDao() {
+       // dbc
         connection=dbc.getConnection();
     }
 

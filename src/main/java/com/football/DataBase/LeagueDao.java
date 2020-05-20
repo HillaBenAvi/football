@@ -13,7 +13,7 @@ public class LeagueDao  implements DAOTEMP<League> {
         return instance;
     }
 
-    DBConnector dbc ;
+    DBConnector  dbc;//= DBConnector.getInstance();
     Connection connection;
 
     @Override
@@ -22,8 +22,8 @@ public class LeagueDao  implements DAOTEMP<League> {
     }
 
     private LeagueDao() {
-        dbc= DBConnector.getInstance();
-        connection=dbc.getConnection();
+
+       connection=dbc.getConnection();
     }
 
     @Override

@@ -19,7 +19,7 @@ public class OwnerDao implements DAOTEMP<Owner> {
     public static OwnerDao getInstance(){
         return instance;
     }
-    DBConnector dbc ;
+    DBConnector dbc;//= DBConnector.getInstance();
     Connection connection;
 
     @Override
@@ -28,7 +28,7 @@ public class OwnerDao implements DAOTEMP<Owner> {
     }
 
     private OwnerDao() {
-        dbc= DBConnector.getInstance();
+
         connection=dbc.getConnection();
     }
 

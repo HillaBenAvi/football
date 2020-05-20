@@ -21,7 +21,7 @@ public class SecondaryRefereeDao implements DAOTEMP<SecondaryReferee>{
         return instance;
     }
 
-    DBConnector dbc ;
+    DBConnector dbc;//= DBConnector.getInstance();
     Connection connection;
 
     @Override
@@ -30,8 +30,8 @@ public class SecondaryRefereeDao implements DAOTEMP<SecondaryReferee>{
     }
 
     private SecondaryRefereeDao() {
-        dbc= DBConnector.getInstance();
-        connection=dbc.getConnection();
+
+       connection=dbc.getConnection();
     }
 
 

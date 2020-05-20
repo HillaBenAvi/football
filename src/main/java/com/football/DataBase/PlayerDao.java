@@ -19,8 +19,8 @@ public class PlayerDao implements DAOTEMP<Player> {
     public static PlayerDao getInstance(){
         return instance;
     }
-    DBConnector dbc ;
-    Connection connection;
+    DBConnector  dbc;//= DBConnector.getInstance();
+   Connection connection;
 
     @Override
     public String getTableName() {
@@ -28,8 +28,7 @@ public class PlayerDao implements DAOTEMP<Player> {
     }
 
     private PlayerDao() {
-        dbc= DBConnector.getInstance();
-        connection=dbc.getConnection();
+ connection=dbc.getConnection();
     }
 
     @Override

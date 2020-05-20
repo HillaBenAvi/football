@@ -20,8 +20,8 @@ public class ManagerDao implements DAOTEMP<Manager> {
     public static ManagerDao getInstance(){
         return instance;
     }
-    DBConnector dbc ;
-    Connection connection;
+    DBConnector  dbc;//= DBConnector.getInstance();
+   Connection connection;
 
     @Override
     public String getTableName() {
@@ -29,7 +29,7 @@ public class ManagerDao implements DAOTEMP<Manager> {
     }
 
     private ManagerDao() {
-        dbc= DBConnector.getInstance();
+
         connection=dbc.getConnection();
     }
 
