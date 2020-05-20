@@ -2,6 +2,7 @@ package com.football.DataBase;
 
 import com.football.Domain.Asset.Field;
 import com.football.Domain.Users.SecondaryReferee;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -10,25 +11,29 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
-public class FieldDao implements DAOTEMP<Field> {
 
-    private static final FieldDao instance = new FieldDao();
+@Repository
+public class FieldDao implements DAOTEMP<Field> {
+    @Autowired
+    public DBConnector dbc=new DBConnector();;
+
+  //  private static final FieldDao instance = new FieldDao();
 
     //private constructor to avoid client applications to use constructor
-    public static FieldDao getInstance(){
-        return instance;
-    }
-    DBConnector dbc;//= DBConnector.getInstance();
-    Connection connection;
+ //   public static FieldDao getInstance(){
+  //      return instance;
+ //   }
+  //  DBConnector dbc;//= DBConnector.getInstance();
+    Connection connection=dbc.getConnection();
 
     @Override
     public String getTableName() {
         return " field ";
     }
 
-    private FieldDao() {
+    public FieldDao() {
 
-        connection=dbc.getConnection();
+       // connection=dbc.getConnection();
     }
 
     @Override

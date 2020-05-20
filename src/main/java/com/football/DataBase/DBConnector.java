@@ -8,6 +8,16 @@ import java.util.logging.Logger;
 
 @Repository
 public class DBConnector {
+    int x;
+    public Connection conn;
+    public DBConnector() {
+        //  conn=makeConnection();
+
+            conn=makeConnection();
+
+    }
+
+
   //  public static final String URL = "jdbc:mysql://localhost:3306/football";
    // public static final String USER = "root";
    // public static final String PASS = "noa112233123";
@@ -15,16 +25,11 @@ public class DBConnector {
 
 
 //        private static final DBConnector instance = new DBConnector();
-        public Connection conn=makeConnection();
+       // public Connection conn=makeConnection();
         //private constructor to avoid client applications to use constructor
         //public static DBConnector getInstance(){
 //            return instance;
 //        }
-
-        public DBConnector() {
-         //   int x=0;
-          //  conn=makeConnection();
-        }
         /**
          * Get a connection to database
          *

@@ -2,32 +2,37 @@ package com.football.DataBase;
 
 import com.football.Domain.Game.Team;
 import com.football.Domain.League.Season;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+@Repository
 
 public class SeasonDao  implements DAOTEMP<Season> {
 
-    private static final SeasonDao instance = new SeasonDao();
+    @Autowired
+    public DBConnector dbc=new DBConnector();;
+
+  //  private static final SeasonDao instance = new SeasonDao();
 
     //private constructor to avoid client applications to use constructor
-    public static SeasonDao getInstance(){
-        return instance;
-    }
-    DBConnector dbc;//= DBConnector.getInstance();
-    Connection connection;
+  //  public static SeasonDao getInstance(){
+  //      return instance;
+  //  }
+  //  DBConnector dbc;//= DBConnector.getInstance();
+    Connection connection=dbc.getConnection();
 
     @Override
     public String getTableName() {
         return " Season ";
     }
 
-    private SeasonDao() {
+    public SeasonDao() {
 
-        connection=dbc.getConnection();
+       // connection=dbc.getConnection();
     }
 
     @Override

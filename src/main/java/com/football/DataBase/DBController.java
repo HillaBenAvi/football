@@ -14,31 +14,48 @@ import com.football.Domain.Game.Game;
 import com.football.Domain.Game.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
+
 @Repository
 public class DBController {
+
    // private DAOTEMP associationDelegateDao = AssociationDelegateDao.getInstance();
    @Autowired
-   AssociationDelegateDao associationDelegateDao;
+   public AssociationDelegateDao associationDelegateDao;
+    @Autowired
+   public CoachDao coachDao;
+    @Autowired
+   public FanDao fanDao;
+    @Autowired
+    public FieldDao fieldDao;// = FieldDao.getInstance() ;
+    @Autowired
+    public GameDao gameDao;// = GameDao.getInstance();
+    @Autowired
+    public LeagueDao leagueDao;// = LeagueDao.getInstance();
+    @Autowired
+    public LeagueInSeasonDao leagueInSesonDao ;//= LeagueInSeasonDao.getInstance();
+    @Autowired
+    public MainRefereeDao mainRefereeDao;//= MainRefereeDao.getInstance();
+    @Autowired
+    public ManagerDao managerDao;//= ManagerDao.getInstance();
+    @Autowired
+    public OwnerDao ownerDao;//= OwnerDao.getInstance();
+    @Autowired
+    public PlayerDao playerDao;//= PlayerDao.getInstance();
+    @Autowired
+    public SeasonDao seasonDao;//= SeasonDao.getInstance();
+    @Autowired
+    public SecondaryRefereeDao seconaryRefereeDao;//= SecondaryRefereeDao.getInstance();
+    @Autowired
+    public SystemManagerDao systemManagerDao;//= SystemManagerDao.getInstance();
+    @Autowired
+    public TeamDao teamDao;//= TeamDao.getInstance();
 
-   // private AssociationDelegateDao associationDelegateDao;// = AssociationDelegateDao.getInstance();
-    private CoachDao coachDao;// = CoachDao.getInstance();
-    private FanDao fanDao;// = FanDao.getInstance() ;
-    private FieldDao fieldDao;// = FieldDao.getInstance() ;
-    private GameDao gameDao;// = GameDao.getInstance();
-    private LeagueDao leagueDao;// = LeagueDao.getInstance();
-    private LeagueInSeasonDao leagueInSesonDao ;//= LeagueInSeasonDao.getInstance();
-    private MainRefereeDao mainRefereeDao;//= MainRefereeDao.getInstance();
-    private ManagerDao managerDao;//= ManagerDao.getInstance();
-    private OwnerDao ownerDao;//= OwnerDao.getInstance();
-    private PlayerDao playerDao;//= PlayerDao.getInstance();
-    private SeasonDao seasonDao;//= SeasonDao.getInstance();
-    private SecondaryRefereeDao seconaryRefereeDao;//= SecondaryRefereeDao.getInstance();
-    private SystemManagerDao systemManagerDao;//= SystemManagerDao.getInstance();
-    private TeamDao teamDao;//= TeamDao.getInstance();
-
-
+// private AssociationDelegateDao associationDelegateDao;// = AssociationDelegateDao.getInstance();
+    //private CoachDao coachDao;// = CoachDao.getInstance();
+    //private FanDao fanDao;// = FanDao.getInstance() ;
    // private static final DBController instance = new DBController();
 
     //public static DBController getInstance(){

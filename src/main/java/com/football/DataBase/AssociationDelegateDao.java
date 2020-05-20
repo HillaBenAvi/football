@@ -11,11 +11,12 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
-@Service
+
+@Repository
 public class AssociationDelegateDao implements DAOTEMP<AssociationDelegate> {
 
     @Autowired
-    DBConnector dbc;
+    public DBConnector dbc=new DBConnector();
 
     public AssociationDelegateDao() {
         // dbc

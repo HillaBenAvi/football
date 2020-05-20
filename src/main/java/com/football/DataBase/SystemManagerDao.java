@@ -2,6 +2,7 @@ package com.football.DataBase;
 
 import com.football.Domain.League.League;
 import com.football.Domain.Users.SystemManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -10,25 +11,29 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
+@Repository
 
 public class SystemManagerDao implements DAOTEMP<SystemManager> {
-    private static final SystemManagerDao instance = new SystemManagerDao();
+    @Autowired
+    public DBConnector dbc=new DBConnector();;
+
+   // private static final SystemManagerDao instance = new SystemManagerDao();
 
     //private constructor to avoid client applications to use constructor
-    public static SystemManagerDao getInstance(){
-        return instance;
-    }
-    DBConnector dbc;//= DBConnector.getInstance();
-    Connection connection;
+  //  public static SystemManagerDao getInstance(){
+   //     return instance;
+  //  }
+  //  DBConnector dbc;//= DBConnector.getInstance();
+    Connection connection=dbc.getConnection();
 
     @Override
     public String getTableName() {
         return " systemManager ";
     }
 
-    private SystemManagerDao() {
+    public SystemManagerDao() {
 
-        connection=dbc.getConnection();
+      //  connection=dbc.getConnection();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.football.DataBase;
 
 import com.football.Domain.Users.Fan;
 import com.football.Domain.Users.MainReferee;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -10,26 +11,30 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
+
+@Repository
 public class MainRefereeDao implements DAOTEMP<MainReferee>{
 
+    @Autowired
+    public DBConnector dbc=new DBConnector();;
 
-    private static final MainRefereeDao instance = new MainRefereeDao();
+  //  private static final MainRefereeDao instance = new MainRefereeDao();
 
     //private constructor to avoid client applications to use constructor
-    public static MainRefereeDao getInstance(){
-        return instance;
-    }
-    DBConnector dbc;//= DBConnector.getInstance();
-    Connection connection;
+  //  public static MainRefereeDao getInstance(){
+     //   return instance;
+  //  }
+  //  DBConnector dbc;//= DBConnector.getInstance();
+    Connection connection=dbc.getConnection();
 
     @Override
     public String getTableName() {
         return " mainReferee ";
     }
 
-    private MainRefereeDao() {
+    public MainRefereeDao() {
 
-       connection=dbc.getConnection();
+      // connection=dbc.getConnection();
     }
 
     @Override

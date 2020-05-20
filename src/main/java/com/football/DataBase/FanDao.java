@@ -2,6 +2,7 @@ package com.football.DataBase;
 
 import com.football.Domain.Users.Fan;
 import com.football.Domain.Users.SystemManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -10,27 +11,29 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
+@Repository
 public class FanDao implements DAOTEMP<Fan> {
+    @Autowired
+    public DBConnector dbc=new DBConnector();;
 
 
-
-    private static final FanDao instance = new FanDao();
+   // private static final FanDao instance = new FanDao();
 
     //private constructor to avoid client applications to use constructor
-    public static FanDao getInstance(){
-        return instance;
-    }
-    DBConnector dbc;//= DBConnector.getInstance();
-    Connection connection;
+  //  public static FanDao getInstance(){
+     //   return instance;
+  //  }
+  //  DBConnector dbc;//= DBConnector.getInstance();
+    Connection connection=dbc.getConnection();
 
     @Override
     public String getTableName() {
         return " fan ";
     }
 
-    private FanDao() {
+    public FanDao() {
 
-        connection=dbc.getConnection();
+       // connection=dbc.getConnection();
     }
 
 
@@ -95,7 +98,7 @@ public class FanDao implements DAOTEMP<Fan> {
     @Override
     public void save(Fan fan){
         try {
-            Connection connection = dbc.getConnection();
+          //  Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO"+getTableName()+

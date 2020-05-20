@@ -2,26 +2,34 @@ package com.football.DataBase;
 
 import com.football.Domain.Game.Game;
 import com.football.Domain.Game.Team;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
+
+@Repository
 public class GameDao implements DAOTEMP<Game> {
-    private static final GameDao instance = new GameDao();
-    DBConnector dbc;// = DBConnector.getInstance();
+
+    @Autowired
+    public DBConnector dbc=new DBConnector();;
+
+ //   private static final GameDao instance = new GameDao();
+   // DBConnector dbc;// = DBConnector.getInstance();
 
     //private constructor to avoid client applications to use constructor
-    public static GameDao getInstance(){
-        return instance;
-    }
+   // public static GameDao getInstance(){
+   //     return instance;
+  //  }
+    Connection connection=dbc.getConnection();
 
     @Override
     public String getTableName() {
         return "`Games`";
     }
 
-    private GameDao() {
+    public GameDao() {
 
     }
 
