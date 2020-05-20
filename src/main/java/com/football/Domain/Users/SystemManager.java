@@ -18,6 +18,6 @@ public class SystemManager extends Member{
 
     @Override
     public String getType() {
-        return "SystemManager";
+        return "0SystemManager";
     }
 }

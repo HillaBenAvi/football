@@ -15,7 +15,7 @@ public class MainReferee extends Referee {
 
     @Override
     public String getType() {
-        return "MainReferee";
+        return "0MainReferee";
     }
 
 }

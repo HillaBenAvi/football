@@ -17,6 +17,7 @@ public class AssociationDeligateDao implements DAOTEMP<AssociationDelegate> {
 
     //private constructor to avoid client applications to use constructor
     public static AssociationDeligateDao getInstance(){
+
         return instance;
     }
     DBConnector dbc= DBConnector.getInstance(); ;

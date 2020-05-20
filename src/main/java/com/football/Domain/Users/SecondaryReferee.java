@@ -19,6 +19,6 @@ public class SecondaryReferee extends Referee{
 
     @Override
     public String getType() {
-        return ("Secondary Referee");
+        return ("0Secondary Referee");
     }
 }
