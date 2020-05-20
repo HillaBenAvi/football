@@ -11,7 +11,6 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
-@Repository
 public class SystemManagerDao implements DAOTEMP<SystemManager> {
     private static final SystemManagerDao instance = new SystemManagerDao();
 

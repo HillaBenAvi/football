@@ -12,7 +12,6 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
-
 public class SecondaryRefereeDao implements DAOTEMP<SecondaryReferee>{
 
     private static final SecondaryRefereeDao instance = new SecondaryRefereeDao();

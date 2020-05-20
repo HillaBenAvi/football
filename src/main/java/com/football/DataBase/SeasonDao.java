@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-
 public class SeasonDao  implements DAOTEMP<Season> {
 
     private static final SeasonDao instance = new SeasonDao();

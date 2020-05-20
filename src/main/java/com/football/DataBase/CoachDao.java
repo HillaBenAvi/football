@@ -11,7 +11,6 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
-
 public class CoachDao implements DAOTEMP<Coach> {
 
 

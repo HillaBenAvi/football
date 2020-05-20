@@ -1,13 +1,14 @@
 package com.football.DataBase;
 
 import com.football.Domain.Game.Team;
+import org.springframework.stereotype.Repository;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
-
 public class TeamDao implements DAOTEMP<Team> {
 
 
