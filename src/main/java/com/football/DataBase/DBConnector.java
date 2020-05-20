@@ -9,32 +9,47 @@ public class DBConnector {
     public static final String USER = "root";
     public static final String PASS = "noa112233123";
 
-    private static final DBConnector instance = new DBConnector();
 
-    //private constructor to avoid client applications to use constructor
-    public static DBConnector getInstance(){
-        return instance;
-    }
 
-    private DBConnector() {
-
-    }
-    /**
-     * Get a connection to database
-     *
-     * @return Connection object
-     */
-    public static Connection getConnection() {
-        try {
-            //  DriverManager.registerDriver(new Driver());
-            // return  DriverManager.getConnection(URL, USER, PASS);
-            Connection conn =
-                    DriverManager.getConnection(URL,USER,PASS);
-            return conn;
-        } catch (SQLException ex) {
-            throw new RuntimeException("Error connecting to the database", ex);
+        private static final DBConnector instance = new DBConnector();
+        public static Connection conn;//=makeConnection();
+        //private constructor to avoid client applications to use constructor
+        public static DBConnector getInstance(){
+            return instance;
         }
-    }
+
+        private DBConnector() {
+            conn=makeConnection();
+        }
+        /**
+         * Get a connection to database
+         *
+         * @return Connection object
+         */
+
+        public static Connection getConnection() {
+            return conn;
+        }
+
+
+        public static Connection makeConnection() {
+            System.out.println("i enter to make connection");
+            try {
+                conn = DriverManager.getConnection(URL,USER,PASS);
+//                DriverManager.getConnection("jdbc:mysql://132.72.65.124:3306/football?" +"user=root&password=root&useLegacyDatetimeCode=false&serverTimezone=UTC");
+                return conn;
+            } catch (SQLException ex) {
+                throw new RuntimeException("Error connecting to the database", ex);
+            }
+        }
+
+        private void disconnect(){
+            try {
+                this.conn.close();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
 
 //
