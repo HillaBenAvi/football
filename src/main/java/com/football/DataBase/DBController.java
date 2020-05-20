@@ -21,21 +21,23 @@ import java.sql.SQLException;
 import java.util.*;
 @Repository
 public class DBController {
-    private AssociationDeligateDao associationDeligateDao;
-    private CoachDao coachDao;
-    private FanDao fanDao ;
-    private FieldDao fieldDao ;
-    private GameDao gameDao;
-    private LeagueDao leagueDao;
-    private LeagueInSeasonDao leagueInSesonDao;
-    private MainRefereeDao mainRefereeDao;
-    private ManagerDao managerDao;
-    private OwnerDao ownerDao;
-    private PlayerDao playerDao;
-    private SeasonDao seasonDao;
-    private SecondaryRefereeDao seconaryRefereeDao;
-    private SystemManagerDao systemManagerDao;
-    private TeamDao teamDao;
+   // private DAOTEMP associationDeligateDao = AssociationDeligateDao.getInstance();
+
+    private AssociationDeligateDao associationDeligateDao = AssociationDeligateDao.getInstance();
+    private CoachDao coachDao = CoachDao.getInstance();
+    private FanDao fanDao = FanDao.getInstance() ;
+    private FieldDao fieldDao = FieldDao.getInstance() ;
+    private GameDao gameDao = GameDao.getInstance();
+    private LeagueDao leagueDao = LeagueDao.getInstance();
+    private LeagueInSeasonDao leagueInSesonDao = LeagueInSeasonDao.getInstance();
+    private MainRefereeDao mainRefereeDao= MainRefereeDao.getInstance();
+    private ManagerDao managerDao= ManagerDao.getInstance();
+    private OwnerDao ownerDao= OwnerDao.getInstance();
+    private PlayerDao playerDao= PlayerDao.getInstance();
+    private SeasonDao seasonDao= SeasonDao.getInstance();
+    private SecondaryRefereeDao seconaryRefereeDao= SecondaryRefereeDao.getInstance();
+    private SystemManagerDao systemManagerDao= SystemManagerDao.getInstance();
+    private TeamDao teamDao= TeamDao.getInstance();
 
 
     private static final DBController instance = new DBController();
