@@ -1,8 +1,8 @@
 package com.football.Domain.Users;
 
-import com.football.DataBase.DBController;
 import com.football.DataBase.DBmemory;
 import com.football.Exception.*;
+import com.football.Service.ErrorLogService;
 import com.football.Service.SecurityMachine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,13 +19,18 @@ public class GuestService {
     private SecurityMachine securityMachine;
 
     @Autowired
+    ErrorLogService errorLogService;
+
+    @Autowired
     private DBmemory dbController;
 
     public Member signIn(String userMail, String userName, String password , Date birthDate) throws AlreadyExistException, IncorrectPasswordInputException, IncorrectInputException, DontHavePermissionException {
         if (! checkMailInput(userMail)) {
+            errorLogService.addErrorLog(" IncorrectInputException");
             throw new IncorrectInputException("incorrect mail input");
         }
         if (! checkPasswordValue(password)) {
+            errorLogService.addErrorLog(" IncorrectPasswordInputException");
             throw new IncorrectPasswordInputException();
         }
         String encryptPassword = securityMachine.encrypt(password);
