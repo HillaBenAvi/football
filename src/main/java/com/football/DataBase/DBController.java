@@ -4,6 +4,7 @@ import com.football.Domain.Asset.Coach;
 import com.football.Domain.Asset.Field;
 import com.football.Domain.Asset.Manager;
 import com.football.Domain.Asset.Player;
+import com.football.Domain.Game.EventLog;
 import com.football.Domain.League.*;
 import com.football.Domain.Users.*;
 import com.football.Exception.AlreadyExistException;
@@ -12,6 +13,7 @@ import com.football.Exception.MemberNotExist;
 import com.football.Exception.ObjectNotExist;
 import com.football.Domain.Game.Game;
 import com.football.Domain.Game.Team;
+import com.football.Service.ErrorLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -213,7 +215,7 @@ public class DBController {
         } else if (mainRefereeDao.exist(id)) {
             mainRefereeDao.get(id);
         } else if (fanDao.exist(id)) {
-            fanDao.get(id);
+            return new Fan(fanDao.get(id).split(":"));
         } else if (ownerDao.exist(id)) {
             ownerDao.get(id);
            // return new Owner(ownerDao.get(id).split(":"),this);
@@ -474,11 +476,11 @@ public class DBController {
 //    }
 
     /***************************************add function******************************************/
-    public void addErrorLog(int id,String topic,String timeStamp, String errorInfo){
+    public void addErrorLog(ErrorLog errorLog){
         //todo
     }
-    public void addEventLog(int id,String timeStamp, String userId, String actionName){
-
+    public void addEventLog(EventLog eventLog){
+        //todo
     }
     public void addAssociationDelegate(Role role, AssociationDelegate associationDelegate) throws
             DontHavePermissionException, AlreadyExistException {

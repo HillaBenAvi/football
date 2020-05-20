@@ -10,8 +10,10 @@ public class SystemManager extends Member{
 
 
     public SystemManager(String[] systemManagerDetails) {
-        super(systemManagerDetails[1],systemManagerDetails[0],systemManagerDetails[2],
-                new Date(Integer.parseInt(systemManagerDetails[3]),Integer.parseInt(systemManagerDetails[4]),Integer.parseInt(systemManagerDetails[5]))
+        super(systemManagerDetails[2],systemManagerDetails[0],systemManagerDetails[1],
+                new Date(Integer.parseInt(systemManagerDetails[3].split("-")[0]),
+                        Integer.parseInt(systemManagerDetails[3].split("-")[1]),
+                        Integer.parseInt(systemManagerDetails[3].split("-")[2]))
         );
     }
 

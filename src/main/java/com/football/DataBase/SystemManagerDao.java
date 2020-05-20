@@ -41,7 +41,7 @@ public class SystemManagerDao implements DAOTEMP<SystemManager> {
         String toReturn="";
         try {
             // Connection connection = dbc.getConnection();
-            String sqlQuery = "SELECT * From "+getTableName()+" WHERE userName="+id+";";
+            String sqlQuery = "SELECT * From "+getTableName()+" WHERE userName="+"\'"+id+"\';";
             System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB

@@ -14,6 +14,14 @@ public class Fan extends Member implements Observer {
         updates = new ArrayList<>();
     }
 
+    public Fan(String[] fanDetails) {
+        super(fanDetails[2],fanDetails[0],fanDetails[1],
+                new Date(Integer.parseInt(fanDetails[3].split("-")[0]),
+                        Integer.parseInt(fanDetails[3].split("-")[1]),
+                        Integer.parseInt(fanDetails[3].split("-")[2]))
+        );
+    }
+
     public ArrayList<String> getUpdates(){
         return updates;
     }
