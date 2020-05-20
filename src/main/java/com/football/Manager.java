@@ -154,7 +154,7 @@ public class Manager {
         }
     }
 
-    public void changeScorePolicy(String id, String league, String season, String sWinning, String sDraw, String sLosing) throws MemberNotExist, IncorrectInputException, ObjectNotExist {
+    public void changeScorePolicy(String id, String league, String season, String sWinning, String sDraw, String sLosing) throws MemberNotExist, IncorrectInputException, ObjectNotExist, AlreadyExistException, DontHavePermissionException {
         if(dbController.existMember(id)) {
             Role member = dbController.getMember(id);
             if (member instanceof AssociationDelegate) {
@@ -163,7 +163,7 @@ public class Manager {
         }
     }
 
-    public void insertSchedulingPolicy(String id, String league, String season, String sPolicy) throws MemberNotExist, DontHavePermissionException, ObjectNotExist {
+    public void insertSchedulingPolicy(String id, String league, String season, String sPolicy) throws MemberNotExist, DontHavePermissionException, ObjectNotExist, AlreadyExistException {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof AssociationDelegate){

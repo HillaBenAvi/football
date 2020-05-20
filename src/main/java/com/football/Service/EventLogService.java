@@ -18,12 +18,11 @@ public class EventLogService {
     @Autowired
     private DBController dbController;
 
-    public void addEventLog(String userId, String actionName) throws AlreadyExistException, DontHavePermissionException {
+    public void addEventLog(String userId, String actionName){
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         String strDate = dateFormat.format(date);
         EventLog event = new EventLog(id, strDate, userId, actionName);
-
         //dbController.addEventLog(event);
         id++;
     }

@@ -7,6 +7,8 @@ import com.football.Domain.Game.Event;
 import com.football.Domain.Game.EventInGame;
 import com.football.Domain.Game.Game;
 import com.football.Exception.*;
+import com.football.Service.ErrorLogService;
+import com.football.Service.EventLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,13 @@ public class MainRefereeService {
 
     @Autowired
     private DBmemory dbController;
+
+    @Autowired
+    private ErrorLogService errorLogService;
+
+    @Autowired
+    private EventLogService eventLogService;
+
 
     /**
      * in this function a main referee can update an event in a game
@@ -96,6 +105,7 @@ public class MainRefereeService {
                 referee.training = newTraining;
             }
             dbController.addReferee(referee, referee);
+            eventLogService.addEventLog(id, "update details of main referee");
         }
     }
 

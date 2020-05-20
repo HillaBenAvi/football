@@ -29,6 +29,7 @@ public class ServiceController {
                         @RequestParam(value = "password") String password)
             throws PasswordDontMatchException, MemberNotExist, DontHavePermissionException {
         return manager.stringLogIn(id, password);
+
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
