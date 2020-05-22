@@ -26,7 +26,7 @@ public class GameDao implements DAOTEMP<Game> {
 
     @Override
     public String getTableName() {
-        return "`Games`";
+        return " Games ";
     }
 
     public GameDao() {
@@ -40,24 +40,28 @@ public class GameDao implements DAOTEMP<Game> {
         try {
             //it was before   Connection connection = DBconector.getConnection();
             Connection connection = dbc.getConnection();
-            String sqlQuery = "SELECT * From "+getTableName()+" WHERE idGame="+id+";";
-            System.out.println(sqlQuery);
+            String sqlQuery = "SELECT * From "+getTableName()+" WHERE idGame=\'"+id+"\';";
+            //System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs=ps.executeQuery();
 
-            String idGame=rs.getString("`idGame`");
-            String dateTime=rs.getString("`dateTime`");
-            String hostTeam=rs.getString("`hostTeam`");
-            String visitorTeam=rs.getString("`visitorTeam`");
-            String field=rs.getString("`field`");
-            String result=rs.getString("`result`");
-            String eventList=rs.getString("`eventList`");
-            String league=rs.getString("`league`");
-            String season=rs.getString("`season`");
-            String refereeList=rs.getString("`refereeList`");
+            if(rs.next()) {
+                String idGame=rs.getString("idGame");
+                String dateTime=rs.getString("dateTime");
+                String hostTeam=rs.getString("hostTeam");
+                String visitorTeam=rs.getString("visitorTeam");
+                String field=rs.getString("field");
+                String result=rs.getString("result");
+                String eventList=rs.getString("eventList");
+                String league=rs.getString("league");
+                String season=rs.getString("season");
+                String refereeList=rs.getString("refereeList");
 
-            toReturn=idGame+":"+dateTime+":"+hostTeam+":"+visitorTeam+":"+field+":"+result+":"+eventList+":"+league+":"+season+":"+refereeList;
+                toReturn=idGame+":"+dateTime+":"+hostTeam+":"+visitorTeam+":"+field+":"+result+":"+eventList+":"+league+":"+season+":"+refereeList;
+
+            }
+
             rs.close();
 
         } catch (java.sql.SQLException e) {
@@ -75,21 +79,21 @@ public class GameDao implements DAOTEMP<Game> {
         try {
             Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From "+getTableName()+";";
-            System.out.println(sqlQuery);
+            //System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
-                String idGame=rs.getString("`idGame`");
-                String dateTime=rs.getString("`dateTime`");
-                String hostTeam=rs.getString("`hostTeam`");
-                String visitorTeam=rs.getString("`visitorTeam`");
-                String field=rs.getString("`field`");
-                String result=rs.getString("`result`");
-                String eventList=rs.getString("`eventList`");
-                String league=rs.getString("`league`");
-                String season=rs.getString("`season`");
-                String refereeList=rs.getString("`refereeList`");
+                String idGame=rs.getString("idGame");
+                String dateTime=rs.getString("dateTime");
+                String hostTeam=rs.getString("hostTeam");
+                String visitorTeam=rs.getString("visitorTeam");
+                String field=rs.getString("field");
+                String result=rs.getString("result");
+                String eventList=rs.getString("eventList");
+                String league=rs.getString("league");
+                String season=rs.getString("season");
+                String refereeList=rs.getString("refereeList");
 
                 String toReturn=idGame+":"+dateTime+":"+hostTeam+":"+visitorTeam+":"+field+":"+result+":"+eventList+":"+league+":"+season+":"+refereeList;
                 allTheTable.add(toReturn);

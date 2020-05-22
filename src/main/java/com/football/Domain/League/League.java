@@ -14,11 +14,15 @@ public class League {
     }
 
     public LeagueInSeason getLeagueInSeason(Season season) throws ObjectNotExist {
-
         if(leagueInSeasons.containsKey(season))
              return leagueInSeasons.get(season);
-        else
-           return null;
+        else{
+            for(Season s: leagueInSeasons.keySet()){
+                if(s.getYear().equals(season.getYear()))
+                    return leagueInSeasons.get(s);
+            }
+        }
+        return null;
     }
 
     public String getName() {

@@ -13,54 +13,53 @@ public class DBConnector {
     public DBConnector() {
         //  conn=makeConnection();
 
-            conn=makeConnection();
+        conn=makeConnection();
 
     }
 
 
-   // public static final String URL = "jdbc:mysql://localhost:3306/football";
-   // public static final String USER = "root";
-   // public static final String PASS = "noa112233123";
+    public static final String URL = "jdbc:mysql://localhost:3306/football";
+    public static final String USER = "root";
+    public static final String PASS = "noa112233123";
 
 
 
 //        private static final DBConnector instance = new DBConnector();
-       // public Connection conn=makeConnection();
-        //private constructor to avoid client applications to use constructor
-        //public static DBConnector getInstance(){
+    // public Connection conn=makeConnection();
+    //private constructor to avoid client applications to use constructor
+    //public static DBConnector getInstance(){
 //            return instance;
 //        }
-        /**
-         * Get a connection to database
-         *
-         * @return Connection object
-         */
+    /**
+     * Get a connection to database
+     *
+     * @return Connection object
+     */
 
-        public Connection getConnection() {
+    public Connection getConnection() {
+        return conn;
+    }
+
+
+    public Connection makeConnection() {
+        System.out.println("i enter to make connection");
+        try {
+            conn = DriverManager.getConnection(URL,USER,PASS);//DriverManager.getConnection("jdbc:mysql://132.72.65.124:3306/football?" +"user=root&password=root&useLegacyDatetimeCode=false&serverTimezone=UTC");
+            System.out.println("make connection");
+
             return conn;
+        } catch (SQLException ex) {
+            throw new RuntimeException("Error connecting to the database", ex);
         }
+    }
 
-
-        public Connection makeConnection() {
-            System.out.println("i enter to make connection");
-            try {
-                conn = DriverManager.getConnection("jdbc:mysql://132.72.65.124:3306/football?" +"user=root&password=root&useLegacyDatetimeCode=false&serverTimezone=UTC");
-                System.out.println("make connection");
-
-                return conn;
-            } catch (SQLException ex) {
-                throw new RuntimeException("Error connecting to the database", ex);
-            }
+    private void disconnect(){
+        try {
+            this.conn.close();
+        }catch (Exception e) {
+            e.printStackTrace();
         }
-
-        private void disconnect(){
-            try {
-                this.conn.close();
-                System.out.println("DISCONNECT");
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    }
 
 
 //

@@ -41,7 +41,7 @@ public class MainRefereeService {
      * @param players
      */
 
-    public void updateGameEvent(String id, Game game, int timeInGame, EventInGame event, Date time, String description, ArrayList<Player> players) throws MemberNotExist, DontHavePermissionException {
+    public void updateGameEvent(String id, Game game, int timeInGame, EventInGame event, Date time, String description, ArrayList<String> players) throws MemberNotExist, DontHavePermissionException {
         //todo: get the game id instead of the object-after client
         if(dbController.existReferee(id)) {
             Referee referee = dbController.getReferee(id);

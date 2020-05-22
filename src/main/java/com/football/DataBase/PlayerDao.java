@@ -52,10 +52,11 @@ public class PlayerDao implements DAOTEMP<Player> {
                 String EncryptPassword = rs.getString("EncryptPassword");
                 String name = rs.getString("name");
                 String birthDate = rs.getString("birthDate");
+                String role = rs.getString("role");
                 String teams = rs.getString("teams");
                 String events = rs.getString("events");
 
-                toReturn = userName + ":" + EncryptPassword + ":" + name + ":" + birthDate + ":" + teams + ":" + events;
+                toReturn = userName + ":" + EncryptPassword + ":" + name + ":" + birthDate + ":" + role + ":" + teams + ":" + events;
             }
             rs.close();
         } catch (java.sql.SQLException e) {
@@ -79,10 +80,11 @@ public class PlayerDao implements DAOTEMP<Player> {
                 String EncryptPassword = rs.getString("EncryptPassword");
                 String name = rs.getString("name");
                 String birthDate = rs.getString("birthDate");
+                String role = rs.getString("role");
                 String teams=rs.getString("teams");
                 String events=rs.getString("events");
 
-                String toReturn=userName+":"+EncryptPassword+":"+name+":"+birthDate+":"+teams+":"+events;
+                String toReturn=userName+":"+EncryptPassword+":"+name+":"+birthDate+":"+role+":"+teams+":"+events;
                 allTheTable.add(toReturn);
             }
             rs.close();

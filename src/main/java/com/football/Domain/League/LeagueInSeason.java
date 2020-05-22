@@ -49,6 +49,7 @@ public class LeagueInSeason {
     {
         return teams;
     }
+
     public Season getSeason(){
         return season;
     }

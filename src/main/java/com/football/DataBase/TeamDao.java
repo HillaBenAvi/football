@@ -41,7 +41,7 @@ public class TeamDao implements DAOTEMP<Team> {
         String toReturn="";
         try {
             String sqlQuery = "SELECT * From "+getTableName()+" WHERE name="+"\'"+id+"\'"+";";
-            System.out.println(sqlQuery);
+         //   System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs = ps.executeQuery();
@@ -73,7 +73,7 @@ public class TeamDao implements DAOTEMP<Team> {
         LinkedList<String> allTheTable = new LinkedList<>();
         try {
             String sqlQuery = "SELECT * From " + getTableName()+ ";";
-            System.out.println(sqlQuery);
+           // System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs = ps.executeQuery();
@@ -144,8 +144,8 @@ public class TeamDao implements DAOTEMP<Team> {
             Statement stmt = connection.createStatement();
 
             String sqlQuery = "SELECT * FROM "+getTableName()+
-                    "WHERE userName ="+"\'"+id+"\'";
-            System.out.println(sqlQuery);
+                    "WHERE name ="+"\'"+id+"\'";
+          //  System.out.println(sqlQuery);
             ResultSet rs = stmt.executeQuery(sqlQuery);
             return rs.next();
 

@@ -42,7 +42,7 @@ public class SystemManagerDao implements DAOTEMP<SystemManager> {
         try {
             // Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From "+getTableName()+" WHERE userName="+"\'"+id+"\';";
-            System.out.println(sqlQuery);
+           // System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs = ps.executeQuery();
@@ -67,7 +67,7 @@ public class SystemManagerDao implements DAOTEMP<SystemManager> {
         try {
             //Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From " + getTableName()+ ";";
-            System.out.println(sqlQuery);
+            //System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs = ps.executeQuery();
@@ -135,7 +135,7 @@ public class SystemManagerDao implements DAOTEMP<SystemManager> {
 
             String sqlQuery = "SELECT * FROM "+getTableName()+
                     "WHERE userName ="+"\'"+leagueName+"\'";
-            System.out.println(sqlQuery);
+           //System.out.println(sqlQuery);
             ResultSet rs = stmt.executeQuery(sqlQuery);
             return rs.next();
 

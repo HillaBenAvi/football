@@ -120,8 +120,6 @@ public class OwnerService {
                 dbController.deleteRole(currOwner, mailId);
                 dbController.addManager(currOwner, manager);
                 team.addManager(manager);
-//            HashMap<String, Team> teams = dbController.getTeams();
-//            teams.replace(teamName, team);
                 dbController.updateTeam(currOwner, team);
             }
 

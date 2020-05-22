@@ -34,6 +34,13 @@ public class Game extends Observable {
         referees.add(mainReferee);
         referees.add(secondaryReferee);
     }
+    public Game(String gameDetails){
+        String[] splitGameDetails = gameDetails.split(":");
+        this.id = splitGameDetails[0];
+        //this.dateAndTime = splitGameDetails[1];
+        //todo
+
+    }
     public String getId(){
         return id;
     }
@@ -95,7 +102,9 @@ public class Game extends Observable {
     public void setResult(String result) {
         this.result = result;
     }
-
+    public void setLeagueInSeason(LeagueInSeason leagueInSeason){
+        this.leagueInSeason = leagueInSeason;
+    }
     public void addEvents(String events) {
         String[] eventsToAdd = events.split(",");
         this.eventLog = new EventLog(this);
@@ -110,14 +119,14 @@ public class Game extends Observable {
     public String toString(){
         String details =
                 "\'" + id + "\'," +
-                        "\'" + dateAndTime.toString()+ "\'," +
-                        "\'" +hostTeam.getName() + "\'," +
+                        "\'" +  dateAndTime.toString()+ "\'," +
+                        "\'" + hostTeam.getName() + "\'," +
                         "\'" + visitorTeam.getName() + "\'," +
-                        "\'" +field.getName() + "\'," +
+                        "\'" + field.getName() + "\'," +
                         "\'" + result + "\'," +
-                        "\'" +eventLog.toString() + "\'," +
-                        "\'" +leagueInSeason.getLeague().getName() + "\'," +
-                        "\'" +leagueInSeason.getSeason().getYear() + "\'," ;
+                        "\'" + eventLog.toString() + "\'," +
+                        "\'" + leagueInSeason.getLeague().getName() + "\'," +
+                        "\'" + leagueInSeason.getSeason().getYear() + "\'," ;
         details += "\'";
         for ( Referee referee : referees){
             details = details + referee.getUserMail() +";";

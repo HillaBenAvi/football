@@ -19,6 +19,15 @@ public class TeamMember extends Member {
         super(name, userMail,  birthDate);
         team=new HashMap<>();
     }
+    public TeamMember(String[] details,HashMap<String,Team> teams) {
+        super(details);
+        if(teams!= null)
+            team=new HashMap<>(teams);
+    }
+
+    public TeamMember(String[] details) {
+        super(details);
+    }
 
     @Override
     public String getType() {

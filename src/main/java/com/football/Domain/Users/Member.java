@@ -17,7 +17,13 @@ public abstract class Member extends Role {
         super(name, birthDate);
         this.userMail = userMail;
     }
-
+    public Member(String[] details) {
+        super(details[2],new Date(Integer.parseInt(details[3].split("-")[0]),
+                                Integer.parseInt(details[3].split("-")[1]),
+                                Integer.parseInt(details[3].split("-")[2])));
+        this.userMail = details[0];
+        this.password = details[1];
+    }
 
 
     public String getUserMail()

@@ -20,6 +20,15 @@ public class Owner extends Member {
         this.teams = teams;
     }
 
+    public Owner(String[] ownerdetails,HashMap<String,Team> teams){
+        super(ownerdetails);
+        this.teams = new HashMap<>(teams);
+    }
+
+    public Owner(String[] ownerdetails) {
+        super(ownerdetails);
+    }
+
     public HashMap<String, Team> getTeams() {
         return teams;
     }
@@ -51,5 +60,14 @@ public class Owner extends Member {
             str=str.substring(0,str.length()-1);
         }
         return str;
+    }
+
+    public void addTeam(Team team) {
+        if (this.teams == null) {
+            this.teams = new HashMap<>();
+        }
+        if (!this.teams.containsKey(team.getName())) {
+            this.teams.put(team.getName(), team);
+        }
     }
 }
