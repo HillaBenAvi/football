@@ -21,6 +21,7 @@ public class Notification {
     }
 
 
-
-
+    public String getId() {
+        return gameId+":"+notificationID;
+    }
 }

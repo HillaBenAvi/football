@@ -5,7 +5,7 @@ import com.football.Domain.Asset.Field;
 import com.football.Domain.Asset.Manager;
 import com.football.Domain.Asset.Player;
 import com.football.Domain.Game.Account;
-import com.football.Domain.Game.EventLog;
+import com.football.Service.EventLog;
 import com.football.Domain.League.*;
 import com.football.Domain.Users.*;
 import com.football.Exception.AlreadyExistException;
@@ -15,6 +15,7 @@ import com.football.Exception.ObjectNotExist;
 import com.football.Domain.Game.Game;
 import com.football.Domain.Game.Team;
 import com.football.Service.ErrorLog;
+import com.football.Service.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -55,6 +56,13 @@ public class DBController {
     public SystemManagerDao systemManagerDao=new SystemManagerDao();//= SystemManagerDao.getInstance();
     @Autowired
     public TeamDao teamDao=new TeamDao();;//= TeamDao.getInstance();
+    @Autowired
+    public ErrorLogDao errorLogDao=new ErrorLogDao();;//= TeamDao.getInstance()
+    @Autowired
+    public EventLogDao eventLogDao=new EventLogDao();;//= TeamDao.getInstance();
+    @Autowired
+    public NotificationDao notificationDao=new NotificationDao();;//= TeamDao.getInstance();
+
 
     public DBController() { }
 
@@ -256,13 +264,30 @@ public class DBController {
         //todo
     }
 
-    public void addErrorLog(ErrorLog errorLog){
-        //todo
+    public void addErrorLog(ErrorLog errorLog) throws AlreadyExistException, DontHavePermissionException {
+            if (errorLogDao.exist(errorLog.getId())) {
+                throw new AlreadyExistException();
+            }
+        errorLogDao.save(errorLog);
+
     }
 
-    public void addEventLog(EventLog eventLog){
-        //todo
+    public void addEventLog(EventLog eventLog) throws AlreadyExistException {
+        if (eventLogDao.exist(eventLog.getId())) {
+            throw new AlreadyExistException();
+        }
+        eventLogDao.save(eventLog);
+
     }
+    public void addNotification(Notification notification) throws AlreadyExistException {
+        if (notificationDao.exist(notification.getId())) {
+            throw new AlreadyExistException();
+        }
+        notificationDao.save(notification);
+
+    }
+
+
 
     /*************************************** Getters ******************************************/
 
@@ -986,6 +1011,21 @@ public class DBController {
     public boolean existLeagueInSeason(String name) {
         return leagueInSesonDao.exist(name);
     }
+
+    public boolean existNotification(String id) {
+        return notificationDao.exist(id);
+
+    }
+
+    public boolean existEventLog(String id) {
+        return eventLogDao.exist(id);
+    }
+
+    public boolean existErrorLog(String id) {
+        return errorLogDao.exist(id);
+
+    }
+
 
     /******************************************** update function ***********************************/
     public void updateOwner(Role role,Owner owner) throws DontHavePermissionException, ObjectNotExist {

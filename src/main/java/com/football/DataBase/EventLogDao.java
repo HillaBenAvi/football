@@ -1,6 +1,6 @@
 package com.football.DataBase;
 
-import com.football.Domain.Game.EventLog;
+import com.football.Service.EventLog;
 import com.football.Domain.Users.AssociationDelegate;
 import com.football.Exception.ObjectNotExist;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -10,6 +10,9 @@ import com.football.Domain.League.LeagueInSeason;
 import com.football.Domain.League.Season;
 import com.football.Domain.Users.*;
 import com.football.Exception.*;
+import com.football.Service.ErrorLog;
+import com.football.Service.EventLog;
+import com.football.Service.Notification;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,9 +32,6 @@ public class DataBaseTest {
     public void init(){
         systemManager = new SystemManager("shacahr", "meretz@gmail.com", "123456", new Date(1, 1, 1995));
     }
-
-    //field
-    //game
 
     @Test
     public void fanDB(){
@@ -403,6 +403,54 @@ public class DataBaseTest {
             objectNotExist.printStackTrace();
         } catch (MemberNotExist memberNotExist) {
             memberNotExist.printStackTrace();
+        }
+    }
+
+
+
+    @Test
+    public void errorLogDB(){
+        try {
+            ErrorLog errorLog = new ErrorLog(1, "topic", "21:30");
+            dbc.addErrorLog(errorLog);
+            assertTrue(dbc.existErrorLog(errorLog.getId()));
+            assertEquals(dbc.getFan(errorLog.getId()).toString() , errorLog.toString());
+
+        } catch (MemberNotExist memberNotExist) {
+            memberNotExist.printStackTrace();
+        } catch (DontHavePermissionException e) {
+            e.printStackTrace();
+        } catch (AlreadyExistException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void eventLogDB(){
+        try {
+            EventLog eventLog = new EventLog(1, "topic", "21:30" , "name");
+            dbc.addEventLog(eventLog);
+            assertTrue(dbc.existEventLog(eventLog.getId()));
+            assertEquals(dbc.getFan(eventLog.getId()).toString() , eventLog.toString());
+
+        } catch (MemberNotExist memberNotExist) {
+            memberNotExist.printStackTrace();
+        } catch (AlreadyExistException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void notificationDB(){
+        try {
+            Notification notification = new Notification("id", "notId", "bla:bla" );
+            dbc.addNotification(notification);
+            assertTrue(dbc.existNotification(notification.getId()));
+            assertEquals(dbc.getFan(notification.getId()).toString() , notification.toString());
+
+        } catch (MemberNotExist memberNotExist) {
+            memberNotExist.printStackTrace();
+        } catch (AlreadyExistException e) {
+            e.printStackTrace();
         }
     }
 }

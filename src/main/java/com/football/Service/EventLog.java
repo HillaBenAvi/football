@@ -21,4 +21,8 @@ public class EventLog {
         str="\'"+this.id+"\',\'"+this.timeStamp+"\',\'"+this.userId+"\',\'"+this.actionName;
         return str;
     }
+
+    public String getId() {
+        return String.valueOf(id);
+    }
 }

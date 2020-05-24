@@ -18,4 +18,8 @@ public class ErrorLog {
         str="\'"+this.id+"\',\'"+this.topic+"\',\'"+this.timeStamp;
         return str;
     }
+
+    public String getId() {
+        return String.valueOf(id);
+    }
 }
