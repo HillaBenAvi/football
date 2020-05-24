@@ -3,8 +3,13 @@ package com.football;
 import com.football.Domain.Users.Fan;
 import com.football.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -17,8 +22,8 @@ public class ServiceController {
 
     @RequestMapping(value="/register",method = RequestMethod.POST)
     public void register(@RequestParam(value = "userName") String userName,
-                       @RequestParam(value = "userMail") String userMail,
-                       @RequestParam(value = "password") String password
+                         @RequestParam(value = "userMail") String userMail,
+                         @RequestParam(value = "password") String password
     ) throws IncorrectInputException, DontHavePermissionException, AlreadyExistException {
         manager.register(userName,userMail,password);
 
@@ -156,5 +161,17 @@ public class ServiceController {
 //            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException, ObjectNotExist, IncorrectInputException, ObjectAlreadyExist {
 //        manager.closeTeam(id, teamName);
 //    }
+
+    @RequestMapping(value="/test",method = RequestMethod.GET)
+    public ResponseEntity<ArrayList<String>> test() {
+        //URI location = ;
+        HttpHeaders responseHeaders = new HttpHeaders();
+        //responseHeaders.setLocation(location);
+        responseHeaders.set("MyResponseHeader", "MyValue");
+        ArrayList<String> response = new ArrayList<>();
+        response.add("hello");
+        response.add("world");
+        return new ResponseEntity<ArrayList<String>>(response, responseHeaders, HttpStatus.CREATED);
+    }
 
 }
