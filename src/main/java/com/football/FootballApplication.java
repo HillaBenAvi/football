@@ -4,6 +4,7 @@ import com.football.DataBase.DBController;
 import com.football.DataBase.SecondaryRefereeDao;
 import com.football.DataBase.SystemManagerDao;
 import com.football.Domain.Asset.Coach;
+import com.football.Domain.Asset.Field;
 import com.football.Domain.Asset.Player;
 import com.football.Domain.Game.Account;
 import com.football.Domain.Game.Game;
@@ -20,16 +21,23 @@ import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 @SpringBootApplication
 public class FootballApplication {
     public static DBController dbc=new DBController();
 
-    public static void main(String[] args) throws DontHavePermissionException, AlreadyExistException {
-       SpringApplication.run(FootballApplication.class, args);
+    public static void main(String[] args) throws DontHavePermissionException, AlreadyExistException, MemberNotExist {
+     //  SpringApplication.run(FootballApplication.class, args);
+
+      //  checkUpdate();
+
+
+        Calendar dateAndTime=new GregorianCalendar();
+
+        System.out.println(dateAndTime.YEAR+" "+dateAndTime.MONTH+" "+dateAndTime.DATE+" "+"21 30");
+
+
 
 //        checkGetters();
 
@@ -63,8 +71,63 @@ public class FootballApplication {
         systemManagerDao.delete("meretz@gmail.com");
 */
     }
+    private static void checkUpdate() {
 
-    private static void checkGetters() {
+        SystemManager systemManager = new SystemManager("shacahr", "meretz@gmail.com", "123456", new Date(1, 1, 1995));
+
+
+
+        System.out.println("/***********************************************************/");
+        System.out.println("/*                      update system manager                   */");
+        System.out.println("/***********************************************************/");
+
+
+        System.out.println("/***********************************************************/");
+        System.out.println("/*                update association deligate              */");
+        System.out.println("/***********************************************************/");
+
+        System.out.println("/***********************************************************/");
+        System.out.println("/*                update coach                             */");
+        System.out.println("/***********************************************************/");
+
+        System.out.println("/***********************************************************/");
+        System.out.println("/*                update player                             */");
+        System.out.println("/***********************************************************/");
+
+        System.out.println("/***********************************************************/");
+        System.out.println("/*                update manager                             */");
+        System.out.println("/***********************************************************/");
+        System.out.println("/***********************************************************/");
+        System.out.println("/*                update owner                             */");
+        System.out.println("/***********************************************************/");
+
+        System.out.println("/***********************************************************/");
+        System.out.println("/*                update mainReferee                             */");
+        System.out.println("/***********************************************************/");
+
+        System.out.println("/***********************************************************/");
+        System.out.println("/*                update secondaryReferee                             */");
+        System.out.println("/***********************************************************/");
+
+        System.out.println("/***********************************************************/");
+        System.out.println("/*                update season                             */");
+        System.out.println("/***********************************************************/");
+
+        System.out.println("/***********************************************************/");
+        System.out.println("/*                update league                             */");
+        System.out.println("/***********************************************************/");
+
+        System.out.println("/***********************************************************/");
+        System.out.println("/*                update leagueInSeason                             */");
+        System.out.println("/***********************************************************/");
+
+        System.out.println("/***********************************************************/");
+        System.out.println("/*                update team                             */");
+        System.out.println("/***********************************************************/");
+
+
+}
+        private static void checkGetters() {
         checkGetMember();
 
         System.out.println("/***********************************************************/");

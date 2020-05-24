@@ -1,6 +1,5 @@
 package com.football.DataBase;
 
-import com.football.Domain.Game.Team;
 import com.football.Domain.League.Season;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -8,10 +7,10 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
+
 @Repository
 
-public class SeasonDao  implements DAOTEMP<Season> {
+public class SeasonDao  implements DAO<Season> {
 
     @Autowired
     public DBConnector dbc=new DBConnector();;
@@ -31,8 +30,6 @@ public class SeasonDao  implements DAOTEMP<Season> {
     }
 
     public SeasonDao() {
-
-       // connection=dbc.getConnection();
     }
 
     @Override
@@ -40,9 +37,7 @@ public class SeasonDao  implements DAOTEMP<Season> {
 
         String toReturn="";
         try {
-            Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From "+getTableName()+" WHERE idSeason="+"\'"+id+"\'"+";";
-            //   System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs=ps.executeQuery();
@@ -66,9 +61,7 @@ public class SeasonDao  implements DAOTEMP<Season> {
     public List<String> getAll() {
         LinkedList<String> allTheTable=new LinkedList<>();
         try {
-            Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From "+getTableName()+";";
-            //     System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs=ps.executeQuery();
@@ -91,14 +84,10 @@ public class SeasonDao  implements DAOTEMP<Season> {
     @Override
     public void save(Season season){
         try {
-            Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO"+getTableName()+
-                    "VALUES ("+season.toString()+");";//"\'"+season.getYear()+"\'"+","+"\'"+" "+"\'"+");";
-            //finish it
-            // TODO: 12/05/2020
-            //     System.out.println(sql);
+                    "VALUES ("+season.toString()+");";
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -115,12 +104,10 @@ public class SeasonDao  implements DAOTEMP<Season> {
     @Override
     public void delete(String seasonYear) {
         try {
-            Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "DELETE FROM"+getTableName()+
                     "WHERE idSeason ="+"\'"+seasonYear+"\'";
-            //   System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -130,12 +117,10 @@ public class SeasonDao  implements DAOTEMP<Season> {
     @Override
     public boolean exist(String seasonYear) {
         try {
-            Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sqlQuery = "SELECT * FROM" + getTableName() +
                     "WHERE idSeason =" +"\'"+seasonYear+"\'";
-            //  System.out.println(sqlQuery);
             ResultSet rs = stmt.executeQuery(sqlQuery);
             return rs.next();
 

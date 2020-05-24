@@ -1,7 +1,6 @@
 package com.football.DataBase;
 
 import com.football.Domain.Game.Game;
-import com.football.Domain.Game.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Repository
-public class GameDao implements DAOTEMP<Game> {
+public class GameDao implements DAO<Game> {
 
     @Autowired
     public DBConnector dbc=new DBConnector();;
@@ -38,10 +37,8 @@ public class GameDao implements DAOTEMP<Game> {
 
         String toReturn="";
         try {
-            //it was before   Connection connection = DBconector.getConnection();
             Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From "+getTableName()+" WHERE idGame=\'"+id+"\';";
-            //System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs=ps.executeQuery();
@@ -77,9 +74,7 @@ public class GameDao implements DAOTEMP<Game> {
     public List<String> getAll() {
         LinkedList<String> allTheTable=new LinkedList<>();
         try {
-            Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From "+getTableName()+";";
-            //System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs=ps.executeQuery();
@@ -110,14 +105,10 @@ public class GameDao implements DAOTEMP<Game> {
     @Override
     public void save(Game game) {
         try {
-            Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO"+getTableName()+
                     "VALUES ("+game.toString()+");";//+game.getId()+","+game.getDateAndTimeString()+","+game.getHostTeam().getName()+","+game.getVisitorTeam().getName()+","+game.getField().getName()+");";
-            //finish it
-            // TODO: 12/05/2020
-            System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -134,12 +125,10 @@ public class GameDao implements DAOTEMP<Game> {
     @Override
     public void delete(String id) {
         try {
-            Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "DELETE FROM"+getTableName()+
                     "WHERE gameid="+id;
-            System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -149,12 +138,10 @@ public class GameDao implements DAOTEMP<Game> {
     @Override
     public boolean exist(String id) {
         try {
-            Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sqlQuery = "SELECT * FROM"+getTableName()+
                     "WHERE gameid="+id;
-            System.out.println(sqlQuery);
             ResultSet rs = stmt.executeQuery(sqlQuery);
             return rs.next();
 

@@ -3,7 +3,6 @@ package com.football.DataBase;
 import com.football.Domain.Users.AssociationDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,22 +12,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Repository
-public class AssociationDelegateDao implements DAOTEMP<AssociationDelegate> {
+public class AssociationDelegateDao implements DAO<AssociationDelegate> {
 
     @Autowired
     public DBConnector dbc=new DBConnector();
 
     public AssociationDelegateDao() {
-        // dbc
-        //   connection=dbc.getConnection();
     }
 
-  //  private static AssociationDelegateDao instance = new AssociationDelegateDao();
+    //  private static AssociationDelegateDao instance = new AssociationDelegateDao();
 
     //private constructor to avoid client applications to use constructor
-   // public static AssociationDelegateDao getInstance(){
+    // public static AssociationDelegateDao getInstance(){
     //    return instance;
-   // }
+    // }
 
     Connection connection=dbc.getConnection();
 
@@ -43,9 +40,7 @@ public class AssociationDelegateDao implements DAOTEMP<AssociationDelegate> {
     public String get(String id) {
         String toReturn="";
         try {
-           // Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From "+getTableName()+" WHERE userName="+"\'"+id+"\'"+";";
-            //  System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs=ps.executeQuery();
@@ -69,9 +64,7 @@ public class AssociationDelegateDao implements DAOTEMP<AssociationDelegate> {
     public List<String> getAll() {
         LinkedList<String> allTheTable = new LinkedList<>();
         try {
-         //   Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From " + getTableName()+ ";";
-            //  System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs = ps.executeQuery();
@@ -95,14 +88,10 @@ public class AssociationDelegateDao implements DAOTEMP<AssociationDelegate> {
     @Override
     public void save(AssociationDelegate associationDelegate){
         try {
-         //   Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO"+getTableName()+
                     "VALUES ("+associationDelegate.toString()+");";//"\'"+associationDelegate.getUserMail()+"\'"+","+"\'"+associationDelegate.getPassword()+"\'"+","+"\'"+associationDelegate.getName()+"\'"+","+"\'"+associationDelegate.getBirthDate().toString()+"\'"+");";
-            //finish it
-            // TODO: 12/05/2020
-            //   System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -120,12 +109,10 @@ public class AssociationDelegateDao implements DAOTEMP<AssociationDelegate> {
     @Override
     public void delete(String userMail) {
         try {
-          //  Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "DELETE FROM"+getTableName()+
                     "WHERE userName ="+"\'"+userMail+"\'";
-            // System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -137,17 +124,15 @@ public class AssociationDelegateDao implements DAOTEMP<AssociationDelegate> {
     public boolean exist(String associationDeligateName) {
 
         try {
-         //   Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sqlQuery = "SELECT * FROM"+getTableName()+
                     "WHERE userName ="+"\'"+associationDeligateName+"\'";
-            //   System.out.println(sqlQuery);
             ResultSet rs = stmt.executeQuery(sqlQuery);
             return rs.next();
 
         } catch (java.sql.SQLException e) {
-           // System.out.println(e.toString());
+             System.out.println(e.toString());
         }
         return false;
     }

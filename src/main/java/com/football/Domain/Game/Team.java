@@ -75,6 +75,7 @@ public class Team {
         if(homeField!=null)
             this.homeField = homeField;
         this.status = status;
+        this.personalPage=new PersonalPage();
     }
 
     private void updateTheTeamListCoach(LinkedList<Coach> list) {

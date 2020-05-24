@@ -1,6 +1,5 @@
 package com.football.DataBase;
 
-import com.football.Domain.League.League;
 import com.football.Domain.Users.SystemManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 @Repository
 
-public class SystemManagerDao implements DAOTEMP<SystemManager> {
+public class SystemManagerDao implements DAO<SystemManager> {
     @Autowired
     public DBConnector dbc=new DBConnector();;
 
@@ -40,9 +39,7 @@ public class SystemManagerDao implements DAOTEMP<SystemManager> {
     public String get(String id) {
         String toReturn="";
         try {
-            // Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From "+getTableName()+" WHERE userName="+"\'"+id+"\';";
-           // System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs = ps.executeQuery();
@@ -65,9 +62,7 @@ public class SystemManagerDao implements DAOTEMP<SystemManager> {
     public List<String> getAll() {
         LinkedList<String> allTheTable = new LinkedList<>();
         try {
-            //Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From " + getTableName()+ ";";
-            //System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs = ps.executeQuery();
@@ -90,14 +85,10 @@ public class SystemManagerDao implements DAOTEMP<SystemManager> {
     @Override
     public void save(SystemManager systemManager){
         try {
-            // Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO"+getTableName()+
-                    " VALUES ("+systemManager.toString()+");";//"\'"+systemManager.getUserMail()+"\'"+","+"\'"+systemManager.getPassword()+"\'"+","+"\'"+systemManager.getName()+"\'"+","+"\'"+systemManager.getBirthDate().toString()+"\'"+");";
-            //finish it
-            // TODO: 12/05/2020
-            System.out.println(sql);
+                    " VALUES ("+systemManager.toString()+");";
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -114,12 +105,10 @@ public class SystemManagerDao implements DAOTEMP<SystemManager> {
     @Override
     public void delete(String userMail) {
         try {
-            //   Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "DELETE FROM "+getTableName()+
                     "WHERE userName = "+"\'"+userMail+"\'";
-            System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -130,12 +119,10 @@ public class SystemManagerDao implements DAOTEMP<SystemManager> {
     public boolean exist(String leagueName) {
 
         try {
-            // Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sqlQuery = "SELECT * FROM "+getTableName()+
                     "WHERE userName ="+"\'"+leagueName+"\'";
-           //System.out.println(sqlQuery);
             ResultSet rs = stmt.executeQuery(sqlQuery);
             return rs.next();
 

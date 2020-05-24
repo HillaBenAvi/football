@@ -1,7 +1,5 @@
 package com.football.DataBase;
 
-import com.football.Domain.Users.Fan;
-import com.football.Domain.Users.MainReferee;
 import com.football.Domain.Users.SecondaryReferee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 @Repository
 
-public class SecondaryRefereeDao implements DAOTEMP<SecondaryReferee>{
+public class SecondaryRefereeDao implements DAO<SecondaryReferee> {
 
     @Autowired
     public DBConnector dbc=new DBConnector();;
@@ -44,9 +42,7 @@ public class SecondaryRefereeDao implements DAOTEMP<SecondaryReferee>{
     public String get(String id) {
         String toReturn="";
         try {
-            //Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From "+getTableName()+" WHERE userName="+ "\'"+id+ "\'"+";";
-            //System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs=ps.executeQuery();
@@ -71,9 +67,7 @@ public class SecondaryRefereeDao implements DAOTEMP<SecondaryReferee>{
     public List<String> getAll() {
         LinkedList<String> allTheTable = new LinkedList<>();
         try {
-           // Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From " + getTableName()+ ";";
-            //System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs = ps.executeQuery();
@@ -103,14 +97,10 @@ public class SecondaryRefereeDao implements DAOTEMP<SecondaryReferee>{
     @Override
     public void save(SecondaryReferee secondaryReferee){
         try {
-            //Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO"+getTableName()+
-                    "VALUES ("+secondaryReferee.toString()+");";// "\'" +secondaryReferee.getUserMail() + "\'" +","+  "\'" +secondaryReferee.getPassword() + "\'" +","+ "\'" +secondaryReferee.getName() + "\'" +","+ "\'" +secondaryReferee.getBirthDate().toString() + "\'" +","+ "\'" +secondaryReferee.getType() + "\'" +","+ "\'"+secondaryReferee.getGameSchedule().toString()+ "\'"+");";
-            //finish it
-            // TODO: 12/05/2020
-            // System.out.println(sql);
+                    "VALUES ("+secondaryReferee.toString()+");";
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -128,12 +118,10 @@ public class SecondaryRefereeDao implements DAOTEMP<SecondaryReferee>{
     @Override
     public void delete(String userMail) {
         try {
-        //    Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "DELETE FROM"+getTableName()+
                     "WHERE  userName ="+ "\'"+userMail+ "\'";
-            //  System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -145,12 +133,10 @@ public class SecondaryRefereeDao implements DAOTEMP<SecondaryReferee>{
     public boolean exist(String fanName) {
 
         try {
-          //  Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sqlQuery = "SELECT * FROM"+getTableName()+
                     "WHERE userName = "+ "\'"+fanName+ "\'";
-            //  System.out.println(sqlQuery);
             ResultSet rs = stmt.executeQuery(sqlQuery);
             return rs.next();
 

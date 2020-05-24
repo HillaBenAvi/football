@@ -1,6 +1,5 @@
 package com.football.DataBase;
 
-import com.football.Domain.Asset.Manager;
 import com.football.Domain.Asset.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 @Repository
 
-public class PlayerDao implements DAOTEMP<Player> {
+public class PlayerDao implements DAO<Player> {
 
     @Autowired
     public DBConnector dbc=new DBConnector();;
@@ -40,9 +39,7 @@ public class PlayerDao implements DAOTEMP<Player> {
     public String get(String id) {
         String toReturn="";
         try {
-       //     Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From "+getTableName()+" WHERE userName="+"\'"+id+"\'"+";";
-            //  System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs=ps.executeQuery();
@@ -69,9 +66,7 @@ public class PlayerDao implements DAOTEMP<Player> {
     public List<String> getAll() {
         LinkedList<String> allTheTable = new LinkedList<>();
         try {
-         //   Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From " + getTableName()+ ";";
-            //   System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs = ps.executeQuery();
@@ -101,14 +96,10 @@ public class PlayerDao implements DAOTEMP<Player> {
     @Override
     public void save(Player player){
         try {
-          //  Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO"+getTableName()+
-                    "VALUES ("+player.toString()+");";//+"\'"+player.getUserMail()+"\'"+","+"\'"+player.getPassword()+"\'"+","+"\'"+player.getName()+"\'"+","+"\'"+player.getBirthDate().toString()+"\'"+","+"\'"+player.getTeam().toString()+"\'"+","+"\'"+" "+"\'"+");";//+player.getEvents()");";
-            //finish it
-            // TODO: 12/05/2020
-            // System.out.println(sql);
+                    "VALUES ("+player.toString()+");";
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -126,12 +117,10 @@ public class PlayerDao implements DAOTEMP<Player> {
     @Override
     public void delete(String userMail) {
         try {
-       //     Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "DELETE FROM"+getTableName()+
                     "WHERE userName ="+"\'"+userMail+"\'";
-            //   System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -143,12 +132,10 @@ public class PlayerDao implements DAOTEMP<Player> {
     public boolean exist(String playerName) {
 
         try {
-       //     Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sqlQuery = "SELECT * FROM"+getTableName()+
                     "WHERE userName ="+"\'"+playerName+"\'";
-            //   System.out.println(sqlQuery);
             ResultSet rs = stmt.executeQuery(sqlQuery);
             return rs.next();
 

@@ -1,7 +1,6 @@
 package com.football.DataBase;
 
 import com.football.Domain.Users.Fan;
-import com.football.Domain.Users.SystemManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +11,7 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 @Repository
-public class FanDao implements DAOTEMP<Fan> {
+public class FanDao implements DAO<Fan> {
     @Autowired
     public DBConnector dbc=new DBConnector();;
 
@@ -32,8 +31,6 @@ public class FanDao implements DAOTEMP<Fan> {
     }
 
     public FanDao() {
-
-       // connection=dbc.getConnection();
     }
 
 
@@ -41,9 +38,7 @@ public class FanDao implements DAOTEMP<Fan> {
     public String get(String id) {
         String toReturn="";
         try {
-         //   Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From "+getTableName()+" WHERE userName="+"\'"+id+"\'"+";";
-            //  System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs=ps.executeQuery();
@@ -68,9 +63,7 @@ public class FanDao implements DAOTEMP<Fan> {
     public List<String> getAll() {
         LinkedList<String> allTheTable = new LinkedList<>();
         try {
-          //  Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From " + getTableName()+ ";";
-            //    System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs = ps.executeQuery();
@@ -98,14 +91,10 @@ public class FanDao implements DAOTEMP<Fan> {
     @Override
     public void save(Fan fan){
         try {
-          //  Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO"+getTableName()+
                     "VALUES ("+fan.toString()+");";//"\'"+fan.getUserMail()+"\'"+","+"\'"+fan.getPassword()+"\'"+","+"\'"+fan.getName()+"\'"+","+"\'"+fan.getBirthDate().toString()+"\'"+","+"\'"+fan.getUpdates().toString()+"\'"+");";
-            //finish it
-            // TODO: 12/05/2020
-            //   System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -123,12 +112,10 @@ public class FanDao implements DAOTEMP<Fan> {
     @Override
     public void delete(String userMail) {
         try {
-          //  Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "DELETE FROM"+getTableName()+
                     "WHERE userName ="+"\'"+userMail+"\'";
-            // System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -140,12 +127,10 @@ public class FanDao implements DAOTEMP<Fan> {
     public boolean exist(String fanName) {
 
         try {
-            //Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sqlQuery = "SELECT * FROM"+getTableName()+
                     "WHERE userName ="+"\'"+fanName+"\'";
-            //   System.out.println(sqlQuery);
             ResultSet rs = stmt.executeQuery(sqlQuery);
             return rs.next();
 

@@ -23,7 +23,10 @@ public abstract class Referee extends Member{
     }
     public Referee(String[] refereeDetails,HashSet<Game> games){
         super(refereeDetails);
-        this.training = refereeDetails[4];
+        if(refereeDetails.length>=5) {
+            this.training = refereeDetails[4];
+        }else
+            this.training="";
         this.games = new HashSet<>(games);
     }
 

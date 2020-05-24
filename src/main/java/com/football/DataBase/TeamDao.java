@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 @Repository
 
-public class TeamDao implements DAOTEMP<Team> {
+public class TeamDao implements DAO<Team> {
     @Autowired
     public DBConnector dbc=new DBConnector();;
 
@@ -41,7 +41,6 @@ public class TeamDao implements DAOTEMP<Team> {
         String toReturn="";
         try {
             String sqlQuery = "SELECT * From "+getTableName()+" WHERE name="+"\'"+id+"\'"+";";
-         //   System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs = ps.executeQuery();
@@ -73,7 +72,6 @@ public class TeamDao implements DAOTEMP<Team> {
         LinkedList<String> allTheTable = new LinkedList<>();
         try {
             String sqlQuery = "SELECT * From " + getTableName()+ ";";
-           // System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs = ps.executeQuery();
@@ -104,12 +102,10 @@ public class TeamDao implements DAOTEMP<Team> {
     //   @Override
     public void save(Team team) {
         try {
-            // Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO"+getTableName()+
                     " VALUES ("+team.toString()+");";
-          //  System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -130,7 +126,6 @@ public class TeamDao implements DAOTEMP<Team> {
 
             String sql = "DELETE FROM "+getTableName()+
                     "WHERE name = "+"\'"+id+"\'";
-            System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -145,7 +140,6 @@ public class TeamDao implements DAOTEMP<Team> {
 
             String sqlQuery = "SELECT * FROM "+getTableName()+
                     "WHERE name ="+"\'"+id+"\'";
-          //  System.out.println(sqlQuery);
             ResultSet rs = stmt.executeQuery(sqlQuery);
             return rs.next();
 

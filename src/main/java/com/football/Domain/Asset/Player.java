@@ -31,8 +31,17 @@ public class Player extends TeamMember{
 
     public Player(String[] playerDetails , HashMap<String, Team> teams) {
         super(playerDetails,teams);
-        this.role = playerDetails[4] ;
-        this.addEvents(playerDetails[6]);
+        this.role="";
+        if(playerDetails.length>=5) {
+            this.role = playerDetails[4];
+        }
+        if(playerDetails.length>=7) {
+            this.addEvents(playerDetails[6]);
+        }
+        else
+        {
+            events=new HashSet<>();
+        }
         //todo add teams?
     }
 
