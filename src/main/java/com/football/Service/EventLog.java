@@ -13,4 +13,12 @@ public class EventLog {
         this.userId = userId;
         this.actionName = actionName;
     }
+
+    @Override
+    public String toString()
+    {
+        String str="";
+        str="\'"+this.id+"\',\'"+this.timeStamp+"\',\'"+this.userId+"\',\'"+this.actionName;
+        return str;
+    }
 }

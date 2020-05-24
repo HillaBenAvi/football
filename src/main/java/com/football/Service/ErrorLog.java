@@ -11,4 +11,11 @@ public class ErrorLog {
         this.topic = topic;
         this.timeStamp = timeStamp;
     }
+    @Override
+    public String toString()
+    {
+        String str="";
+        str="\'"+this.id+"\',\'"+this.topic+"\',\'"+this.timeStamp;
+        return str;
+    }
 }
