@@ -1,6 +1,8 @@
 package com.football.DataBase;
 
 import com.football.Domain.Game.Team;
+import com.football.Exception.ObjectNotExist;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -9,27 +11,30 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
-public class TeamDao implements DAOTEMP<Team> {
+@Repository
 
+public class TeamDao implements DAO<Team> {
+    @Autowired
+    public DBConnector dbc=new DBConnector();;
 
-    private static final TeamDao instance = new TeamDao();
+ //   private static final TeamDao instance = new TeamDao();
 
     //private constructor to avoid client applications to use constructor
-    public static TeamDao getInstance() {
-        return instance;
-    }
+  //  public static TeamDao getInstance() {
+       // return instance;
+  //  }
 
-    DBConnector dbc;// = DBConnector.getInstance();
-    Connection connection;
+  //  DBConnector dbc;// = DBConnector.getInstance();
+  Connection connection=dbc.getConnection();
 
     @Override
     public String getTableName() {
         return " Teams ";
     }
 
-    private TeamDao() {
+    public TeamDao() {
 
-        connection = dbc.getConnection();
+     //   connection = dbc.getConnection();
     }
 
     @Override
@@ -37,7 +42,6 @@ public class TeamDao implements DAOTEMP<Team> {
         String toReturn="";
         try {
             String sqlQuery = "SELECT * From "+getTableName()+" WHERE name="+"\'"+id+"\'"+";";
-            System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs = ps.executeQuery();
@@ -69,7 +73,6 @@ public class TeamDao implements DAOTEMP<Team> {
         LinkedList<String> allTheTable = new LinkedList<>();
         try {
             String sqlQuery = "SELECT * From " + getTableName()+ ";";
-            System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs = ps.executeQuery();
@@ -100,12 +103,10 @@ public class TeamDao implements DAOTEMP<Team> {
     //   @Override
     public void save(Team team) {
         try {
-            // Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO"+getTableName()+
                     " VALUES ("+team.toString()+");";
-            System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -113,10 +114,16 @@ public class TeamDao implements DAOTEMP<Team> {
     }
 
     @Override
-    public void update(String id, Team team) {
-        //delete and than add new one
-        delete(id);
-        save(team);
+    public void update(String id, Team team) throws ObjectNotExist {
+        if(exist(team.getName())) {
+            //delete and than add new one
+            delete(id);
+            save(team);
+        }
+        else
+        {
+            throw new ObjectNotExist("this object not exist , so you cant update it");
+        }
     }
 
     @Override
@@ -126,7 +133,6 @@ public class TeamDao implements DAOTEMP<Team> {
 
             String sql = "DELETE FROM "+getTableName()+
                     "WHERE name = "+"\'"+id+"\'";
-            System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -140,8 +146,7 @@ public class TeamDao implements DAOTEMP<Team> {
             Statement stmt = connection.createStatement();
 
             String sqlQuery = "SELECT * FROM "+getTableName()+
-                    "WHERE userName ="+"\'"+id+"\'";
-            System.out.println(sqlQuery);
+                    "WHERE name ="+"\'"+id+"\'";
             ResultSet rs = stmt.executeQuery(sqlQuery);
             return rs.next();
 

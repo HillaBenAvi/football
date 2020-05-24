@@ -1,7 +1,8 @@
 package com.football.DataBase;
 
-import com.football.Domain.Asset.Coach;
 import com.football.Domain.Asset.Manager;
+import com.football.Exception.ObjectNotExist;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -10,36 +11,37 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
-public class ManagerDao implements DAOTEMP<Manager> {
+
+@Repository
+public class ManagerDao implements DAO<Manager> {
+    @Autowired
+    public DBConnector dbc=new DBConnector();;
 
 
-
-    private static final ManagerDao instance = new ManagerDao();
+ //   private static final ManagerDao instance = new ManagerDao();
 
     //private constructor to avoid client applications to use constructor
-    public static ManagerDao getInstance(){
-        return instance;
-    }
-    DBConnector  dbc;//= DBConnector.getInstance();
-   Connection connection;
+   // public static ManagerDao getInstance(){
+    //    return instance;
+ //   }
+ //   DBConnector  dbc;//= DBConnector.getInstance();
+    Connection connection=dbc.getConnection();
 
     @Override
     public String getTableName() {
         return " managers ";
     }
 
-    private ManagerDao() {
+    public ManagerDao() {
 
-        connection=dbc.getConnection();
+      //  connection=dbc.getConnection();
     }
 
     @Override
     public String get(String id) {
         String toReturn="";
         try {
-            Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From "+getTableName()+" WHERE userName="+"\'"+id+"\'"+";";
-            // System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs=ps.executeQuery();
@@ -63,9 +65,7 @@ public class ManagerDao implements DAOTEMP<Manager> {
     public List<String> getAll() {
         LinkedList<String> allTheTable = new LinkedList<>();
         try {
-            Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From " + getTableName()+ ";";
-            //  System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs = ps.executeQuery();
@@ -93,14 +93,10 @@ public class ManagerDao implements DAOTEMP<Manager> {
     @Override
     public void save(Manager manager){
         try {
-            Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO"+getTableName()+
-                    "VALUES ("+manager.toString()+");";//+"\'"+manager.getUserMail()+"\'"+","+"\'"+manager.getPassword()+"\'"+","+"\'"+manager.getName()+"\'"+","+"\'"+manager.getBirthDate().toString()+"\'"+","+"\'"+manager.getTeam().toString()+"\'"+");";
-            //finish it
-            // TODO: 12/05/2020
-            // System.out.println(sql);
+                    "VALUES ("+manager.toString()+");";
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -109,21 +105,25 @@ public class ManagerDao implements DAOTEMP<Manager> {
 
 
     @Override
-    public void update(String userMail , Manager manager) {
+    public void update(String userMail , Manager manager) throws ObjectNotExist {
         //delete and than add new one
-        delete(userMail);
-        save(manager);
+        if(exist(manager.getUserMail())) {
+            delete(userMail);
+            save(manager);
+        }
+        else
+        {
+            throw new ObjectNotExist("this object not exist , so you cant update it");
+        }
     }
 
     @Override
     public void delete(String userMail) {
         try {
-            Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "DELETE FROM"+getTableName()+
                     "WHERE userName ="+"\'"+userMail+"\'";
-            //  System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -135,12 +135,10 @@ public class ManagerDao implements DAOTEMP<Manager> {
     public boolean exist(String managerName) {
 
         try {
-            Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sqlQuery = "SELECT * FROM"+getTableName()+
                     "WHERE userName ="+"\'"+managerName+"\'";
-            //  System.out.println(sqlQuery);
             ResultSet rs = stmt.executeQuery(sqlQuery);
             return rs.next();
 

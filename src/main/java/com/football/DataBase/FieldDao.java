@@ -1,7 +1,8 @@
 package com.football.DataBase;
 
 import com.football.Domain.Asset.Field;
-import com.football.Domain.Users.SecondaryReferee;
+import com.football.Exception.ObjectNotExist;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -10,34 +11,34 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
-public class FieldDao implements DAOTEMP<Field> {
 
-    private static final FieldDao instance = new FieldDao();
+@Repository
+public class FieldDao implements DAO<Field> {
+    @Autowired
+    public DBConnector dbc=new DBConnector();;
+
+  //  private static final FieldDao instance = new FieldDao();
 
     //private constructor to avoid client applications to use constructor
-    public static FieldDao getInstance(){
-        return instance;
-    }
-    DBConnector dbc;//= DBConnector.getInstance();
-    Connection connection;
+ //   public static FieldDao getInstance(){
+  //      return instance;
+ //   }
+  //  DBConnector dbc;//= DBConnector.getInstance();
+    Connection connection=dbc.getConnection();
 
     @Override
     public String getTableName() {
         return " field ";
     }
 
-    private FieldDao() {
-
-        connection=dbc.getConnection();
+    public FieldDao() {
     }
 
     @Override
     public String get(String id) {
         String toReturn="";
         try {
-            Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From "+getTableName()+" WHERE nameOfField="+"\'"+id+"\'"+";";
-            //   System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs=ps.executeQuery();
@@ -59,9 +60,7 @@ public class FieldDao implements DAOTEMP<Field> {
     public List<String> getAll() {
         LinkedList<String> allTheTable = new LinkedList<>();
         try {
-            Connection connection = dbc.getConnection();
             String sqlQuery = "SELECT * From " + getTableName()+ ";";
-            //  System.out.println(sqlQuery);
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs = ps.executeQuery();
@@ -88,14 +87,10 @@ public class FieldDao implements DAOTEMP<Field> {
     @Override
     public void save(Field field){
         try {
-            Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO"+getTableName()+
                     "VALUES ("+field.toString()+");";//"\'"+field.getNameOfField()+"\'"+","+"\'"+" "+"\'"+");";
-            //finish it
-            // TODO: 12/05/2020
-            //     System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -104,21 +99,26 @@ public class FieldDao implements DAOTEMP<Field> {
 
 
     @Override
-    public void update(String userMail , Field field) {
-        //delete and than add new one
-        delete(userMail);
-        save(field);
+    public void update(String userMail , Field field) throws ObjectNotExist {
+        if(exist(field.getNameOfField())) {
+            //delete and than add new one
+            delete(userMail);
+            save(field);
+        }
+        else
+        {
+            throw new ObjectNotExist("this object not exist , so you cant update it");
+        }
+
     }
 
     @Override
     public void delete(String nameOfField) {
         try {
-            Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sql = "DELETE FROM"+getTableName()+
                     "WHERE  nameOfField="+"\'"+nameOfField+"\'";
-            //     System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -130,12 +130,10 @@ public class FieldDao implements DAOTEMP<Field> {
     public boolean exist(String fanName) {
 
         try {
-            Connection connection = dbc.getConnection();
             Statement stmt = connection.createStatement();
 
             String sqlQuery = "SELECT * FROM"+getTableName()+
                     "WHERE nameOfField ="+"\'"+fanName+"\'";
-            //   System.out.println(sqlQuery);
             ResultSet rs = stmt.executeQuery(sqlQuery);
             return rs.next();
 

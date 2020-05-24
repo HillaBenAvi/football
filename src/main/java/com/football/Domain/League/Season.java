@@ -15,7 +15,6 @@ public class Season {
         if(leagueInSeason != null && !leagueInSeasons.containsKey(leagueInSeason.getLeague())){
             leagueInSeasons.put(leagueInSeason.getLeague(), leagueInSeason);
         }
-      //todo
     }
 
     public String getYear() {

@@ -54,7 +54,7 @@ public class ScorePolicy implements IScorePolicy{
 
     @Override
     public String toString() {
-        return ""+this.scoreToWinningTeam+"--"+this.scoreToDrawGame+"--"+this.scoreToLosingTeam;
+        return ""+this.scoreToWinningTeam+";"+this.scoreToDrawGame+";"+this.scoreToLosingTeam;
     }
 
     @Override

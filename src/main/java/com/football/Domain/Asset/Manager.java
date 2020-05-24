@@ -1,6 +1,9 @@
 package com.football.Domain.Asset;
 
+import com.football.Domain.Game.Team;
+
 import java.util.Date;
+import java.util.HashMap;
 
 public class Manager extends TeamMember {
 
@@ -11,6 +14,14 @@ public class Manager extends TeamMember {
     public Manager(String name, String userMail , Date birthDate) {
         super(name, userMail , birthDate);
         this.setPassword(null);
+    }
+
+    public Manager(String[] managerDetails, HashMap<String, Team> teams) {
+        super(managerDetails,teams);
+    }
+
+    public Manager(String[] managerDetails) {
+        super(managerDetails);
     }
 
     public void deleteAllTheData()

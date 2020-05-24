@@ -10,35 +10,34 @@ public class Event {
     private String description;
     private EventInGame eventInGame;
     private int gameMinute;
-    private ArrayList<Player> players;
+    private ArrayList<String> playersNames;
 
-    public Event(Date time, String description, EventInGame eventInGame, int gameMinute, ArrayList<Player> players) {
+    public Event(Date time, String description, EventInGame eventInGame, int gameMinute, ArrayList<String> players) {
         this.time = time;
         this.description = description;
         this.eventInGame = eventInGame;
         this.gameMinute = gameMinute;
-        this.players = players;
+        this.playersNames = players;
     }
     public Event(String[] eventDetails){
         Date date = new Date(Integer.parseInt(eventDetails[0]),Integer.parseInt(eventDetails[1]),Integer.parseInt(eventDetails[2]));
         this.time = date;
         this.description = eventDetails[3];
-        this.eventInGame = EventInGame.valueOf(eventDetails[3]);
-        this.players = new ArrayList<>();
-        for(int i=5 ; i < eventDetails.length ;i++){
-            String[] playerToAdd = eventDetails[i].split("--");
-            Player player = new Player(playerToAdd);
-            this.players.add(player);
+        this.gameMinute = Integer.parseInt(eventDetails[4]);
+        this.eventInGame = EventInGame.valueOf(eventDetails[5]);
+        this.playersNames = new ArrayList<>();
+        for(int i=6 ; i < eventDetails.length ;i++){
+            this.playersNames.add(eventDetails[i]);
         }
     }
     @Override
     public String toString(){
         String details = time.getYear() + ";" + time.getMonth() + ";" + time.getDay() ;
         details += ";" + description + ";" + eventInGame + ";" + gameMinute + ";" ;
-        for (int i=0 ; i<players.size()-1 ; i++){
-            details += players.get(i).getUserMail() + ";" ;
+        for (int i=0 ; i<playersNames.size()-1 ; i++){
+            details += playersNames.get(i)+ ";" ;
         }
-        details+=players.get(players.size()-1);
+        details+=playersNames.get(playersNames.size()-1);
 
         return details;
     }

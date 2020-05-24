@@ -1,6 +1,9 @@
 package com.football.Domain.Users;
 
+import com.football.Domain.Game.Game;
+
 import java.util.Date;
+import java.util.HashSet;
 
 public class MainReferee extends Referee {
 
@@ -13,6 +16,9 @@ public class MainReferee extends Referee {
         super(fan.getName(),fan.getUserMail(), fan.getPassword() , "" , fan.getBirthDate());
     }
 
+    public MainReferee(String[] secondaryRefereeDetails, HashSet<Game> games) {
+        super(secondaryRefereeDetails,games);
+    }
     @Override
     public String getType() {
         return "0MainReferee";

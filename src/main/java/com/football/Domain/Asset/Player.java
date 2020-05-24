@@ -1,8 +1,10 @@
 package com.football.Domain.Asset;
 
 import com.football.Domain.Game.Event;
+import com.football.Domain.Game.Team;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class Player extends TeamMember{
@@ -27,10 +29,24 @@ public class Player extends TeamMember{
         setPassword(null);
     }
 
+    public Player(String[] playerDetails , HashMap<String, Team> teams) {
+        super(playerDetails,teams);
+        this.role="";
+        if(playerDetails.length>=5) {
+            this.role = playerDetails[4];
+        }
+        if(playerDetails.length>=7) {
+            this.addEvents(playerDetails[6]);
+        }
+        else
+        {
+            events=new HashSet<>();
+        }
+        //todo add teams?
+    }
+
     public Player(String[] playerDetails) {
-        super(playerDetails[1],playerDetails[0],new Date(Integer.parseInt(playerDetails[2]),Integer.parseInt(playerDetails[3]),Integer.parseInt(playerDetails[4])));
-        this.role = playerDetails[5] ;
-        this.addEvents(playerDetails[6]);
+        super(playerDetails);
     }
 
     public void deleteAllTheData()
@@ -50,15 +66,22 @@ public class Player extends TeamMember{
     }
 
     public void addEvents(String events) {
-        String[] eventsString = events.split("!");
+        String[] eventsString = events.split(";");
         Event event = new Event(eventsString);
+        this.events = new HashSet<>();
         this.events.add(event);
     }
     @Override
     public String toString()
     {
         String str="";
-        str="\'"+this.getUserMail()+"\',\'"+this.getPassword()+"\',\'"+this.getName()+"\',\'"+this.getBirthDateString()+"\',\'"+this.getTeamString()+"\',\'"+this.getEventString()+"\'";
+        str="\'"+this.getUserMail()+"\'," +
+                "\'" +this.getPassword()+"\'," +
+                "\'" +this.getName()+"\'," +
+                "\'" +this.getBirthDateString()+"\'," +
+                "\'" +this.getRole() + "\'," +
+                "\'" +this.getTeamString()+"\'," +
+                "\'" +this.getEventString()+"\'";
         return str;
     }
 

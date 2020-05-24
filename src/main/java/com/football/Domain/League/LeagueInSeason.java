@@ -49,6 +49,7 @@ public class LeagueInSeason {
     {
         return teams;
     }
+
     public Season getSeason(){
         return season;
     }
@@ -162,7 +163,7 @@ public class LeagueInSeason {
     public String toString() {
         String details = "\'"+this.league.getName() + "\',\'" +this.season.getYear()+ "\'" ;
 
-        details += ",";
+        details += ",\'";
 
         /*add teams*/
         for (Team team : teams) {
@@ -197,9 +198,11 @@ public class LeagueInSeason {
 
         details += "\',\'";
 
-        details += this.scorePolicy.toString() + "\',\'"
+   //     details += this.scorePolicy.toString() + "\',\'"
 
-                + schedulingPolicy.getNameOfPolicy() + "\'";
+       //         + schedulingPolicy.getNameOfPolicy() ;
+
+        details+="\'"+ ",\'\'";
 
         return details;
     }

@@ -12,11 +12,7 @@ public class AssociationDelegate extends Member {
     }
 
     public AssociationDelegate(String[] associationDelegateDetails) {
-        super(associationDelegateDetails[1],associationDelegateDetails[0],associationDelegateDetails[2],
-                new Date(Integer.parseInt(associationDelegateDetails[3]),
-                        Integer.parseInt(associationDelegateDetails[4]),
-                        Integer.parseInt(associationDelegateDetails[5])));
-
+        super(associationDelegateDetails);
     }
 
     @Override

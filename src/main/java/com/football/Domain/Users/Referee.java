@@ -21,6 +21,14 @@ public abstract class Referee extends Member{
         this.games = new HashSet<Game>();
         this.dbController = dbController;
     }
+    public Referee(String[] refereeDetails,HashSet<Game> games){
+        super(refereeDetails);
+        if(refereeDetails.length>=5) {
+            this.training = refereeDetails[4];
+        }else
+            this.training="";
+        this.games = new HashSet<>(games);
+    }
 
 
     /**
@@ -60,11 +68,11 @@ public abstract class Referee extends Member{
 
     private String getGamesString() {
         String str="";
-        for (Game game:games
-        ) {
-            str+=game.toString()+";";
+        for (Game game:games) {
+            if(game!=null)
+                str+=game.getId()+";";
         }
-        if(str.length()>0)
+        if(str!=null && str.length()>0)
         {
             str=str.substring(0,str.length()-1);
         }

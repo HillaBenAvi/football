@@ -27,7 +27,7 @@ public class AssociationDelegateService {
 
     public AssociationDelegateService(){ }
 
-    public void setLeague(String id, String leagueName) throws AlreadyExistException, IncorrectInputException, DontHavePermissionException, MemberNotExist {
+    public void setLeague(String id, String leagueName) throws AlreadyExistException, IncorrectInputException, DontHavePermissionException, MemberNotExist, ObjectNotExist {
            if (!dbController.existAssociationDelegate(id)) {
                errorLogService.addErrorLog("member not exist");
                throw new MemberNotExist();

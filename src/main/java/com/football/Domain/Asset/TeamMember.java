@@ -12,10 +12,21 @@ public class TeamMember extends Member {
 
     public TeamMember(String name, String userMail, String password, Date birthDate) {
         super(name, userMail, password, birthDate);
+        team=new HashMap<>();
     }
 
     public TeamMember(String name, String userMail, Date birthDate) {
         super(name, userMail,  birthDate);
+        team=new HashMap<>();
+    }
+    public TeamMember(String[] details,HashMap<String,Team> teams) {
+        super(details);
+        if(teams!= null)
+            team=new HashMap<>(teams);
+    }
+
+    public TeamMember(String[] details) {
+        super(details);
     }
 
     @Override

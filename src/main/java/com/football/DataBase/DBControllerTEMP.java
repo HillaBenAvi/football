@@ -23,7 +23,7 @@
 //public class dbontrollerTEMP {
 //
 //        private DB db;
-//        private DAOTEMP dao;
+//        private DAO dao;
 //
 //        private static final dbontrollerTEMP instance = new dbontrollerTEMP();
 //

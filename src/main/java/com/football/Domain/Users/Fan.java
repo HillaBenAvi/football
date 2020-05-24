@@ -14,6 +14,17 @@ public class Fan extends Member implements Observer {
         updates = new ArrayList<>();
     }
 
+    public Fan(String[] fanDetails) {
+        super(fanDetails);
+        this.updates = new ArrayList<>();
+        if(fanDetails[4]!=null && !fanDetails[4].equals("null")&& !fanDetails[4].equals("")){
+            String[] updatesList = fanDetails[4].split(";");
+            for( int i = 0 ; i<updatesList.length ; i++){
+                this.updates.add(updatesList[i]);
+            }
+        }
+    }
+
     public ArrayList<String> getUpdates(){
         return updates;
     }
@@ -38,13 +49,17 @@ public class Fan extends Member implements Observer {
 
     private String getUpdatesString() {
         String str="";
-        for (String update:updates
-        ) {
-            str+=update+";";
+        if(updates!=null && updates.size()!=0){
+            for (String update:updates) {
+                str+=update+";";
+            }
+            if(str.length()>0)
+            {
+                str=str.substring(0,str.length()-1);
+            }
         }
-        if(str.length()>0)
-        {
-            str=str.substring(0,str.length()-1);
+        else{
+            str+=null;
         }
         return str;
     }

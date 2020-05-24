@@ -14,5 +14,11 @@ public class PersonalPage extends Observable {
         notifyObservers(message);
     }
 
+    @Override
+    public String toString()
+    {
+        return "";
+    }
+
 
 }

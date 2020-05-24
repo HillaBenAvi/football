@@ -1,11 +1,13 @@
 package com.football.Domain.Users;
 
+import com.football.Domain.Game.Game;
 import com.football.Exception.AlreadyExistException;
 import com.football.Exception.DontHavePermissionException;
 import com.football.Exception.IncorrectInputException;
 import com.football.Exception.MemberNotExist;
 
 import java.util.Date;
+import java.util.HashSet;
 
 public class SecondaryReferee extends Referee{
 
@@ -16,7 +18,9 @@ public class SecondaryReferee extends Referee{
     {
         super(fan.getName(),fan.getUserMail(), fan.getPassword() , "" , fan.getBirthDate());
     }
-
+    public SecondaryReferee(String[] secondaryRefereeDetails , HashSet<Game> games) {
+        super(secondaryRefereeDetails , games);
+    }
     @Override
     public String getType() {
         return ("0Secondary Referee");

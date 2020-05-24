@@ -53,20 +53,29 @@ public class Team {
 
     }
 
-    public Team(Account account, LinkedList<Player> players, LinkedList<Coach> coaches, LinkedList<Manager> managers, LinkedList<Owner> owners, String teamName) throws AlreadyExistException, DontHavePermissionException {
-       this.status=true;
+    public Team(Account account, LinkedList<Player> players, LinkedList<Coach> coaches, LinkedList<Manager> managers, LinkedList<Owner> owners,Field homeField,LinkedList<Field> trainigF,Boolean status, String teamName) {
         this.name = teamName;
         this.account = account;
         this.coaches = new HashSet<>();
         this.players = new HashSet<>();
         this.managers = new HashSet<>();
         this.owners = new HashSet<>();
-        games=new HashSet<>();
-        this.coaches.addAll(coaches);
-        this.players.addAll(players);
-        this.owners.addAll(owners);
-        this.managers.addAll(managers);
-
+        this.games=new HashSet<>();
+        this.trainingFields=new HashSet<>();
+        if(coaches.size()!=0)
+            this.coaches.addAll(coaches);
+        if(players.size()!=0)
+            this.players.addAll(players);
+        if(owners.size()!=0)
+            this.owners.addAll(owners);
+        if(managers.size()!=0)
+            this.managers.addAll(managers);
+        if(trainingFields.size()!=0)
+            this.trainingFields.addAll(trainigF);
+        if(homeField!=null)
+            this.homeField = homeField;
+        this.status = status;
+        this.personalPage=new PersonalPage();
     }
 
     private void updateTheTeamListCoach(LinkedList<Coach> list) {
@@ -235,7 +244,10 @@ public class Team {
     public void addManager(Manager someone) {
         if (someone != null && !this.managers.contains(someone))
             this.managers.add(someone);
-        personalPage.notifyFollowers("The team " + name + " has new manager");
+        if(personalPage!=null){
+            personalPage.notifyFollowers("The team " + name + " has new manager");
+
+        }
     }
 
     public void addOwner(Owner someone) {
@@ -247,14 +259,16 @@ public class Team {
     public void addCoach(Coach someone) {
         if (someone != null && !this.coaches.contains(someone))
             this.coaches.add(someone);
-        personalPage.notifyFollowers("The team " + name + " has new coach");
+        if(this.personalPage!=null)
+            personalPage.notifyFollowers("The team " + name + " has new coach");
     }
 
     public void addPlayer(Player someone) {
         if (someone != null && !this.players.contains(someone)){
             this.players.add(someone);
         }
-        personalPage.notifyFollowers("The team " + name + " has new player");
+        if(this.personalPage!=null)
+            personalPage.notifyFollowers("The team " + name + " has new player");
     }
 
     public void addField(Field field) {
@@ -264,7 +278,8 @@ public class Team {
         if(homeField==null){
             homeField=field;
         }
-        personalPage.notifyFollowers("The team " + name + " has new field");
+        if(this.personalPage!=null)
+            personalPage.notifyFollowers("The team " + name + " has new field");
     }
 
 
@@ -322,17 +337,44 @@ public class Team {
     @Override
     public String toString() {
         String str="";
-        str="\'"+this.getName()+"\',\'"+account.toString()+"\',\'"+getCoachListString()+"\',\'"+getPlayersListString()+"\',\'"+this.getManagersListString()+"\',\'"
-                +this.getOwnersListString()+"\',\'"+homeField.toString()+"\',\'"+this.getGamesListString()+"\',\'"+
-                trainingFields.toString()+"\',\'"+this.status+"\',\'"+this.personalPage.toString()+"\'";
+
+        str= "\'" +this.getName()+"\'," +
+                "\'" +account.toString()+"\'," +
+                "\'" +getCoachListString()+"\'," +
+                "\'" +getPlayersListString()+"\'," +
+                "\'" +this.getManagersListString()+"\'," +
+                "\'" +this.getOwnersListString()+"\'," +
+                "" +
+                "\'";
+        if(homeField!=null)
+            str+=homeField.getName();
+         str+="\'," +
+                 "\'" +this.getGamesListString()+"\'," +
+                 "\'" +ToStringtrainingFields()+"\'," +
+                 "\'" +this.status+"\'," +
+                 "\'" +this.personalPage+"\'";
+
         return str;
+    }
+
+    private String ToStringtrainingFields() {
+        String s="";
+        if(trainingFields != null){
+            for (Field field: trainingFields) {
+                if(field != null)
+                    s+=field.getName()+":";
+            }
+            if(s.length()>0)
+                s=s.substring(0,s.length()-1);
+        }
+        return s;
     }
 
     private String getPlayersListString() {
         String str="";
         for (Player player:players
         ) {
-            str+=player.toString()+";";
+            str+=player.getUserMail()+";";
         }
         if(str.length()>0)
         {
@@ -345,7 +387,7 @@ public class Team {
         String str="";
         for (Coach coach:coaches
         ) {
-            str+=coach.toString()+";";
+            str+=coach.getUserMail()+";";
         }
         if(str.length()>0)
         {
@@ -358,7 +400,7 @@ public class Team {
         String str="";
         for (Manager manager:managers
         ) {
-            str+=manager.toString()+";";
+            str+=manager.getUserMail()+";";
         }
         if(str.length()>0)
         {
@@ -371,7 +413,7 @@ public class Team {
         String str="";
         for (Game game:games
         ) {
-            str+=game.toString()+";";
+            str+=game.getId()+";";
         }
         if(str.length()>0)
         {
@@ -384,7 +426,8 @@ public class Team {
         String str="";
         for (Owner owner:owners
         ) {
-            str+=owner.toString()+";";
+            str+=owner.getUserMail()+";";
+
         }
         if(str.length()>0)
         {
