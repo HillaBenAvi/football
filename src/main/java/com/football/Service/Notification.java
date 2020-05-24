@@ -16,7 +16,7 @@ public class Notification {
     public String toString()
     {
         String str="";
-        str="\'"+this.gameId+"\',\'"+this.notificationID+"\',\'"+this.registerMembers;
+        str="\'"+this.gameId+"\',\'"+this.notificationID+"\',\'"+this.registerMembers+"\'";
         return str;
     }
 

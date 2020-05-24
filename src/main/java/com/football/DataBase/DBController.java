@@ -820,6 +820,40 @@ public class DBController {
         return games;
     }
 
+    public EventLog getEventLog(String id) throws ObjectNotExist {
+        if(eventLogDao.exist(id)){
+            String eventLog = eventLogDao.get(id);
+            String[] splited = eventLog.split(":");
+            EventLog eventLogObject = parseEventLog(splited);
+            return eventLogObject;
+        } else {
+            throw new ObjectNotExist("the event log id is not exist");
+        }
+    }
+
+
+    public Notification getNotification(String id) throws ObjectNotExist {
+        if(notificationDao.exist(id)){
+            String notification = notificationDao.get(id);
+            String[] splited = notification.split(":");
+            Notification notificationObject = parseNotification(splited);
+            return notificationObject;
+        } else {
+            throw new ObjectNotExist("the notification id is not exist");
+        }
+    }
+
+    public ErrorLog getErrorLog(String id) throws ObjectNotExist {
+        if(errorLogDao.exist(id)){
+            String errorLog = errorLogDao.get(id);
+            String[] splited = errorLog.split(":");
+            ErrorLog errorLogObject = parseErrorLog(splited);
+            return errorLogObject;
+        } else {
+            throw new ObjectNotExist("the error log id is not exist");
+        }
+    }
+
 
     /***************************************delete function function******************************************/
 
@@ -964,6 +998,31 @@ public class DBController {
             }
         } else {
             throw new DontHavePermissionException();
+        }
+    }
+
+    public void removeNotification(String id) throws ObjectNotExist {
+            if (notificationDao.exist(id)) {
+                notificationDao.delete(id);
+            } else {
+                throw new ObjectNotExist("not exist");
+            }
+        }
+
+
+    public void removeErrorLog(String id) throws ObjectNotExist {
+        if (errorLogDao.exist(id)) {
+            errorLogDao.delete(id);
+        } else {
+            throw new ObjectNotExist ("npt exist");
+        }
+    }
+
+    public void removeEventLog(String id) throws ObjectNotExist {
+        if (eventLogDao.exist(id)) {
+            eventLogDao.delete(id);
+        } else {
+            throw new ObjectNotExist("not exist");
         }
     }
 
@@ -1281,5 +1340,22 @@ public class DBController {
     }
 
 
+
+    private ErrorLog parseErrorLog(String[] splited) {
+        ErrorLog errorLog=new ErrorLog(Integer.parseInt(splited[0]),splited[1] , splited[2]);
+        return errorLog;
+    }
+
+
+    private EventLog parseEventLog(String[] splited) {
+        EventLog eventLog=new EventLog(Integer.parseInt(splited[0]),splited[1] , splited[2] , splited[3]);
+        return eventLog;
+    }
+
+
+    private Notification parseNotification(String[] splited) {
+        Notification notification=new Notification(splited[0],splited[1] , splited[2]);
+        return notification;
+    }
 
 }

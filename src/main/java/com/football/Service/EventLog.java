@@ -18,7 +18,7 @@ public class EventLog {
     public String toString()
     {
         String str="";
-        str="\'"+this.id+"\',\'"+this.timeStamp+"\',\'"+this.userId+"\',\'"+this.actionName;
+        str="\'"+this.id+"\',\'"+this.timeStamp+"\',\'"+this.userId+"\',\'"+this.actionName+"\'";
         return str;
     }
 

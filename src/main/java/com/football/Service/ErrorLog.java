@@ -15,7 +15,7 @@ public class ErrorLog {
     public String toString()
     {
         String str="";
-        str="\'"+this.id+"\',\'"+this.topic+"\',\'"+this.timeStamp;
+        str="\'"+this.id+"\',\'"+this.topic+"\',\'"+this.timeStamp+"\'";
         return str;
     }
 
