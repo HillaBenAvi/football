@@ -1,6 +1,7 @@
 package com.football.DataBase;
 
 import com.football.Domain.Asset.Coach;
+import com.football.Exception.ObjectNotExist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -106,10 +107,17 @@ public class CoachDao implements DAO<Coach> {
 
 
     @Override
-    public void update(String userMail , Coach coach) {
-        //delete and than add new one
-        delete(userMail);
-        save(coach);
+    public void update(String userMail , Coach coach) throws ObjectNotExist {
+        if(exist(coach.getUserMail())) {
+            //delete and than add new one
+            delete(userMail);
+            save(coach);
+        }
+        else
+        {
+            throw new ObjectNotExist("this object not exist , so you cant update it");
+        }
+
     }
 
     @Override

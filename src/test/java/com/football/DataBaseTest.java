@@ -55,6 +55,8 @@ public class DataBaseTest {
             e.printStackTrace();
         } catch (AlreadyExistException e) {
             e.printStackTrace();
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
     @Test
@@ -80,6 +82,8 @@ public class DataBaseTest {
             e.printStackTrace();
         } catch (AlreadyExistException e) {
             e.printStackTrace();
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
     @Test
@@ -106,6 +110,8 @@ public class DataBaseTest {
             e.printStackTrace();
         } catch (AlreadyExistException e) {
             e.printStackTrace();
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
     @Test
@@ -131,6 +137,8 @@ public class DataBaseTest {
             e.printStackTrace();
         } catch (AlreadyExistException e) {
             e.printStackTrace();
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
     @Test
@@ -157,6 +165,8 @@ public class DataBaseTest {
             e.printStackTrace();
         } catch (AlreadyExistException e) {
             e.printStackTrace();
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
     @Test
@@ -211,6 +221,8 @@ public class DataBaseTest {
             e.printStackTrace();
         } catch (AlreadyExistException e) {
             e.printStackTrace();
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
     @Test
@@ -237,6 +249,8 @@ public class DataBaseTest {
             e.printStackTrace();
         } catch (AlreadyExistException e) {
             e.printStackTrace();
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
     @Test
@@ -263,6 +277,8 @@ public class DataBaseTest {
             e.printStackTrace();
         } catch (AlreadyExistException e) {
             e.printStackTrace();
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
     @Test

@@ -1,6 +1,7 @@
 package com.football.DataBase;
 
 import com.football.Domain.League.LeagueInSeason;
+import com.football.Exception.ObjectNotExist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -107,10 +108,17 @@ public class LeagueInSeasonDao  implements DAO<LeagueInSeason> {
     }
 
     @Override
-    public void update(String id , LeagueInSeason leagueInSeason) {
-        //delete and than add new one
-        delete(id);
-        save(leagueInSeason);
+    public void update(String id , LeagueInSeason leagueInSeason) throws ObjectNotExist {
+        if(exist(id)) {
+            //delete and than add new one
+            delete(id);
+            save(leagueInSeason);
+        }
+        else
+        {
+            throw new ObjectNotExist("this object not exist , so you cant update it");
+        }
+
     }
 
     @Override

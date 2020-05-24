@@ -1,6 +1,7 @@
 package com.football.DataBase;
 
 import com.football.Domain.Users.SystemManager;
+import com.football.Exception.ObjectNotExist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -96,10 +97,17 @@ public class SystemManagerDao implements DAO<SystemManager> {
     }
 
     @Override
-    public void update(String userMail , SystemManager systemManager) {
-        //delete and than add new one
-        delete(userMail);
-        save(systemManager);
+    public void update(String userMail , SystemManager systemManager) throws ObjectNotExist {
+        if(exist(systemManager.getUserMail())) {
+            //delete and than add new one
+            delete(userMail);
+            save(systemManager);
+        }
+        else
+        {
+            throw new ObjectNotExist("this object not exist , so you cant update it");
+        }
+
     }
 
     @Override

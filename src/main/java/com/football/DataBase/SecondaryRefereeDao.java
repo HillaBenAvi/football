@@ -1,6 +1,7 @@
 package com.football.DataBase;
 
 import com.football.Domain.Users.SecondaryReferee;
+import com.football.Exception.ObjectNotExist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -109,10 +110,17 @@ public class SecondaryRefereeDao implements DAO<SecondaryReferee> {
 
 
     @Override
-    public void update(String userMail , SecondaryReferee secondaryReferee) {
-        //delete and than add new one
-        delete(userMail);
-        save(secondaryReferee);
+    public void update(String userMail , SecondaryReferee secondaryReferee) throws ObjectNotExist {
+        if(exist(secondaryReferee.getUserMail())) {
+            //delete and than add new one
+            delete(userMail);
+            save(secondaryReferee);
+        }
+        else
+        {
+            throw new ObjectNotExist("this object not exist , so you cant update it");
+        }
+
     }
 
     @Override

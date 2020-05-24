@@ -1,6 +1,7 @@
 package com.football.DataBase;
 
 import com.football.Domain.Users.AssociationDelegate;
+import com.football.Exception.ObjectNotExist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -100,10 +101,16 @@ public class AssociationDelegateDao implements DAO<AssociationDelegate> {
 
 
     @Override
-    public void update(String userMail , AssociationDelegate associationDelegate) {
-        //delete and than add new one
-        delete(userMail);
-        save(associationDelegate);
+    public void update(String userMail , AssociationDelegate associationDelegate) throws ObjectNotExist {
+        if(exist(associationDelegate.getUserMail())) {
+            //delete and than add new one
+            delete(userMail);
+            save(associationDelegate);
+        }
+        else
+        {
+            throw new ObjectNotExist("this object not exist , so you cant update it");
+        }
     }
 
     @Override

@@ -129,6 +129,8 @@ public class OwnerService {
             errorLogService.addErrorLog("Member Not Exist");
         } catch (AlreadyExistException alreadyExistException) {
             errorLogService.addErrorLog("Already Exist Exception");
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
 
@@ -189,6 +191,8 @@ public class OwnerService {
             errorLogService.addErrorLog("Member Not Exist");
         } catch (AlreadyExistException alreadyExistException) {
             errorLogService.addErrorLog("Already Exist Exception");
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
 
@@ -247,6 +251,8 @@ public class OwnerService {
             errorLogService.addErrorLog("Member Not Exist");
         } catch (AlreadyExistException alreadyExistException) {
             errorLogService.addErrorLog("Already Exist Exception");
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
 
     }
@@ -288,6 +294,8 @@ public class OwnerService {
             //todo: return !
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
 
@@ -332,6 +340,8 @@ public class OwnerService {
             errorLogService.addErrorLog("Member Not Exist");
         } catch (AlreadyExistException alreadyExistException) {
             errorLogService.addErrorLog("Already Exist Exception");
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
 
@@ -371,6 +381,8 @@ public class OwnerService {
             errorLogService.addErrorLog("Member Not Exist");
         } catch (AlreadyExistException alreadyExistException) {
             errorLogService.addErrorLog("Already Exist Exception");
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
 
@@ -411,6 +423,8 @@ public class OwnerService {
             errorLogService.addErrorLog("Member Not Exist");
         } catch (AlreadyExistException alreadyExistException) {
             errorLogService.addErrorLog("Already Exist Exception");
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
 
@@ -446,6 +460,8 @@ public class OwnerService {
             //todo : return !
         }catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
 
@@ -511,6 +527,8 @@ public class OwnerService {
             errorLogService.addErrorLog("Member Not Exist");
         } catch (AlreadyExistException alreadyExistException) {
             errorLogService.addErrorLog("Already Exist Exception");
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
 
@@ -534,6 +552,8 @@ public class OwnerService {
             dbController.updateTeam(currOwner, team);
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
 
@@ -558,6 +578,8 @@ public class OwnerService {
             dbController.updateTeam(currOwner, team);
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
 
@@ -584,6 +606,8 @@ public class OwnerService {
             dbController.updateTeam(currOwner, team);
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
 
@@ -610,6 +634,8 @@ public class OwnerService {
 
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
 
@@ -647,6 +673,8 @@ public class OwnerService {
             errorLogService.addErrorLog("Dont Have Permission Exception");
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
 
@@ -681,6 +709,8 @@ public class OwnerService {
             //todo : return !
         } catch (MemberNotExist memberNotExist) {
             errorLogService.addErrorLog("Member Not Exist");
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
         }
     }
 

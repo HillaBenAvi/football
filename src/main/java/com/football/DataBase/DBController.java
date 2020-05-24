@@ -62,7 +62,7 @@ public class DBController {
       public void addAssociationDelegate(Role role, AssociationDelegate associationDelegate) throws
             DontHavePermissionException, AlreadyExistException {
         if (role instanceof SystemManager) {
-            if (associationDelegateDao.exist(associationDelegate.getUserMail()))
+            if (associationDelegateDao.exist(associationDelegate.getUserMail())||existMember(associationDelegate.getUserMail()))
                 throw new AlreadyExistException();
 
             associationDelegateDao.save(associationDelegate);
@@ -73,15 +73,17 @@ public class DBController {
         }
     }
 
+
+
     public void addFan(Role role, Fan fan) throws AlreadyExistException, DontHavePermissionException {
-        if (fanDao.exist(fan.getUserMail()))
+        if (fanDao.exist(fan.getUserMail()) || existMember(fan.getUserMail()))
             throw new AlreadyExistException();
         else{
             fanDao.save(fan);
         }
     }
 
-    public void addSeason(Role role, Season season) throws AlreadyExistException, DontHavePermissionException {
+    public void addSeason(Role role, Season season) throws AlreadyExistException, DontHavePermissionException, ObjectNotExist {
         if (role instanceof SystemManager || role instanceof AssociationDelegate) {
             if(seasonDao.exist(season.getYear()))
                 throw new AlreadyExistException();
@@ -110,7 +112,7 @@ public class DBController {
         }
     }
 
-    public void addLeague(Role role, League league) throws AlreadyExistException, DontHavePermissionException {
+    public void addLeague(Role role, League league) throws AlreadyExistException, DontHavePermissionException, ObjectNotExist {
         if (role instanceof SystemManager || role instanceof AssociationDelegate) {
             if(leagueDao.exist(league.getName()))
                 throw new AlreadyExistException();
@@ -153,7 +155,7 @@ public class DBController {
 
     public void addManager(Role role, Manager manager) throws AlreadyExistException, DontHavePermissionException {
         if (role instanceof SystemManager || role instanceof Owner) {
-            if (managerDao.exist(manager.getUserMail()))
+            if (managerDao.exist(manager.getUserMail()) || existMember(manager.getUserMail()))
                 throw new AlreadyExistException();
             managerDao.save(manager);
         } else {
@@ -164,7 +166,7 @@ public class DBController {
     public void addPlayer(Role role, Player player) throws AlreadyExistException, DontHavePermissionException {
         if (role instanceof SystemManager || role instanceof Owner) {
 
-            if (playerDao.exist(player.getUserMail()))
+            if (playerDao.exist(player.getUserMail()) || existMember(player.getUserMail()))
                 throw new AlreadyExistException();
             playerDao.save(player);
         } else {
@@ -174,7 +176,7 @@ public class DBController {
 
     public void addCoach(Role role, Coach coach) throws AlreadyExistException, DontHavePermissionException {
         if (role instanceof SystemManager || role instanceof Owner) {
-            if (coachDao.exist(coach.getUserMail()))
+            if (coachDao.exist(coach.getUserMail()) || existMember(coach.getUserMail()))
                 throw new AlreadyExistException();
             coachDao.save(coach);
         } else {
@@ -186,14 +188,14 @@ public class DBController {
         if (!(role instanceof SystemManager || role instanceof Owner)) {
             throw new DontHavePermissionException();
         }
-        if (ownerDao.exist(owner.getUserMail()))
+        if (ownerDao.exist(owner.getUserMail()) || existMember(owner.getUserMail()))
             throw new AlreadyExistException();
         ownerDao.save(owner);
     }
 
     public void addSystemManager(Role role, SystemManager systemManager) throws AlreadyExistException, DontHavePermissionException {
         if (role instanceof SystemManager) {
-            if (systemManagerDao.exist(systemManager.getUserMail()))
+            if (systemManagerDao.exist(systemManager.getUserMail()) || existMember(systemManager.getUserMail()))
                 throw new AlreadyExistException();
             systemManagerDao.save(systemManager);
             return;
@@ -204,7 +206,7 @@ public class DBController {
 
     public void addReferee(Role role, Referee referee) throws DontHavePermissionException, AlreadyExistException {
         if (role instanceof SystemManager || role instanceof MainReferee || role instanceof SecondaryReferee) {
-            if (!seconaryRefereeDao.exist(referee.getUserMail()) && !mainRefereeDao.exist(referee.getUserMail())) {
+            if (!seconaryRefereeDao.exist(referee.getUserMail()) && !mainRefereeDao.exist(referee.getUserMail())||existMember(referee.getUserMail())) {
                 if(referee.getType().equals("0MainReferee"))
                     mainRefereeDao.save((MainReferee)referee);
                 if(referee.getType().equals("0Secondary Referee"))
@@ -941,6 +943,8 @@ public class DBController {
     }
 
     /********************************************exist function***********************************/
+
+
     public boolean existReferee( String refereeId) {
         return mainRefereeDao.exist(refereeId) || seconaryRefereeDao.exist(refereeId);
     }
@@ -984,7 +988,7 @@ public class DBController {
     }
 
     /******************************************** update function ***********************************/
-    public void updateOwner(Role role,Owner owner) throws DontHavePermissionException {
+    public void updateOwner(Role role,Owner owner) throws DontHavePermissionException, ObjectNotExist {
         if( role instanceof Owner || role instanceof SystemManager){
             ownerDao.update(owner.getUserMail(),owner);
         }
@@ -1003,7 +1007,7 @@ public class DBController {
         }
     }
 
-    public void updateReferee(Role role,Referee referee) throws MemberNotExist, DontHavePermissionException{
+    public void updateReferee(Role role,Referee referee) throws MemberNotExist, DontHavePermissionException, ObjectNotExist {
         if(role instanceof SystemManager || role instanceof AssociationDelegate){
             if(mainRefereeDao.exist(referee.getUserMail())){
                 mainRefereeDao.update(referee.getUserMail(),(MainReferee)referee);
@@ -1020,7 +1024,7 @@ public class DBController {
         }
     }
 
-    public void updateGame(Role role,Game game) throws MemberNotExist, DontHavePermissionException{
+    public void updateGame(Role role,Game game) throws MemberNotExist, DontHavePermissionException, ObjectNotExist {
         if (role instanceof SystemManager || role instanceof AssociationDelegate) {
             if(gameDao.exist(game.getId())){
                 gameDao.update(game.getId(), game);
@@ -1034,7 +1038,7 @@ public class DBController {
         }
     }
 
-    public void updateCoach(Role role,Coach coach) throws MemberNotExist, DontHavePermissionException{
+    public void updateCoach(Role role,Coach coach) throws MemberNotExist, DontHavePermissionException, ObjectNotExist {
         if( role instanceof Owner || role instanceof SystemManager){
             coachDao.update(coach.getUserMail(),coach);
         }
@@ -1042,7 +1046,7 @@ public class DBController {
             throw new DontHavePermissionException();
         }
     }
-    public void updateFan(Role role,Fan fan) throws MemberNotExist, DontHavePermissionException{
+    public void updateFan(Role role,Fan fan) throws MemberNotExist, DontHavePermissionException, ObjectNotExist {
         if( role instanceof Owner || role instanceof SystemManager || role instanceof AssociationDelegate){
             fanDao.update(fan.getUserMail(),fan);
         }
@@ -1050,7 +1054,7 @@ public class DBController {
             throw new DontHavePermissionException();
         }
     }
-    public void updatePlayer(Role role, Player player) throws MemberNotExist, DontHavePermissionException {
+    public void updatePlayer(Role role, Player player) throws MemberNotExist, DontHavePermissionException, ObjectNotExist {
         if( role instanceof Owner || role instanceof SystemManager){
             playerDao.update(player.getUserMail(),player);
         }
@@ -1083,7 +1087,7 @@ public class DBController {
             throw new DontHavePermissionException();
         }
     }
-    public void updateTeam(Role role,Team team) throws DontHavePermissionException {
+    public void updateTeam(Role role,Team team) throws DontHavePermissionException, ObjectNotExist {
         if( role instanceof Owner || role instanceof SystemManager || role instanceof AssociationDelegate){
             teamDao.update(team.getName(),team);
         }
@@ -1093,7 +1097,7 @@ public class DBController {
         }
     }
 
-    public void updateSystemManager(Role role, SystemManager systemManager) throws DontHavePermissionException {
+    public void updateSystemManager(Role role, SystemManager systemManager) throws DontHavePermissionException, ObjectNotExist {
         if(  role instanceof SystemManager){
             systemManagerDao.update(systemManager.getUserMail(),systemManager);
         }
@@ -1101,7 +1105,7 @@ public class DBController {
             throw new DontHavePermissionException();
         }
     }
-    public void updateAssociationDelegate(Role role, AssociationDelegate associationDelegate) throws DontHavePermissionException {
+    public void updateAssociationDelegate(Role role, AssociationDelegate associationDelegate) throws DontHavePermissionException, ObjectNotExist {
         if(  role instanceof SystemManager){
             associationDelegateDao.update(associationDelegate.getUserMail(),associationDelegate);
         }

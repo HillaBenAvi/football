@@ -1,6 +1,7 @@
 package com.football.DataBase;
 
 import com.football.Domain.Users.Fan;
+import com.football.Exception.ObjectNotExist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -103,10 +104,17 @@ public class FanDao implements DAO<Fan> {
 
 
     @Override
-    public void update(String userMail , Fan fan) {
-        //delete and than add new one
-        delete(userMail);
-        save(fan);
+    public void update(String userMail , Fan fan) throws ObjectNotExist {
+        if(exist(fan.getUserMail())) {
+            //delete and than add new one
+            delete(userMail);
+            save(fan);
+        }
+        else
+        {
+            throw new ObjectNotExist("this object not exist , so you cant update it");
+        }
+
     }
 
     @Override
