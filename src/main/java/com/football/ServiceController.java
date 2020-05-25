@@ -3,12 +3,8 @@ package com.football;
 import com.football.Domain.Users.Fan;
 import com.football.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -22,8 +18,8 @@ public class ServiceController {
 
     @RequestMapping(value="/register",method = RequestMethod.POST)
     public void register(@RequestParam(value = "userName") String userName,
-                         @RequestParam(value = "userMail") String userMail,
-                         @RequestParam(value = "password") String password
+                       @RequestParam(value = "userMail") String userMail,
+                       @RequestParam(value = "password") String password
     ) throws IncorrectInputException, DontHavePermissionException, AlreadyExistException {
         manager.register(userName,userMail,password);
 
@@ -47,16 +43,16 @@ public class ServiceController {
 
     @RequestMapping(value="/addManagerToTeam",method = RequestMethod.POST)
     public void addManagerToTeam(@RequestParam(value = "id") String id,
-                                 @RequestParam(value = "teamName")String teamName,
-                                 @RequestParam(value = "mailId")String mailId)
+                                 @RequestParam(value = "managerId")String managerId,
+                                 @RequestParam(value = "teamName")String teamName)
             throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
-        manager.addManagerToTeam(id, teamName, mailId);
+        manager.addManagerToTeam(id, teamName, managerId);
     }
 
     @RequestMapping(value="/addCoachToTeam",method = RequestMethod.POST)
     public void addCoachToTeam(@RequestParam(value = "id") String id,
-                                 @RequestParam(value = "teamName")String teamName,
-                                 @RequestParam(value = "mailId")String mailId)
+                               @RequestParam(value = "mailId")String mailId,
+                                 @RequestParam(value = "teamName")String teamName)
             throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
         manager.addCoachToTeam(id, teamName, mailId);
     }
@@ -75,8 +71,8 @@ public class ServiceController {
 
     @RequestMapping(value="/addFieldToTeam",method = RequestMethod.POST)
     public void addFieldToTeam(@RequestParam(value = "id") String id,
-                                 @RequestParam(value = "teamName")String teamName,
-                                 @RequestParam(value = "fieldName")String fieldName)
+                               @RequestParam(value = "fieldName")String fieldName,
+                               @RequestParam(value = "teamName")String teamName)
             throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
         manager.addFieldToTeam(id, teamName, fieldName);
     }
@@ -110,9 +106,9 @@ public class ServiceController {
     @RequestMapping(value="/removeTeamField",method = RequestMethod.POST)
     public void removeTeamField(@RequestParam(value = "id") String id,
                                   @RequestParam(value = "teamName")String teamName,
-                                  @RequestParam(value = "mailId")String mailId)
+                                  @RequestParam(value = "fieldName")String fieldName)
             throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
-        manager.removeTeamField(id, teamName, mailId);
+        manager.removeTeamField(id, teamName, fieldName);
     }
 
     @RequestMapping(value="/addNewTeam",method = RequestMethod.POST)
@@ -162,16 +158,113 @@ public class ServiceController {
 //        manager.closeTeam(id, teamName);
 //    }
 
-    @RequestMapping(value="/test",method = RequestMethod.GET)
-    public ResponseEntity<ArrayList<String>> test() {
-        //URI location = ;
-        HttpHeaders responseHeaders = new HttpHeaders();
-        //responseHeaders.setLocation(location);
-        responseHeaders.set("MyResponseHeader", "MyValue");
-        ArrayList<String> response = new ArrayList<>();
-        response.add("hello");
-        response.add("world");
-        return new ResponseEntity<ArrayList<String>>(response, responseHeaders, HttpStatus.CREATED);
+
+
+
+
+    /***********************to add************************/
+
+
+    //return a list of teams names of an owner
+    @RequestMapping(value="/getTeamsOfOwner",method = RequestMethod.GET)
+    @ResponseBody
+    public ArrayList<String> getTeamsOfOwner(@RequestParam(value = "id") String ownerId){
+
+        //return manager.getTeamsByOwner(ownerId);
+        return new ArrayList<>();
     }
+
+    //get all the teams in the system
+    @RequestMapping(value="/getAllTeams",method = RequestMethod.GET)
+    @ResponseBody
+    public ArrayList<String> getAllTeams(@RequestParam(value = "id") String id) {
+
+        //return manager.getAllTeams(ownerId);
+        return new ArrayList<>();
+    }
+
+
+    /*****************team getters*******************/
+    //the key of the HashMaps- id, value- name
+
+    //get all the users that can be coaches of a team
+    @RequestMapping(value="/getTeamManagers",method = RequestMethod.GET)
+    @ResponseBody
+    public HashMap<String,String> getTeamManagers(@RequestParam(value = "id") String id,
+                                                 @RequestParam(value = "teamName") String teamName) {
+
+        //return manager.getTeamManagers(id, teamName);
+        return new HashMap<>();
+    }
+
+    @RequestMapping(value="/getTeamPlayers",method = RequestMethod.GET)
+    @ResponseBody
+    public HashMap<String,String> getTeamPlayers(@RequestParam(value = "id") String id,
+                                                  @RequestParam(value = "teamName") String teamName) {
+
+        //return manager.getTeamPlayers(id, teamName);
+        return new HashMap<>();
+    }
+
+    @RequestMapping(value="/getTeamOwners",method = RequestMethod.GET)
+    @ResponseBody
+    public HashMap<String,String> getTeamOwners(@RequestParam(value = "id") String id,
+                                                @RequestParam(value = "teamName") String teamName) {
+
+        //return manager.getTeamOwners(id, teamName);
+        return new HashMap<>();
+    }
+
+    @RequestMapping(value="/getTeamCoaches",method = RequestMethod.GET)
+    @ResponseBody
+    public HashMap<String,String> getTeamCoaches(@RequestParam(value = "id") String id,
+                                                @RequestParam(value = "teamName") String teamName) {
+
+        //return manager.getTeamCoaches(id, teamName);
+        return new HashMap<>();
+    }
+
+    @RequestMapping(value="/getTeamFields",method = RequestMethod.GET)
+    @ResponseBody
+    public HashMap<String,String> getTeamFields(@RequestParam(value = "id") String id,
+                                                @RequestParam(value = "teamName") String teamName) {
+
+        //return manager.getTeamFields(id, teamName);
+        return new HashMap<>();
+    }
+
+    /*************** team potentials - all the users that can be... ******************/
+
+    @RequestMapping(value="/getPotentialManagers",method = RequestMethod.GET)
+    @ResponseBody
+    public HashMap<String,String> getPotentialManagers(@RequestParam(value = "id") String id,
+                                                  @RequestParam(value = "teamName") String teamName) {
+
+        //return manager.getPotentialManagers(id, teamName);
+        return new HashMap<>();
+    }
+
+    @RequestMapping(value="/getPotentialPlayers",method = RequestMethod.GET)
+    @ResponseBody
+    public HashMap<String,String> getPotentialPlayers(@RequestParam(value = "id") String id,
+                                                       @RequestParam(value = "teamName") String teamName) {
+
+        //return manager.getPotentialPlayers(id, teamName);
+        return new HashMap<>();
+    }
+
+    @RequestMapping(value="/getPotentialCoaches",method = RequestMethod.GET)
+    @ResponseBody
+    public HashMap<String,String> getPotentialCoaches(@RequestParam(value = "id") String id,
+                                                      @RequestParam(value = "teamName") String teamName) {
+
+        //return manager.getPotentialCoaches(id, teamName);
+        return new HashMap<>();
+    }
+
+
+
+
+
 
 }

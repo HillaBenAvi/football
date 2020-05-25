@@ -55,7 +55,23 @@ public class Player extends TeamMember{
         this.events.add(event);
     }
     @Override
-    public String toString(){
-        return "";
+    public String toString()
+    {
+        String str="";
+        str="\'"+this.getUserMail()+"\',\'"+this.getPassword()+"\',\'"+this.getName()+"\',\'"+this.getBirthDateString()+"\',\'"+this.getTeamString()+"\',\'"+this.getEventString()+"\'";
+        return str;
+    }
+
+    private String getEventString() {
+        String str="";
+        for (Event event:events
+        ) {
+            str+=event.toString()+";";
+        }
+        if(str.length()>0)
+        {
+            str=str.substring(0,str.length()-1);
+        }
+        return str;
     }
 }

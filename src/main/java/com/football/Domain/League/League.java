@@ -34,4 +34,26 @@ public class League {
     public HashMap<Season,LeagueInSeason> getSeasons(){
         return leagueInSeasons;
     }
+
+    @Override
+    public String toString(){
+        String details = "\'"+this.name+"\',\'";
+        for(Season lS : leagueInSeasons.keySet()){
+            details += lS.getYear() +":";
+        }
+        if (details != null && details.length() > 0 && details.charAt(details.length() - 1) == ':') {
+            details = details.substring(0, details.length() - 1);
+        }
+        details += "\'";
+        return details;
+    }
+    public String getSeasonString()
+    {
+        String str="";
+        for (Season season:leagueInSeasons.keySet()
+        ) {
+            str=season.toString()+";"+leagueInSeasons.get(season).toString()+":";
+        }
+        return str;
+    }
 }

@@ -30,6 +30,26 @@ public class Owner extends Member {
 
     @Override
     public String getType() {
-        return "Owner";
+        return "0Owner";
+    }
+
+    @Override
+    public String toString() {
+        String str="";
+        str="\'"+this.getUserMail()+"\',\'"+this.getPassword()+"\',\'"+this.getName()+"\',\'"+this.getBirthDateString()+"\',\'"+this.getTeamString()+"\'";
+        return str;
+    }
+
+    private String getTeamString() {
+        String str="";
+        for (String team:teams.keySet()
+        ) {
+            str+=team+";";
+        }
+        if(str.length()>0)
+        {
+            str=str.substring(0,str.length()-1);
+        }
+        return str;
     }
 }

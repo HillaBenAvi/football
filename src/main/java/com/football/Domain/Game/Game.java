@@ -109,16 +109,20 @@ public class Game extends Observable {
     @Override
     public String toString(){
         String details =
-                id + ":" + dateAndTime.toString()+ ":" +
-                        hostTeam.getName() + ":" +
-                        visitorTeam.getName() + ":" +
-                        field.getName() + ":" + result + ":" + eventLog.toString() + ":" +
-                        leagueInSeason.getLeague().getName() + ":" +
-                        leagueInSeason.getSeason().getYear() + ":" ;
+                "\'" + id + "\'," +
+                        "\'" + dateAndTime.toString()+ "\'," +
+                        "\'" +hostTeam.getName() + "\'," +
+                        "\'" + visitorTeam.getName() + "\'," +
+                        "\'" +field.getName() + "\'," +
+                        "\'" + result + "\'," +
+                        "\'" +eventLog.toString() + "\'," +
+                        "\'" +leagueInSeason.getLeague().getName() + "\'," +
+                        "\'" +leagueInSeason.getSeason().getYear() + "\'," ;
+        details += "\'";
         for ( Referee referee : referees){
-            details = details + referee.getUserMail();
+            details = details + referee.getUserMail() +";";
         }
+        details += "\'";
         return details;
     }
-
 }

@@ -31,4 +31,18 @@ public class Account {
     public double getAmountOfTeam() {
         return amountOfTeam;
     }
+
+    @Override
+    public String toString(){
+        String details = "";
+        for(Transaction t : transactions){
+            details += t.toString() + "--" ;
+        }
+        if (details != null && details.length() > 3 && details.charAt(details.length() - 1) == '-') {
+            details = details.substring(0, details.length() - 3);
+        }
+
+        details += "---" + amountOfTeam;
+        return details;
+    }
 }

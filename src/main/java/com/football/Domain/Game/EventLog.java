@@ -14,4 +14,13 @@ public class EventLog {
         events.add(event);
     }
 
+    @Override
+    public String toString(){
+        String details = "";
+        for(int i=0 ; i<events.size()-1 ; i++){
+            details += events.get(i).toString() + ";" ;
+        }
+        details += events.get(events.size()-1);
+        return details;
+    }
 }

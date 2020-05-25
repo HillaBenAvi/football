@@ -1,13 +1,14 @@
 package com.football.Domain.Users;
 
 import com.football.DataBase.DBController;
-import com.football.DataBase.DBmemory;
 import com.football.Domain.Game.Game;
 import com.football.Domain.Game.Team;
 import com.football.Exception.AlreadyExistException;
 import com.football.Exception.DontHavePermissionException;
 import com.football.Exception.IncorrectInputException;
 import com.football.Exception.MemberNotExist;
+import com.football.Service.ErrorLogService;
+import com.football.Service.EventLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,26 +25,45 @@ public class FanService {
 //    private DBController dbController;
 
     @Autowired
-    private DBmemory dbController;
+    private DBController dbController;
+
+    @Autowired
+    private ErrorLogService errorLogService;
+
+    @Autowired
+    private EventLogService eventLogService;
 
     public void followTeam(String id, Team team) throws MemberNotExist {
-        if(dbController.existFan(id)){
-            Fan fan = dbController.getFan(id);
-            team.addNewFollower(fan);
-        }
+       try{
+           if(dbController.existFan(id)){
+               Fan fan = dbController.getFan(id);
+               team.addNewFollower(fan);
+           }
+       }catch(MemberNotExist e){
+           errorLogService.addErrorLog("Member Not Exist");
+           throw new MemberNotExist();
+       }
+
     }
 
     public void followGame(String id, Game game) throws MemberNotExist {
-        if(dbController.existFan(id)){
-            Fan fan = dbController.getFan(id);
-            game.addNewFollower(fan);
-        }
+       try{
+           if(dbController.existFan(id)){
+               Fan fan = dbController.getFan(id);
+               game.addNewFollower(fan);
+           }
+       }catch(MemberNotExist e){
+           errorLogService.addErrorLog("Member Not Exist");
+           throw new MemberNotExist();
+       }
+
     }
 
     public void updatePersonalDetails(String id, String newName,String newMail) throws IncorrectInputException, MemberNotExist, DontHavePermissionException, AlreadyExistException {
         if (dbController.existFan(id)) {
             Fan fan = dbController.getFan(id);
             if (newName == null || newMail == null) {
+                errorLogService.addErrorLog("Incorrect Input Exception");
                 throw new IncorrectInputException();
             }
             dbController.deleteFan(fan, id);
@@ -54,6 +74,7 @@ public class FanService {
                 fan.setMail(newMail);
             }
             dbController.addFan(fan,fan);
+            eventLogService.addEventLog(id,"update personal details");
         }
     }
 
@@ -75,6 +96,7 @@ public class FanService {
             bw.close();
             fw.close();
         } catch (Exception e) {
+            errorLogService.addErrorLog("the path is not legal");
             System.out.print("the path is not legal");
         }
     }

@@ -20,5 +20,12 @@ public class Manager extends TeamMember {
             team.get(strTeam).removeManager(this);
         }
     }
+    @Override
+    public String toString()
+    {
+        String str="";
+        str="\'"+this.getUserMail()+"\',\'"+this.getPassword()+"\',\'"+this.getName()+"\',\'"+this.getBirthDateString()+"\',\'"+this.getTeamString()+"\'";
+        return str;
+    }
 
 }
