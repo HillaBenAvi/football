@@ -3,6 +3,7 @@ package com.football.Domain.Users;
 import com.football.DataBase.DBController;
 import com.football.Exception.*;
 import com.football.Service.ErrorLogService;
+import com.football.Service.EventLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,8 @@ public class SecondaryRefereeService {
     @Autowired
     private ErrorLogService errorLogService;
 
+    @Autowired
+    private EventLogService eventLogService;
     /**
      * the function allows the referee to update his own details.
      *
@@ -35,6 +38,7 @@ public class SecondaryRefereeService {
             if (dbController.existReferee(id)) {
                 Referee referee = dbController.getReferee(id);
                 dbController.deleteReferee(referee, id);
+                eventLogService.addEventLog(id,"updateDetails");
                 if (newName != "") {
                     referee.setName(newName);
                 }

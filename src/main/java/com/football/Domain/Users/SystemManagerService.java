@@ -13,6 +13,7 @@ import com.football.Domain.League.LeagueInSeason;
 import com.football.Domain.League.Season;
 import com.football.Exception.*;
 import com.football.Service.ErrorLogService;
+import com.football.Service.EventLogService;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,9 @@ public class SystemManagerService {
 
     @Autowired
     private ErrorLogService errorLogService;
+
+    @Autowired
+    private EventLogService eventLogService;
     /********************remove members*********************/
 
 
@@ -53,6 +57,7 @@ public class SystemManagerService {
                         Fan newFan = new Fan(temp.getName(), temp.getUserMail(), temp.getPassword(), temp.getBirthDate());
                         dbController.deleteAssociationDelegate(manager, idToRemove);
                         dbController.addFan(manager, newFan);
+                        eventLogService.addEventLog(id,"removeAssociationDelegate");
                     } else {
                         errorLogService.addErrorLog("Incorrect Input Exception");
                         throw new IncorrectInputException();
@@ -96,6 +101,7 @@ public class SystemManagerService {
                         Owner owner = dbController.getOwner(ownerId);
                         if (owner.notHaveTeams()) {
                             dbController.deleteOwner(manager, ownerId);
+                            eventLogService.addEventLog(id,"removeOwner");
                             return true;
                         } else {
                             errorLogService.addErrorLog("Not Ready To Delete");
@@ -146,6 +152,7 @@ public class SystemManagerService {
                             Fan fan = new Fan(systemManager.getName(), systemManager.getUserMail(), systemManager.getPassword(), systemManager.getBirthDate());
                             dbController.deleteSystemManager(manager, idToRemove);
                             dbController.addFan(manager, fan);
+                            eventLogService.addEventLog(id,"removeSystemManager");
                             return true;
                         } else {
                             errorLogService.addErrorLog("Not Ready To Delete");
@@ -198,6 +205,7 @@ public class SystemManagerService {
                             dbController.deleteReferee(manager, refereeId);
                             Fan newFan = new Fan(referee.getName(), referee.getUserMail(), referee.getPassword(), referee.getBirthDate());
                             dbController.addFan(manager, newFan);
+                            eventLogService.addEventLog(id,"removeReferee");
                             return true;
                         }
                     } else {
@@ -259,6 +267,7 @@ public class SystemManagerService {
                             // removeFan(((Fan) role).getUserMail());
                         }
                         dbController.deleteMember(manager, memberId);
+                        eventLogService.addEventLog(id,"removeMember");
                         return true;
                     } else {
                         throw new MemberNotExist();
@@ -311,6 +320,7 @@ public class SystemManagerService {
                             }
                             dbController.deleteFan(manager, refereeId);
                             dbController.addReferee(manager, referee);
+                            eventLogService.addEventLog(id,"addReferee");
                             return true;
                         } else {
                             errorLogService.addErrorLog("Member Not Exist");
@@ -354,6 +364,7 @@ public class SystemManagerService {
                     AssociationDelegate newA_D = new AssociationDelegate(member.getName(), member.getUserMail(), member.getPassword(), member.getBirthDate());
                     this.dbController.deleteRole(manager, associationDelegateId);
                     this.dbController.addAssociationDelegate(manager, newA_D);
+                    eventLogService.addEventLog(id,"addAssociationDelegate");
                 }
             }
         } catch (MemberNotExist memberNotExist) {
@@ -382,6 +393,7 @@ public class SystemManagerService {
                     Owner newOwner = new Owner(member.getName(), member.getUserMail(), member.getPassword(), member.getBirthDate());
                     this.dbController.deleteRole(manager, ownerId);
                     this.dbController.addOwner(manager, newOwner);
+                    eventLogService.addEventLog(id,"addOwner");
                 }
             }
         } catch (MemberNotExist memberNotExist) {
@@ -411,6 +423,7 @@ public class SystemManagerService {
                     SystemManager newSystemManager = new SystemManager(member.getName(), member.getUserMail(), member.getPassword(), member.getBirthDate());
                     this.dbController.deleteRole(manager, systemManagerId);
                     this.dbController.addSystemManager(manager, newSystemManager);
+                    eventLogService.addEventLog(id,"addSystemManager");
                 }
             }
         } catch (MemberNotExist memberNotExist) {
@@ -490,6 +503,7 @@ public class SystemManagerService {
                     leagueInSeason.addGames(games);
                     dbController.addGames(manager, games);
                     dbController.updateLeagueInSeason(manager, leagueInSeason);
+                    eventLogService.addEventLog(id,"schedulingGames");
                 }
             }
         } catch (MemberNotExist memberNotExist) {
@@ -522,6 +536,7 @@ public class SystemManagerService {
                         HashSet<Owner> allTheOwnerOfTheGroup = team.getOwners();
                         changeTheOwnerToFan(manager, allTheOwnerOfTheGroup);
                         dbController.removeTeam(manager, teamName);
+                        eventLogService.addEventLog(id,"closeTeam");
                         return true;
                     } else {
                         errorLogService.addErrorLog("Incorrect Input Exception");
@@ -575,6 +590,7 @@ public class SystemManagerService {
                         owner = new Owner(role.getName(), ((Fan) role).getUserMail(), ((Fan) role).getPassword(), role.getBirthDate());
                         dbController.deleteFan(manager, ((Fan) role).getUserMail());
                         dbController.addOwner(manager, owner);
+
                     } else if (role instanceof Owner) {
                         owner = (Owner) role;
                     }
@@ -584,6 +600,7 @@ public class SystemManagerService {
                         owner.getTeams().put(teamName, newTeam);
                         dbController.updateOwner(manager, owner);
                         dbController.addTeam(manager, newTeam);
+                        eventLogService.addEventLog(id,"addNewTeam");
                     }
                 }
             }
@@ -775,7 +792,7 @@ public class SystemManagerService {
         return this.dbController.getRoles();
     }
 
-    public HashMap<String, Team> getTeams() throws DontHavePermissionException {
+    public HashMap<String, Team> getTeams() {
         return this.dbController.getTeams();
     }
 
