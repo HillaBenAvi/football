@@ -1,6 +1,7 @@
 package com.football;
 
 import com.football.DataBase.DBController;
+import com.football.Domain.Game.Game;
 import com.football.Domain.League.ASchedulingPolicy;
 import com.football.Domain.League.League;
 import com.football.Domain.League.Season;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 
 @Service
 public class Manager {
@@ -28,6 +30,8 @@ public class Manager {
     private OwnerService ownerService;
     @Autowired
     private MainRefereeService mainRefereeService;
+    @Autowired
+    private SecondaryRefereeService secondaryRefereeService;
 
 
     public Member register(String userName, String userMail, String password) throws IncorrectInputException, AlreadyExistException, DontHavePermissionException {
@@ -293,8 +297,24 @@ public class Manager {
         return scheduling;
     }
 
-    public void addGameEvents(String id, String refereeId, String year,String mounth, String day, String description, String gameMinute, String eventInGame, String playersId) throws MemberNotExist, DontHavePermissionException {
-        String eventString = "";
+    public String addGameEvents(String id, String refereeId, String year,String mounth, String day, String description, String gameMinute, String eventInGame, String playersId) throws MemberNotExist, DontHavePermissionException, ObjectNotExist {
         mainRefereeService.updateGameEvent(id,refereeId, year, mounth,  day, description, gameMinute, eventInGame, playersId);
+        String playersInvolved = "";
+        for(String player : playersId.split(";")){
+            playersInvolved+= player +"\n";
+        }
+        return refereeId + " entered Event to game \'" + id +"\':\n"+
+                    day+"/"+mounth+"/"+year+" -- " + description + " at "+ gameMinute + " minute.\n" +
+                    "players involved: \n" + playersInvolved + "game event category = "+ eventInGame ;
+    }
+
+    public HashSet<String> getRefereeGames(String refereeId) throws MemberNotExist {
+        Referee referee = dbController.getReferee(refereeId);
+        HashSet<Game> games =  referee.getGameSchedule();
+        HashSet<String> gamesId = new HashSet<>();
+        for(Game game : games){
+            gamesId.add(game.getId());
+        }
+       return gamesId;
     }
 }

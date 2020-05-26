@@ -1129,13 +1129,13 @@ public class DBController {
         }
     }
 
-    public void updateGame(Role role,Game game) throws MemberNotExist, DontHavePermissionException, ObjectNotExist {
-        if (role instanceof SystemManager || role instanceof AssociationDelegate) {
+    public void updateGame(Role role,Game game) throws DontHavePermissionException, ObjectNotExist {
+        if (role instanceof SystemManager || role instanceof AssociationDelegate || role instanceof MainReferee) {
             if(gameDao.exist(game.getId())){
                 gameDao.update(game.getId(), game);
             }
             else{
-                throw new MemberNotExist();
+                throw new ObjectNotExist("game not exist");
             }
         }
         else{
@@ -1218,6 +1218,24 @@ public class DBController {
             throw new DontHavePermissionException();
         }
     }
+
+    public Game getGame(String gameid){
+        if(gameDao.exist(gameid)){
+            String gameString = gameDao.get(gameid);
+            String[] splited = gameString.split(":");
+            try {
+                League league = getLeague(splited[7]);
+                Season season = league.getSeason(splited[8]);
+                LeagueInSeason leagueInSeason = league.getLeagueInSeason(season);
+                Game newGame = parseGame(splited , leagueInSeason);
+                newGame.setLeagueInSeason(leagueInSeason);
+                return newGame;
+            } catch (ObjectNotExist objectNotExist) {
+                objectNotExist.printStackTrace();
+            }
+        }
+        return null;
+    }
     /********************************************private function***********************************/
 
     private LeagueInSeason parseLeagueInSeason(String leagueInSeasonString, League league ,Season season) {
@@ -1250,28 +1268,32 @@ public class DBController {
         /*add games*/
         if(splited.length>=5  && !splited[5].equals(" ")) {
             String[] gamesString = splited[4].split("---");
-            HashSet<Game> games = new HashSet<>();
-            for (String gameS : gamesString) {
-                String gameDetails = gameDao.get(gameS);
-                Game game = parseGame(gameDetails.split(":"), leagueInSeason);
-                games.add(game);
-            }
-            leagueInSeason.addGames(games);
-            HashMap<String,Referee> refereeHashMap = leagueInSeason.getReferees();
-            for(String ref : refereeHashMap.keySet()) {
-                Referee referee = refereeHashMap.get(ref);
-                if (referee instanceof SecondaryReferee) {
-                    try {
-                        seconaryRefereeDao.update(ref, (SecondaryReferee) referee);
-                    } catch (ObjectNotExist objectNotExist) {
-                    }
-                } else {
-                    try {
-                        mainRefereeDao.update(ref, (MainReferee) referee);
-                    } catch (ObjectNotExist objectNotExist) {
+            if(!gamesString[0].equals("")){
+                HashSet<Game> games = new HashSet<>();
+                for (String gameS : gamesString) {
+                    String gameDetails = gameDao.get(gameS);
+                    Game game = parseGame(gameDetails.split(":"), leagueInSeason);
+                    if(game != null)
+                        games.add(game);
+                }
+                leagueInSeason.addGames(games);
+                HashMap<String,Referee> refereeHashMap = leagueInSeason.getReferees();
+                for(String ref : refereeHashMap.keySet()) {
+                    Referee referee = refereeHashMap.get(ref);
+                    if (referee instanceof SecondaryReferee) {
+                        try {
+                            seconaryRefereeDao.update(ref, (SecondaryReferee) referee);
+                        } catch (ObjectNotExist objectNotExist) {
+                        }
+                    } else {
+                        try {
+                            mainRefereeDao.update(ref, (MainReferee) referee);
+                        } catch (ObjectNotExist objectNotExist) {
+                        }
                     }
                 }
             }
+
         }
         /*add SchedulingPolicy*/
         ASchedulingPolicy schedulingPolicy = null;
@@ -1320,39 +1342,40 @@ public class DBController {
 
     }
     private Game parseGame(String[] splited, LeagueInSeason leagueInSeason){
-        Calendar dateAndTime = getCalander(splited[1]);
-        try {
-            Team hostTeam = getTeam(splited[2]);
-            Team visitorTeam = getTeam(splited[3]);
-            Field field = new Field(splited[4]);
-            MainReferee mainReferee;
-            SecondaryReferee secondReferee;
-            String id = splited[0];
-            String result = splited[5];
-            String events = splited[6];
-            String league = splited[7];
-            String season = splited[8];
-            String[] referees = splited[9].split(";");
-            if(seconaryRefereeDao.exist(referees[0])){
-                secondReferee = (SecondaryReferee)getReferee(referees[0]);
-                mainReferee= (MainReferee) getReferee(referees[1]);
+        if(splited.length>1){
+            Calendar dateAndTime = getCalander(splited[1]);
+            try {
+                Team hostTeam = getTeam(splited[2]);
+                Team visitorTeam = getTeam(splited[3]);
+                Field field = new Field(splited[4]);
+                MainReferee mainReferee;
+                SecondaryReferee secondReferee;
+                String id = splited[0];
+                String result = splited[5];
+                String events = splited[6];
+                String league = splited[7];
+                String season = splited[8];
+                String[] referees = splited[9].split(";");
+                if(seconaryRefereeDao.exist(referees[0])){
+                    secondReferee = (SecondaryReferee)getReferee(referees[0]);
+                    mainReferee= (MainReferee) getReferee(referees[1]);
 
-            }
-            else{
-                mainReferee= (MainReferee) getReferee(referees[0]);
-                secondReferee = (SecondaryReferee)getReferee(referees[1]);
-            }
+                }
+                else{
+                    mainReferee= (MainReferee) getReferee(referees[0]);
+                    secondReferee = (SecondaryReferee)getReferee(referees[1]);
+                }
 
-            Game newGame = new Game(id,dateAndTime,hostTeam,visitorTeam,field,
-                                mainReferee,secondReferee,leagueInSeason);
+                Game newGame = new Game(id,dateAndTime,hostTeam,visitorTeam,field,
+                        mainReferee,secondReferee,leagueInSeason);
 
-            newGame.addEvents(events);
-            newGame.setResult(result);
+                newGame.addEvents(events);
+                newGame.setResult(result);
 
-            return newGame;
-
-        } catch (ObjectNotExist objectNotExist) {
-        }catch (MemberNotExist memberNotExist) { }
+                return newGame;
+            } catch (ObjectNotExist objectNotExist) {
+            }catch (MemberNotExist memberNotExist) { }
+        }
         return null;
     }
     private Calendar getCalander(String calander){

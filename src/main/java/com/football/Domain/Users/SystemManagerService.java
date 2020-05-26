@@ -503,6 +503,12 @@ public class SystemManagerService {
                     leagueInSeason.addGames(games);
                     dbController.addGames(manager, games);
                     dbController.updateLeagueInSeason(manager, leagueInSeason);
+                    for(Game game : games){
+                        HashSet<Referee> referees =  game.getReferees();
+                        for (Referee referee : referees){
+                            dbController.updateReferee(manager,referee);
+                        }
+                    }
                     eventLogService.addEventLog(id,"schedulingGames");
                 }
             }

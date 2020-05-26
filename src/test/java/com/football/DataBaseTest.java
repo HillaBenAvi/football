@@ -332,7 +332,6 @@ public class DataBaseTest {
             objectNotExist.printStackTrace();
         }
     }
-
     @Test
     public void leagueDB(){
         try {
@@ -361,8 +360,6 @@ public class DataBaseTest {
             objectNotExist.printStackTrace();
         }
     }
-
-
     @Test
     public void leagueInSeasonDB(){
         try {
@@ -417,7 +414,6 @@ public class DataBaseTest {
             objectNotExist.printStackTrace();
         }
     }
-
     @Test
     public void teamDB(){
         try {
@@ -447,7 +443,6 @@ public class DataBaseTest {
             memberNotExist.printStackTrace();
         }
     }
-
     @Test
     public void errorLogDB(){
         try {
@@ -488,7 +483,6 @@ public class DataBaseTest {
             objectNotExist.printStackTrace();
         }
     }
-
     @Test
     public void notificationDB(){
         try {

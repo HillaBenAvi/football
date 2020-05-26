@@ -34,7 +34,7 @@ public class MainRefereeService {
 
     /**
      * in this function a main referee can update an event in a game
-     * @param id
+     * @param gameid
      * @param refereeId
      * @param year
      * @param mounth
@@ -46,19 +46,30 @@ public class MainRefereeService {
      * @param playersId
      */
 
-    public void updateGameEvent(String id, String refereeId, String year,String mounth, String day, String description, String gameMinute, String eventInGame, String playersId) throws MemberNotExist, DontHavePermissionException {
-        //todo: get the game id instead of the object-after client
-        if(dbController.existReferee(id)) {
-            Referee referee = dbController.getReferee(id);
-            HashSet<Game> games = referee.games;
-            for(Game game : games){
-//                if(gameId.equals(game.getId())){
-//                    Event event1 = new Event();
-//                }
+    public void updateGameEvent(String gameid, String refereeId, String year,String mounth, String day, String description, String gameMinute, String eventInGame, String playersId) throws MemberNotExist, DontHavePermissionException, ObjectNotExist {
+        if(dbController.existReferee(refereeId)) {
+            Referee referee = dbController.getReferee(refereeId);
+            if(referee instanceof MainReferee){
+                HashSet<Game> games = referee.games;
+                Game game = dbController.getGame(gameid);
+                for(Game gameR : games){
+                    if(gameid.equals(gameR.getId())){
+                        Date date = new Date( Integer.parseInt(year), Integer.parseInt(mounth),  Integer.parseInt(day));
+                        String[] playersIdS = playersId.split(";");
+                        ArrayList<String> players = new ArrayList<>();
+                        for(String playerid : playersIdS){
+                            players.add(playerid);
+                        }
+                        Event event1 = new Event(date,description,EventInGame.valueOf(eventInGame),Integer.parseInt(gameMinute),players);
+                        game.addEvent(event1);
+                        dbController.updateGame(referee,game);
+                        return;
+                    }
+                }
             }
-//            if (getEditableGames(referee).contains(game)) {
-//                game.addEvent(new Event(time, description, event, timeInGame, players));
-//            }
+            else {
+                throw new DontHavePermissionException();
+            }
         }
     }
 

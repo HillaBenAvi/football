@@ -136,7 +136,7 @@ public class GameDao implements DAO<Game> {
             Statement stmt = connection.createStatement();
 
             String sql = "DELETE FROM"+getTableName()+
-                    "WHERE gameid="+id;
+                    "WHERE idGame= "+ "\'"+id+"\'";
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -149,7 +149,7 @@ public class GameDao implements DAO<Game> {
             Statement stmt = connection.createStatement();
 
             String sqlQuery = "SELECT * FROM "+getTableName()+
-                    "WHERE gameid ="+ "\'" + id + "\'";
+                    "WHERE idGame ="+ "\'" + id + "\'";
             ResultSet rs = stmt.executeQuery(sqlQuery);
             return rs.next();
 

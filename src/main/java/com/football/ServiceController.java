@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 @RestController
@@ -135,9 +136,9 @@ public class ServiceController {
         manager.setLeagueByYear(id, seasonId, leagueId);
     }
 
-    //todo: after the client
+    //todo: merge this with master
     @RequestMapping(value="/updateGameEvents",method = RequestMethod.POST)
-    public void updateGameEvents(@RequestParam(value = "gameId") String id,
+    public String updateGameEvents(@RequestParam(value = "gameId") String id,
                                  @RequestParam(value = "refereeId") String refereeId,
                                  @RequestParam(value = "year") String year,
                                  @RequestParam(value = "mounth") String mounth,
@@ -147,7 +148,7 @@ public class ServiceController {
                                  @RequestParam(value = "eventEnum") String eventInGame,
                                  @RequestParam(value = "playersId") String playersId)
             throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException, ObjectNotExist, IncorrectInputException, ObjectAlreadyExist {
-        manager.addGameEvents(id, refereeId,  year, mounth,  day ,description,gameMinute,eventInGame,playersId);
+       return manager.addGameEvents(id, refereeId,  year, mounth,  day ,description,gameMinute,eventInGame,playersId);
     }
 
     @RequestMapping(value="/closeTeam",method = RequestMethod.DELETE)
@@ -233,11 +234,8 @@ public class ServiceController {
 
     @RequestMapping(value="/getRefereeGames",method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<String,String> getRefereeGames(@RequestParam(value = "id") String id,
-                                                 @RequestParam(value = "teamName") String teamName) {
-
-        //return manager.getTeamCoaches(id, teamName);
-        return new HashMap<>();
+    public HashSet<String> getRefereeGames(@RequestParam(value = "id") String refereeId) throws MemberNotExist {
+        return manager.getRefereeGames(refereeId);
     }
 
     @RequestMapping(value="/getTeamFields",method = RequestMethod.GET)

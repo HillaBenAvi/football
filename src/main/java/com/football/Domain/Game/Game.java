@@ -39,7 +39,6 @@ public class Game extends Observable {
             this.dateAndTime = new GregorianCalendar(Integer.parseInt(da[0]),Integer.parseInt(da[1]),Integer.parseInt(da[2])
                                     ,Integer.parseInt(da[3]),Integer.parseInt(da[4]));
         }
-
     }
     public String getId(){
         return id;
@@ -54,6 +53,9 @@ public class Game extends Observable {
     }
 
     public void addEvent (Event event){
+        if(this.eventLog == null){
+            this.eventLog = new EventLog(this);
+        }
         this.eventLog.addEvent(event);
         notifyFollowers("new event in the game:" + event.toString());
     }
@@ -109,16 +111,21 @@ public class Game extends Observable {
         String[] eventsToAdd = events.split(",");
         this.eventLog = new EventLog(this);
         for( String eventString : eventsToAdd){
-            String[] eventToAdd = eventString.split(";");
-            Event event = new Event(eventToAdd);
-            this.eventLog.addEvent(event);
+            if(eventString.equals("")){
+                continue;
+            }
+            else{
+                String[] eventToAdd = eventString.split(";");
+                Event event = new Event(eventToAdd);
+                this.eventLog.addEvent(event);
+            }
         }
     }
 
     @Override
     public String toString(){
-        int year = Integer.parseInt(leagueInSeason.getSeason().getYear());
-        Calendar dateAndTime = new GregorianCalendar(year, 0, 1, 20, 30, 0);
+//        int year = Integer.parseInt(leagueInSeason.getSeason().getYear());
+//        Calendar dateAndTime = new GregorianCalendar(year, 0, 1, 20, 30, 0);
 
         String details =
                 "\'" + id + "\'," +
