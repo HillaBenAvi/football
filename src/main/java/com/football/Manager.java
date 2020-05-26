@@ -1,12 +1,17 @@
 package com.football;
 
 import com.football.DataBase.DBController;
+import com.football.Domain.League.ASchedulingPolicy;
+import com.football.Domain.League.League;
+import com.football.Domain.League.Season;
 import com.football.Domain.Users.*;
 import com.football.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 @Service
 public class Manager {
@@ -170,5 +175,119 @@ public class Manager {
                 associationDelegateService.insertSchedulingPolicy(id, league, season, sPolicy);
             }
         }
+    }
+
+    public ArrayList<String> getTeamsOfOwner(String id) throws ObjectNotExist, MemberNotExist {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof Owner){
+                return ownerService.getTeamsById(id);
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<String> getFieldsOfOwner(String id,String teamName) throws ObjectNotExist, MemberNotExist {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof Owner){
+                return ownerService.getFieldsOfOwner(id,teamName);
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<String> getRolesToAddManager(String id) throws ObjectNotExist, MemberNotExist {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof Owner){
+                return ownerService.getRolesToAddManager(id);
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<String> getAllRoles(String id) throws ObjectNotExist, MemberNotExist {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof Owner){
+                return ownerService.getAllRoles(id);
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<String> getManagersOfTeam(String id, String teamName) throws MemberNotExist {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof Owner){
+                return ownerService.getManagersOfTeam(id,teamName);
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<String> getPlayersOfTeam(String id, String teamName) throws MemberNotExist {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof Owner){
+                return ownerService.getPlayersOfTeam(id,teamName);
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<String> getCoachesOfTeam(String id, String teamName) throws MemberNotExist {
+        if(dbController.existMember(id)){
+            Role member = dbController.getMember(id);
+            if (member instanceof Owner){
+                return ownerService.getCoachesOfTeam(id,teamName);
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<String> getTeams(){
+        ArrayList<String> teams=new ArrayList<>();
+        for (String teamName: systemManagerService.getTeams().keySet()) {
+            teams.add(teamName);
+        }
+        return teams;
+    }
+
+    public ArrayList<String> getRefereesDoesntExistInTheLeagueAndSeason(String leagueId, String seasonId) throws DontHavePermissionException, ObjectNotExist {
+        ArrayList<String> referees=new ArrayList<>();
+        HashMap<String,Referee> gerReferees= associationDelegateService.getRefereesDoesntExistInTheLeagueAndSeason(leagueId,seasonId);
+        for (String name:gerReferees.keySet()) {
+            referees.add(name);
+        }
+        return referees;
+    }
+
+    public ArrayList<String> getSeasons() {
+        ArrayList<String> seasons=new ArrayList<>();
+        HashMap<String, Season> getSeasons= dbController.getSeasons();
+        for (String name:getSeasons.keySet()) {
+            seasons.add(name);
+        }
+        return seasons;
+    }
+
+    public ArrayList<String> getLeagues() {
+        ArrayList<String> leagues=new ArrayList<>();
+        HashMap<String, League> getLeagues= dbController.getLeagues();
+        for (String name:getLeagues.keySet()) {
+            leagues.add(name);
+        }
+        return leagues;
+    }
+
+    public ArrayList<String> getSchedulingPolicies() {
+        ArrayList<String> scheduling=new ArrayList<>();
+        HashMap<String, ASchedulingPolicy> getSchedulingPolicies= dbController.getSchedulingPolicies();
+        for (String name:getSchedulingPolicies.keySet()) {
+            scheduling.add(name);
+        }
+        return scheduling;
     }
 }

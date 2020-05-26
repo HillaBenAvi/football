@@ -1,5 +1,8 @@
 package com.football.Service;
 
+import jdk.nashorn.internal.runtime.logging.Logger;
+
+@Logger
 public class EventLog {
 
     private int id;
