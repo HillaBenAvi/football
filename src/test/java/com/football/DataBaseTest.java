@@ -1,7 +1,6 @@
 package com.football;
 
 import com.football.DataBase.DBController;
-import com.football.DataBase.SystemManagerDao;
 import com.football.Domain.Asset.Coach;
 import com.football.Domain.Asset.Field;
 import com.football.Domain.Asset.Manager;
@@ -21,6 +20,19 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import com.football.Domain.Asset.Coach;
+import com.football.Domain.Asset.Player;
+import com.football.Domain.Game.Account;
+import com.football.Domain.Game.Team;
+import com.football.Domain.League.League;
+import com.football.Domain.League.LeagueInSeason;
+import com.football.Domain.League.Season;
+import com.football.Domain.Users.*;
+import com.football.Exception.*;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.Date;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
@@ -32,17 +44,16 @@ public class DataBaseTest {
     Date birthDate = new Date(1995, 3, 6);
     SystemManager systemManager;
 
-
     @Before
     public void init(){
         systemManager = new SystemManager("shacahr", "meretz@gmail.com", "123456", new Date(1, 1, 1995));
     }
+
     //game
     @Test
     public void gameDB() throws AlreadyExistException, IncorrectInputException, MemberNotExist, PasswordDontMatchException, MemberAlreadyExistException, DontHavePermissionException, ObjectAlreadyExist, NoEnoughMoney, ObjectNotExist {
         schedulingGames();
     }
-
     @Test
     public void fanDB(){
         try {
@@ -233,6 +244,7 @@ public class DataBaseTest {
             e.printStackTrace();
         } catch (ObjectNotExist objectNotExist) {
             objectNotExist.printStackTrace();
+
         }
     }
     @Test
@@ -383,6 +395,12 @@ public class DataBaseTest {
             String seasonYear = leagueInSeason.getSeason().getYear();
             LeagueInSeason leagueInSeason1 = dbc.getLeagueInSeason(leagueName, seasonYear);
             assertEquals(leagueInSeason1.toString() , leagueInSeason.toString());
+
+            dbc.addLeagueInSeason(systemManager, leagueInSeason);
+            assertTrue(dbc.existLeagueInSeason( leagueInSeason.getLeague().getName()+":"+leagueInSeason.getSeason().getYear()));
+            assertEquals(dbc.getLeagueInSeason(leagueInSeason.getLeague().getName(), leagueInSeason.getSeason().getYear()).toString() , leagueInSeason.toString());
+
+
             LeagueInSeason leagueInSeason2= new LeagueInSeason(dbc.getLeague(league.getName()) ,dbc.getSeason(season.getYear()));
             dbc.updateLeagueInSeason(systemManager, leagueInSeason2);
             assertEquals(dbc.getLeagueInSeason(leagueInSeason.getLeague().getName(), leagueInSeason.getSeason().getYear()).toString(), leagueInSeason2.toString());
@@ -628,5 +646,6 @@ public class DataBaseTest {
         }
 
     }
+
 }
 
