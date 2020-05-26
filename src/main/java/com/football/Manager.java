@@ -26,6 +26,8 @@ public class Manager {
     private AssociationDelegateService associationDelegateService;
     @Autowired
     private OwnerService ownerService;
+    @Autowired
+    private MainRefereeService mainRefereeService;
 
 
     public Member register(String userName, String userMail, String password) throws IncorrectInputException, AlreadyExistException, DontHavePermissionException {
@@ -289,5 +291,10 @@ public class Manager {
             scheduling.add(name);
         }
         return scheduling;
+    }
+
+    public void addGameEvents(String id, String refereeId, String year,String mounth, String day, String description, String gameMinute, String eventInGame, String playersId) throws MemberNotExist, DontHavePermissionException {
+        String eventString = "";
+        mainRefereeService.updateGameEvent(id,refereeId, year, mounth,  day, description, gameMinute, eventInGame, playersId);
     }
 }

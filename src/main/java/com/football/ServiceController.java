@@ -136,12 +136,19 @@ public class ServiceController {
     }
 
     //todo: after the client
-//    @RequestMapping(value="/updateGameEvents",method = RequestMethod.POST)
-//    public void updateGameEvents(@RequestParam(value = "id") String id,
-//                                 @RequestParam(value = "leagueId") String leagueId)
-//            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException, ObjectNotExist, IncorrectInputException, ObjectAlreadyExist {
-//        manager.setLeagueByYear(id, seasonId, leagueId);
-//    }
+    @RequestMapping(value="/updateGameEvents",method = RequestMethod.POST)
+    public void updateGameEvents(@RequestParam(value = "gameId") String id,
+                                 @RequestParam(value = "refereeId") String refereeId,
+                                 @RequestParam(value = "year") String year,
+                                 @RequestParam(value = "mounth") String mounth,
+                                 @RequestParam(value = "day") String day,
+                                 @RequestParam(value = "description") String description,
+                                 @RequestParam(value = "gameMinute") String gameMinute,
+                                 @RequestParam(value = "eventEnum") String eventInGame,
+                                 @RequestParam(value = "playersId") String playersId)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException, ObjectNotExist, IncorrectInputException, ObjectAlreadyExist {
+        manager.addGameEvents(id, refereeId,  year, mounth,  day ,description,gameMinute,eventInGame,playersId);
+    }
 
     @RequestMapping(value="/closeTeam",method = RequestMethod.DELETE)
     public void closeTeam(@RequestParam(value = "id") String id,
@@ -219,6 +226,15 @@ public class ServiceController {
     @ResponseBody
     public HashMap<String,String> getTeamCoaches(@RequestParam(value = "id") String id,
                                                 @RequestParam(value = "teamName") String teamName) {
+
+        //return manager.getTeamCoaches(id, teamName);
+        return new HashMap<>();
+    }
+
+    @RequestMapping(value="/getRefereeGames",method = RequestMethod.GET)
+    @ResponseBody
+    public HashMap<String,String> getRefereeGames(@RequestParam(value = "id") String id,
+                                                 @RequestParam(value = "teamName") String teamName) {
 
         //return manager.getTeamCoaches(id, teamName);
         return new HashMap<>();

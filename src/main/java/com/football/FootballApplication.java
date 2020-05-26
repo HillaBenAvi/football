@@ -5,19 +5,20 @@ import com.football.DataBase.SecondaryRefereeDao;
 import com.football.DataBase.SystemManagerDao;
 import com.football.Domain.Asset.Coach;
 import com.football.Domain.Asset.Field;
+import com.football.Domain.Asset.Manager;
 import com.football.Domain.Asset.Player;
 import com.football.Domain.Game.Account;
 import com.football.Domain.Game.Game;
 import com.football.Domain.Game.Team;
 import com.football.Domain.League.League;
 import com.football.Domain.League.LeagueInSeason;
+import com.football.Domain.League.SchedulingPolicyAllTeamsPlayTwice;
 import com.football.Domain.League.Season;
 import com.football.Domain.Users.*;
-import com.football.Exception.AlreadyExistException;
-import com.football.Exception.DontHavePermissionException;
-import com.football.Exception.MemberNotExist;
-import com.football.Exception.ObjectNotExist;
+import com.football.Exception.*;
+import com.football.Service.SecurityMachine;
 import com.sun.org.apache.regexp.internal.RE;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -26,9 +27,10 @@ import java.util.*;
 @SpringBootApplication
 public class FootballApplication {
     public static DBController dbc=new DBController();
+    Date birthDate = new Date(1995, 3, 6);
 
     public static void main(String[] args) throws DontHavePermissionException, AlreadyExistException, MemberNotExist {
-       SpringApplication.run(FootballApplication.class, args);
+        SpringApplication.run(FootballApplication.class, args);
 
       //  checkUpdate();
 
@@ -394,5 +396,4 @@ public class FootballApplication {
         }
 
     }
-
 }

@@ -11,6 +11,9 @@ import com.football.Domain.Game.Team;
 import com.football.Domain.League.*;
 import com.football.Domain.Users.*;
 import com.football.Exception.*;
+import com.football.Service.ErrorLog;
+import com.football.Service.EventLog;
+import com.football.Service.Notification;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -445,25 +448,89 @@ public class DataBaseTest {
         }
     }
 
+    @Test
+    public void errorLogDB(){
+        try {
+            ErrorLog errorLog = new ErrorLog(2, "topic", "21-30");
+            if(dbc.existErrorLog(errorLog.getId())==true) {
+                dbc.removeErrorLog(errorLog.getId());
+            }
+            assertFalse(dbc.existTeam(errorLog.getId()));
+
+            dbc.addErrorLog(errorLog);
+            assertTrue(dbc.existErrorLog(errorLog.getId()));
+            assertEquals(dbc.getErrorLog(errorLog.getId()).toString() , errorLog.toString());
+
+        } catch (DontHavePermissionException e) {
+            e.printStackTrace();
+        } catch (AlreadyExistException e) {
+            e.printStackTrace();
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
+        }
+    }
+    @Test
+    public void eventLogDB(){
+        try {
+            EventLog eventLog = new EventLog(1, "topic", "21-30" , "name");
+            if(dbc.existEventLog(eventLog.getId())==true) {
+                dbc.removeEventLog(eventLog.getId());
+            }
+            assertFalse(dbc.existEventLog(eventLog.getId()));
+
+            dbc.addEventLog(eventLog);
+            assertTrue(dbc.existEventLog(eventLog.getId()));
+            assertEquals(dbc.getEventLog(eventLog.getId()).toString() , eventLog.toString());
+
+        } catch (AlreadyExistException e) {
+            e.printStackTrace();
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
+        }
+    }
+
+    @Test
+    public void notificationDB(){
+        try {
+            Notification notification = new Notification("id", "notId", "bla;bla" );
+            if(dbc.existNotification(notification.getId())==true) {
+                dbc.removeNotification(notification.getId());
+            }
+            assertFalse(dbc.existNotification(notification.getId()));
+
+            dbc.addNotification(notification);
+            assertTrue(dbc.existNotification(notification.getId()));
+            assertEquals(dbc.getNotification(notification.getId()).toString() , notification.toString());
+
+        } catch (AlreadyExistException e) {
+            e.printStackTrace();
+        } catch (ObjectNotExist objectNotExist) {
+            objectNotExist.printStackTrace();
+        }
+    }
+
     private void schedulingGames() throws PasswordDontMatchException, DontHavePermissionException, IncorrectInputException, ObjectNotExist, ObjectAlreadyExist, NoEnoughMoney, AlreadyExistException, MemberNotExist, MemberAlreadyExistException {
         /* init - enter league , season , schedulePolicy league in seson */
         /********************************************************/
         /*                         Init                         */
         /********************************************************/
-        LeagueInSeason leagueInSeason = initLeagueInSeson();
-        Set<Game> games = new HashSet<>();
-        /* try to scheduling game with correct input - teams with 11 players - result should be positive */
-        if(leagueInSeason.getGames().size() == 0){
-            ASchedulingPolicy schedulingPolicy = leagueInSeason.getPolicy();
-            games = schedulingPolicy.setGamesOfTeams(leagueInSeason.getTeams(), leagueInSeason);
-            leagueInSeason.addGames(games);
-            dbc.addGames(systemManager, games);
-            dbc.updateLeagueInSeason(systemManager, leagueInSeason);
-        }
+        InitDB initDB = new InitDB();
+        LeagueInSeason leagueInSeason = initDB.initLeagueInSeson();
 
-        HashSet<Game> gamesResult = dbc.getGames("league88Test","2020");
-        int amountOfGames = gamesResult.size(); // 20 Choose 2 (???)
-        Assert.assertTrue(leagueInSeason.getGames().size() == amountOfGames );
+
+//        Set<Game> games = new HashSet<>();
+//        /* try to scheduling game with correct input - teams with 11 players - result should be positive */
+//        if(leagueInSeason.getGames().size() == 0){
+//            ASchedulingPolicy schedulingPolicy = leagueInSeason.getPolicy();
+//            games = schedulingPolicy.setGamesOfTeams(leagueInSeason.getTeams(), leagueInSeason);
+//            leagueInSeason.addGames(games);
+//            dbc.addGames(systemManager, games);
+//            dbc.updateLeagueInSeason(systemManager, leagueInSeason);
+//        }
+//
+//        HashSet<Game> gamesResult = dbc.getGames("league88Test","2020");
+//        int amountOfGames = gamesResult.size(); // 20 Choose 2 (???)
+//        Assert.assertTrue(leagueInSeason.getGames().size() == amountOfGames );
 
     }
     public LeagueInSeason initLeagueInSeson() throws DontHavePermissionException, ObjectNotExist, AlreadyExistException, ObjectAlreadyExist, MemberNotExist, NoEnoughMoney, IncorrectInputException, PasswordDontMatchException {

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 @Service
@@ -33,21 +34,31 @@ public class MainRefereeService {
 
     /**
      * in this function a main referee can update an event in a game
-     * @param game
-     * @param timeInGame
-     * @param event
-     * @param time
+     * @param id
+     * @param refereeId
+     * @param year
+     * @param mounth
+     * @param day
      * @param description
-     * @param players
+     * @param gameMinute
+     * @param eventInGame
+     * @param description
+     * @param playersId
      */
 
-    public void updateGameEvent(String id, Game game, int timeInGame, EventInGame event, Date time, String description, ArrayList<String> players) throws MemberNotExist, DontHavePermissionException {
+    public void updateGameEvent(String id, String refereeId, String year,String mounth, String day, String description, String gameMinute, String eventInGame, String playersId) throws MemberNotExist, DontHavePermissionException {
         //todo: get the game id instead of the object-after client
         if(dbController.existReferee(id)) {
             Referee referee = dbController.getReferee(id);
-            if (getEditableGames(referee).contains(game)) {
-                game.addEvent(new Event(time, description, event, timeInGame, players));
+            HashSet<Game> games = referee.games;
+            for(Game game : games){
+//                if(gameId.equals(game.getId())){
+//                    Event event1 = new Event();
+//                }
             }
+//            if (getEditableGames(referee).contains(game)) {
+//                game.addEvent(new Event(time, description, event, timeInGame, players));
+//            }
         }
     }
 

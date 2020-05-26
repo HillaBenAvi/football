@@ -13,34 +13,41 @@ import com.football.Domain.League.SchedulingPolicyAllTeamsPlayTwice;
 import com.football.Domain.League.Season;
 import com.football.Domain.Users.*;
 import com.football.Exception.*;
+import com.football.Service.SecurityMachine;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class InitDB {
     DBController dbc= new DBController();
     Date birthDate = new Date(1995, 3, 6);
-    SystemManager systemManager;
+    @Autowired
+    private SecurityMachine securityMachine = new SecurityMachine();
+    SystemManager systemManager = new SystemManager("forInit", "forInit@gmail.com", securityMachine.encrypt("123456"), new Date(1, 1, 1995));
+
 
     public InitDB(){
-        try {
-            LeagueInSeason leagueInSeason = initLeagueInSeson();
-        } catch (DontHavePermissionException e) {
-            e.printStackTrace();
-        } catch (ObjectNotExist objectNotExist) {
-            objectNotExist.printStackTrace();
-        } catch (AlreadyExistException e) {
-            e.printStackTrace();
-        } catch (ObjectAlreadyExist objectAlreadyExist) {
-            objectAlreadyExist.printStackTrace();
-        } catch (MemberNotExist memberNotExist) {
-            memberNotExist.printStackTrace();
-        } catch (NoEnoughMoney noEnoughMoney) {
-            noEnoughMoney.printStackTrace();
-        } catch (IncorrectInputException e) {
-            e.printStackTrace();
-        } catch (PasswordDontMatchException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            LeagueInSeason leagueInSeason = initLeagueInSeson();
+//        } catch (DontHavePermissionException e) {
+//            e.printStackTrace();
+//        } catch (ObjectNotExist objectNotExist) {
+//            objectNotExist.printStackTrace();
+//        } catch (AlreadyExistException e) {
+//            e.printStackTrace();
+//        } catch (ObjectAlreadyExist objectAlreadyExist) {
+//            objectAlreadyExist.printStackTrace();
+//        } catch (MemberNotExist memberNotExist) {
+//            memberNotExist.printStackTrace();
+//        } catch (NoEnoughMoney noEnoughMoney) {
+//            noEnoughMoney.printStackTrace();
+//        } catch (IncorrectInputException e) {
+//            e.printStackTrace();
+//        } catch (PasswordDontMatchException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public LeagueInSeason initLeagueInSeson() throws DontHavePermissionException, ObjectNotExist, AlreadyExistException, ObjectAlreadyExist, MemberNotExist, NoEnoughMoney, IncorrectInputException, PasswordDontMatchException {
@@ -88,31 +95,31 @@ public class InitDB {
             leagueInSeason.addTeam(t);
         }
     }
-    private Team crateTeamWithAll(int i) throws IncorrectInputException, DontHavePermissionException, AlreadyExistException, MemberNotExist {
+    private Team crateTeamWithAll(int i) throws IncorrectInputException, DontHavePermissionException, AlreadyExistException, MemberNotExist, ObjectNotExist {
         /********************************************************/
         /*                      create Assets                   */
         /********************************************************/
+        String encryptPass =securityMachine.encrypt("1");
 
-
-        Player p0 = new Player("palyer0"+i,"p0"+i+"@gmail.com","1",birthDate,"role");
-        Player p1 = new Player("palyer1"+i,"p1"+i+"@gmail.com","1",birthDate,"role");
-        Player p2 = new Player("palyer2"+i,"p2"+i+"@gmail.com","1",birthDate,"role");
-        Player p3 = new Player("palyer3"+i,"p3"+i+"@gmail.com","1",birthDate,"role");
-        Player p4 = new Player("palyer4"+i,"p4"+i+"@gmail.com","1",birthDate,"role");
-        Player p5 = new Player("palyer5"+i,"p5"+i+"@gmail.com","1",birthDate,"role");
-        Player p6 = new Player("palyer6"+i,"p6"+i+"@gmail.com","1",birthDate,"role");
-        Player p7 = new Player("palyer7"+i,"p7"+i+"@gmail.com","1",birthDate,"role");
-        Player p8 = new Player("palyer8"+i,"p8"+i+"@gmail.com","1",birthDate,"role");
-        Player p9 = new Player("palyer9"+i,"p9"+i+"@gmail.com","1",birthDate,"role");
-        Player p10 = new Player("palyer10"+i,"p10"+i+"@gmail.com","1",birthDate,"role");
-        Coach coach = new Coach("coach"+i,"coach"+i+"@gmail.com","1","training",birthDate);
-        com.football.Domain.Asset.Manager manager = new Manager("manager"+i,"manager"+i+"@gmail.com","1",birthDate);
+        Player p0 = new Player("palyer0"+i,"p0"+i+"@gmail.com",encryptPass,birthDate,"role");
+        Player p1 = new Player("palyer1"+i,"p1"+i+"@gmail.com",encryptPass,birthDate,"role");
+        Player p2 = new Player("palyer2"+i,"p2"+i+"@gmail.com",encryptPass,birthDate,"role");
+        Player p3 = new Player("palyer3"+i,"p3"+i+"@gmail.com",encryptPass,birthDate,"role");
+        Player p4 = new Player("palyer4"+i,"p4"+i+"@gmail.com",encryptPass,birthDate,"role");
+        Player p5 = new Player("palyer5"+i,"p5"+i+"@gmail.com",encryptPass,birthDate,"role");
+        Player p6 = new Player("palyer6"+i,"p6"+i+"@gmail.com",encryptPass,birthDate,"role");
+        Player p7 = new Player("palyer7"+i,"p7"+i+"@gmail.com",encryptPass,birthDate,"role");
+        Player p8 = new Player("palyer8"+i,"p8"+i+"@gmail.com",encryptPass,birthDate,"role");
+        Player p9 = new Player("palyer9"+i,"p9"+i+"@gmail.com",encryptPass,birthDate,"role");
+        Player p10 = new Player("palyer10"+i,"p10"+i+"@gmail.com",encryptPass,birthDate,"role");
+        Coach coach = new Coach("coach"+i,"coach"+i+"@gmail.com",encryptPass,"training",birthDate);
+        com.football.Domain.Asset.Manager manager = new Manager("manager"+i,"manager"+i+"@gmail.com",encryptPass,birthDate);
 
         /********************************************************/
         /*                     create team                      */
         /********************************************************/
 
-        Owner owner = new Owner("owner"+i,"owner"+i+"@gmail.com","1",birthDate);
+        Owner owner = new Owner("owner"+i,"owner"+i+"@gmail.com",encryptPass,birthDate);
         if(dbc.existOwner(owner.getUserMail())){
             dbc.deleteRole(systemManager,owner.getUserMail());
         }
@@ -183,15 +190,34 @@ public class InitDB {
 
 
         dbc.addTeam(systemManager,team);
+        owner.addTeam(team);
+        dbc.updateOwner(systemManager,owner);
 
+
+        HashSet<Player> players = team.getPlayers();
+        for(Player p : players){
+            p.addTeam(team);
+            dbc.updatePlayer(systemManager,p);
+        }
+        HashSet<Coach> coaches = team.getCoaches();
+        for(Coach c : coaches){
+            c.addTeam(team);
+            dbc.updateCoach(systemManager,c);
+        }
+        HashSet<Manager> managers = team.getManagers();
+        for(Manager m : managers){
+            m.addTeam(team);
+            dbc.updateManager(systemManager,m);
+        }
         return team;
 
 
 
     }
     private void enterRefereeToLeagueInSeason(LeagueInSeason leagueInSeason, int numOfReferees) throws IncorrectInputException, DontHavePermissionException, AlreadyExistException, MemberNotExist {
+        String encryptPass =securityMachine.encrypt("123");
         for(int i=0; i<numOfReferees/2; i++) {
-            Referee referee1 = new SecondaryReferee("referee"+i, "referee"+i+"@gmail.com", "123", "r",birthDate);
+            Referee referee1 = new SecondaryReferee("referee"+i, "referee"+i+"@gmail.com", encryptPass, "r",birthDate);
             if(dbc.existMember(referee1.getUserMail())){
                 dbc.deleteReferee(systemManager , referee1.getUserMail());
             }
@@ -199,7 +225,7 @@ public class InitDB {
             leagueInSeason.addReferee(referee1.getUserMail(),referee1);
         }
         for(int j=numOfReferees/2 ; j<numOfReferees; j++) {
-            Referee referee2 = new MainReferee("referee"+j, "referee"+j+"@gmail.com", "123","trainin",birthDate);
+            Referee referee2 = new MainReferee("referee"+j, "referee"+j+"@gmail.com", encryptPass,"trainin",birthDate);
             if(dbc.existMember(referee2.getUserMail())){
                 dbc.deleteReferee(systemManager , referee2.getUserMail());
             }
