@@ -29,8 +29,6 @@ public class ServiceController {
         } catch (AlreadyExistException alreadyExistException) {
             return "1Already Exist Exception";
         }
-
-
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)

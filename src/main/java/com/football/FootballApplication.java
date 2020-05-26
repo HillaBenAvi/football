@@ -28,14 +28,17 @@ public class FootballApplication {
     public static DBController dbc=new DBController();
 
     public static void main(String[] args) throws DontHavePermissionException, AlreadyExistException, MemberNotExist {
-     //  SpringApplication.run(FootballApplication.class, args);
+
+
+
+       SpringApplication.run(FootballApplication.class, args);
 
       //  checkUpdate();
 
 
-        Calendar dateAndTime=new GregorianCalendar();
+      //  Calendar dateAndTime=new GregorianCalendar();
 
-        System.out.println(dateAndTime.YEAR+" "+dateAndTime.MONTH+" "+dateAndTime.DATE+" "+"21 30");
+      //  System.out.println(dateAndTime.YEAR+" "+dateAndTime.MONTH+" "+dateAndTime.DATE+" "+"21 30");
 
 
 

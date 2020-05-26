@@ -7,6 +7,7 @@ import java.sql.*;
 @Repository
 public class DBConnector {
     public Connection conn;
+
     public DBConnector() {
         conn=makeConnection();
     }

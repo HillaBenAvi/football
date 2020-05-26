@@ -279,6 +279,7 @@ public class DBController {
         eventLogDao.save(eventLog);
 
     }
+
     public void addNotification(Notification notification) throws AlreadyExistException {
         if (notificationDao.exist(notification.getId())) {
             throw new AlreadyExistException();
