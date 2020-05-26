@@ -25,4 +25,9 @@ public class SecondaryReferee extends Referee{
     public String getType() {
         return ("0Secondary Referee");
     }
+
+    @Override
+    public void addGame(Game game) {
+        super.addGame(game);
+    }
 }

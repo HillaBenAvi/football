@@ -5,10 +5,7 @@ import com.football.Domain.League.LeagueInSeason;
 import com.football.Domain.Users.Referee;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 public class Game extends Observable {
     private String id;
@@ -37,8 +34,11 @@ public class Game extends Observable {
     public Game(String gameDetails){
         String[] splitGameDetails = gameDetails.split(":");
         this.id = splitGameDetails[0];
-        //this.dateAndTime = splitGameDetails[1];
-        //todo
+        if(gameDetails.length()>1){
+            String[] da = splitGameDetails[1].split(" ");
+            this.dateAndTime = new GregorianCalendar(Integer.parseInt(da[0]),Integer.parseInt(da[1]),Integer.parseInt(da[2])
+                                    ,Integer.parseInt(da[3]),Integer.parseInt(da[4]));
+        }
 
     }
     public String getId(){
@@ -117,9 +117,12 @@ public class Game extends Observable {
 
     @Override
     public String toString(){
+        int year = Integer.parseInt(leagueInSeason.getSeason().getYear());
+        Calendar dateAndTime = new GregorianCalendar(year, 0, 1, 20, 30, 0);
+
         String details =
                 "\'" + id + "\'," +
-                        "\'" +  dateAndTime.toString()+ "\'," +
+                        "\'" +  leagueInSeason.getSeason().getYear()+" 0 1 20 30 0\'," +
                         "\'" + hostTeam.getName() + "\'," +
                         "\'" + visitorTeam.getName() + "\'," +
                         "\'" + field.getName() + "\'," +

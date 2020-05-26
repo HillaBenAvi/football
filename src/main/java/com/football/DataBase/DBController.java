@@ -383,13 +383,15 @@ public class DBController {
         HashMap<String,Manager> result = new HashMap<>();
         List<String> managersString = managerDao.getAll();
         for (String managerString : managersString){
-            String[] splitManager = managerString.split(":");
-            String[] teamsSplited = splitManager[4].split(";");
             HashMap<String,Team> teams = new HashMap<>();
-            for(int i=0; i<teamsSplited.length;i++){
-                try {
-                    teams.put(teamsSplited[i],getTeam(teamsSplited[i]));
-                } catch (ObjectNotExist objectNotExist) {
+            String[] splitManager = managerString.split(":");
+            if(splitManager.length > 4 && !splitManager[4].equals("")){
+                String[] teamsSplited = splitManager[4].split(";");
+                for(int i=0; i<teamsSplited.length;i++){
+                    try {
+                        teams.put(teamsSplited[i],getTeam(teamsSplited[i]));
+                    } catch (ObjectNotExist objectNotExist) {
+                    }
                 }
             }
             result.put(splitManager[0],new Manager(splitManager,teams));
@@ -712,7 +714,10 @@ public class DBController {
         if(leagueInSesonDao.exist(league+":"+season)){
             String leagueInSeasonString = leagueInSesonDao.get(league+":"+season);
           //  String[] splited = leagueInSeasonString.split(":");
-            LeagueInSeason leagueInSeason1 = parseLeagueInSeason(leagueInSeasonString,getLeague(league),getSeason(season));
+            League league1 = getLeague(league);
+            Season season1 = league1.getSeason(season);
+            LeagueInSeason leagueInSeason1 = league1.getLeagueInSeason(season1);
+           // LeagueInSeason leagueInSeason1 = parseLeagueInSeason(leagueInSeasonString,getLeague(league),getSeason(season));
             return leagueInSeason1;
         } else {
             throw new ObjectNotExist("the season id is not exist");
@@ -783,7 +788,8 @@ public class DBController {
         List<String> gamesStrings = gameDao.getAll();
         HashSet<Game> games = new HashSet<>();
         League league1 = getLeague(league);
-        LeagueInSeason leagueInSeason = league1.getLeagueInSeason(getSeason(season));
+        Season season1 = league1.getSeason(season);
+        LeagueInSeason leagueInSeason = league1.getLeagueInSeason(season1);
         for(String game : gamesStrings){
             String[] splited = game.split(":");
             if(splited[8].equals(season) && splited[7].equals(league)) {
@@ -1121,7 +1127,7 @@ public class DBController {
 
         /*add teams*/
         if(splited.length>=3) {
-            String[] teamsString = splited[2].split(";");
+            String[] teamsString = splited[2].split("---");
             for (String teamS : teamsString) {
                 try {
                     Team t = getTeam(teamS);
@@ -1134,7 +1140,7 @@ public class DBController {
 
         /*add referees*/
         if(splited.length>=4) {
-            String[] refereeString = splited[3].split(";");
+            String[] refereeString = splited[3].split("---");
             for (String refereeS : refereeString) {
                 try {
                     leagueInSeason.addReferee(refereeS, getReferee(refereeS));
@@ -1143,8 +1149,8 @@ public class DBController {
             }
         }
         /*add games*/
-        if(splited.length>=5) {
-            String[] gamesString = splited[4].split(";");
+        if(splited.length>=5  && !splited[5].equals(" ")) {
+            String[] gamesString = splited[4].split("---");
             HashSet<Game> games = new HashSet<>();
             for (String gameS : gamesString) {
                 String gameDetails = gameDao.get(gameS);
@@ -1152,12 +1158,25 @@ public class DBController {
                 games.add(game);
             }
             leagueInSeason.addGames(games);
-
+            HashMap<String,Referee> refereeHashMap = leagueInSeason.getReferees();
+            for(String ref : refereeHashMap.keySet()) {
+                Referee referee = refereeHashMap.get(ref);
+                if (referee instanceof SecondaryReferee) {
+                    try {
+                        seconaryRefereeDao.update(ref, (SecondaryReferee) referee);
+                    } catch (ObjectNotExist objectNotExist) {
+                    }
+                } else {
+                    try {
+                        mainRefereeDao.update(ref, (MainReferee) referee);
+                    } catch (ObjectNotExist objectNotExist) {
+                    }
+                }
+            }
         }
         /*add SchedulingPolicy*/
         ASchedulingPolicy schedulingPolicy = null;
         if(splited.length>=6) {
-
             if (splited[5].equals("All teams play each other twice")) {
                 schedulingPolicy = new SchedulingPolicyAllTeamsPlayTwice();
             } else if (splited[5].equals("All teams play each other once")) {
@@ -1214,8 +1233,16 @@ public class DBController {
             String events = splited[6];
             String league = splited[7];
             String season = splited[8];
-            mainReferee= (MainReferee) getReferee(splited[9].split(";")[0]);
-            secondReferee = (SecondaryReferee)getReferee(splited[9].split(";")[1]);
+            String[] referees = splited[9].split(";");
+            if(seconaryRefereeDao.exist(referees[0])){
+                secondReferee = (SecondaryReferee)getReferee(referees[0]);
+                mainReferee= (MainReferee) getReferee(referees[1]);
+
+            }
+            else{
+                mainReferee= (MainReferee) getReferee(referees[0]);
+                secondReferee = (SecondaryReferee)getReferee(referees[1]);
+            }
 
             Game newGame = new Game(id,dateAndTime,hostTeam,visitorTeam,field,
                                 mainReferee,secondReferee,leagueInSeason);
