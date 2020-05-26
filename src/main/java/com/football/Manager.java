@@ -1,7 +1,11 @@
 package com.football;
 
 import com.football.DataBase.DBController;
+import com.football.Domain.Asset.Coach;
+import com.football.Domain.Asset.Field;
+import com.football.Domain.Asset.Player;
 import com.football.Domain.Game.Game;
+import com.football.Domain.Game.Team;
 import com.football.Domain.League.ASchedulingPolicy;
 import com.football.Domain.League.League;
 import com.football.Domain.League.Season;
@@ -317,4 +321,70 @@ public class Manager {
         }
        return gamesId;
     }
+
+    HashMap<String,String> getTeamPlayers(String teamId) throws ObjectNotExist {
+        HashMap<String, String> teamPlayers = new HashMap<>();
+        Team team = dbController.getTeam(teamId);
+        HashSet<Player> players = team.getPlayers();
+        for(Player player : players){
+            teamPlayers.put(player.getUserMail(),player.getName());
+        }
+        return teamPlayers;
+    }
+
+    public HashMap<String, String> getTeamOwners(String teamId) throws ObjectNotExist {
+        HashMap<String, String> teamOwneres = new HashMap<>();
+        Team team = dbController.getTeam(teamId);
+        HashSet<Owner> owners = team.getOwners();
+        for(Owner owner : owners){
+            teamOwneres.put(owner.getUserMail(),owner.getName());
+        }
+        return teamOwneres;
+    }
+
+    public HashMap<String, String> getTeamCoaches(String teamId) throws ObjectNotExist {
+        HashMap<String, String> teamCoaches = new HashMap<>();
+        Team team = dbController.getTeam(teamId);
+        HashSet<Coach> coaches = team.getCoaches();
+        for(Coach coach : coaches){
+            teamCoaches.put(coach.getUserMail(),coach.getName());
+        }
+        return teamCoaches;
+    }
+
+    public HashMap<String, String> getTeamFields(String teamId) throws ObjectNotExist {
+        HashMap<String, String> teamFields = new HashMap<>();
+        Team team = dbController.getTeam(teamId);
+        HashSet<Field> fields = team.getTrainingFields();
+        for(Field field : fields){
+            teamFields.put(field.getNameOfField(),field.getNameOfField());
+        }
+        return teamFields;
+    }
+
+    public HashMap<String, String> getTeamManagers(String teamId) throws ObjectNotExist {
+        HashMap<String, String> teamManagers = new HashMap<>();
+        Team team = dbController.getTeam(teamId);
+        HashSet<com.football.Domain.Asset.Manager> managers = team.getManagers();
+        for(com.football.Domain.Asset.Manager manager : managers){
+            teamManagers.put(manager.getUserMail(),manager.getName());
+        }
+        return teamManagers;
+    }
+    public HashMap<String, String> getGamePlayers(String gameId) {
+        HashMap<String,String> playersInGame = new HashMap<>();
+        Game game = dbController.getGame(gameId);
+        Team teamHost = game.getHostTeam();
+        Team teamGest = game.getVisitorTeam();
+
+        for(Player player : teamGest.getPlayers()){
+            playersInGame.put(player.getUserMail(), player.getName());
+        }
+        for(Player player : teamHost.getPlayers()){
+            playersInGame.put(player.getUserMail(), player.getName());
+        }
+        return playersInGame;
+    }
+
+
 }
