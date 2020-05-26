@@ -465,23 +465,8 @@ public class DataBaseTest {
         int amountOfGames = gamesResult.size(); // 20 Choose 2 (???)
         Assert.assertTrue(leagueInSeason.getGames().size() == amountOfGames );
 
-        //check if all teams status==true
-        // && check if each team play in 38 games - 19*2
-        // && check if team.games.contains(game)
-//        for (Game game: games) {
-//            Assert.assertTrue(game.getHostTeam().getStatus());
-//            assertEquals(game.getHostTeam().getGamesSize(), 90);
-//            Assert.assertTrue(game.getHostTeam().getGames().contains(game));
-//
-//            Assert.assertTrue(game.getVisitorTeam().getStatus());
-//            assertEquals(game.getVisitorTeam().getGamesSize(),90);
-//            Assert.assertTrue(game.getVisitorTeam().getGames().contains(game));
-//
-//            Assert.assertTrue(game.getReferees().size() == 2);
-//            assertNotNull(game.getField());
-//        }
     }
-    private LeagueInSeason initLeagueInSeson() throws DontHavePermissionException, ObjectNotExist, AlreadyExistException, ObjectAlreadyExist, MemberNotExist, NoEnoughMoney, IncorrectInputException, PasswordDontMatchException {
+    public LeagueInSeason initLeagueInSeson() throws DontHavePermissionException, ObjectNotExist, AlreadyExistException, ObjectAlreadyExist, MemberNotExist, NoEnoughMoney, IncorrectInputException, PasswordDontMatchException {
         if(dbc.existLeagueInSeason("league88Test:2020")){
              return dbc.getLeagueInSeason("league88Test","2020");
         }
