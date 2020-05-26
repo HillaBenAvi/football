@@ -20,7 +20,8 @@ public class EventLog {
         for(int i=0 ; i<events.size()-1 ; i++){
             details += events.get(i).toString() + ";" ;
         }
-        details += events.get(events.size()-1);
+        if( events!=null && events.size() != 0 )
+            details += events.get(events.size()-1);
         return details;
     }
 }

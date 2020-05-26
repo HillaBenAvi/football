@@ -23,5 +23,8 @@ public class MainReferee extends Referee {
     public String getType() {
         return "0MainReferee";
     }
-
+    @Override
+    public void addGame(Game game) {
+        super.addGame(game);
+    }
 }

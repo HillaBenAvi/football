@@ -112,6 +112,7 @@ public class LeagueInSeason {
             this.games.add(game);
             for(Referee r: game.getReferees()){
                 r.addGame(game);
+                this.referees.get(r.getUserMail()).addGame(game);
             }
         }
     }
@@ -198,11 +199,16 @@ public class LeagueInSeason {
 
         details += "\',\'";
 
-   //     details += this.scorePolicy.toString() + "\',\'"
-
-       //         + schedulingPolicy.getNameOfPolicy() ;
-
-        details+="\'"+ ",\'\'";
+        if(this.schedulingPolicy!=null)
+            details+= schedulingPolicy.getNameOfPolicy() +"\',\'";
+        else{
+            details += " \',\'";
+        }
+        if(this.scorePolicy != null )
+            details += this.scorePolicy.toString() + "\',\'";
+        else{
+            details += "\'";
+        }
 
         return details;
     }

@@ -35,6 +35,17 @@ public class League {
         }
     }
 
+    public Season getSeason(String season){
+        if(this.leagueInSeasons!= null ){
+            for(Season season1 : this.leagueInSeasons.keySet()){
+                if(season.equals(season1.getYear())){
+                    return season1;
+                }
+            }
+        }
+        return null;
+    }
+
     public HashMap<Season,LeagueInSeason> getSeasons(){
         return leagueInSeasons;
     }
