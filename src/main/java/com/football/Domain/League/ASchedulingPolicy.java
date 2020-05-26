@@ -27,7 +27,7 @@ public abstract class ASchedulingPolicy {
             List<Referee> mainReferees = leagueInSeason.getMainReferee();
             List<Referee> secondaryReferees =leagueInSeason.getSecondaryReferee();
             for(Fixture fixture: round) {
-                Game game = new Game(makeDateAndTimeToString(dateAndTime)+""+fixture.getHomeTeam().toString() ,
+                Game game = new Game(fixture.getHomeTeam().getName()+" "+ fixture.getAwayTeam().getName(),
                         dateAndTime, fixture.getHomeTeam(), fixture.getAwayTeam(),
                         fixture.getHomeTeam().getHomeField(), mainReferees.get(counterReferees),
                         secondaryReferees.get(counterReferees), leagueInSeason);
@@ -52,7 +52,7 @@ public abstract class ASchedulingPolicy {
     }
 
     private String makeDateAndTimeToString(Calendar dateAndTime) {
-        return dateAndTime.YEAR+" "+dateAndTime.MONTH+" "+dateAndTime.DATE+" "+"21 30";
+        return dateAndTime.YEAR+" "+dateAndTime.MONTH+" "+dateAndTime.DATE+" "+"20 30";
     }
 
     public abstract String getNameOfPolicy();

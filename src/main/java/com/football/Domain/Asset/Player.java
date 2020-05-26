@@ -66,7 +66,7 @@ public class Player extends TeamMember{
     }
 
     public void addEvents(String events) {
-        String[] eventsString = events.split(";");
+        String[] eventsString = events.split("!");
         Event event = new Event(eventsString);
         this.events = new HashSet<>();
         this.events.add(event);

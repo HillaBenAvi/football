@@ -20,22 +20,26 @@ public class Event {
         this.playersNames = players;
     }
     public Event(String[] eventDetails){
-        Date date = new Date(Integer.parseInt(eventDetails[0]),Integer.parseInt(eventDetails[1]),Integer.parseInt(eventDetails[2]));
-        this.time = date;
-        this.description = eventDetails[3];
-        this.gameMinute = Integer.parseInt(eventDetails[4]);
-        this.eventInGame = EventInGame.valueOf(eventDetails[5]);
-        this.playersNames = new ArrayList<>();
-        for(int i=6 ; i < eventDetails.length ;i++){
-            this.playersNames.add(eventDetails[i]);
+        if(eventDetails.length != 0){
+            if(!eventDetails[0].equals("") && !eventDetails[1].equals("") && !eventDetails[2].equals("")){
+                Date date = new Date(Integer.parseInt(eventDetails[0]),Integer.parseInt(eventDetails[1]),Integer.parseInt(eventDetails[2]));
+                this.time = date;
+                this.description = eventDetails[3];
+                this.eventInGame = EventInGame.valueOf(eventDetails[4]);
+                this.gameMinute = Integer.parseInt(eventDetails[5]);
+                this.playersNames = new ArrayList<>();
+                for(int i=6 ; i < eventDetails.length ;i++){
+                    this.playersNames.add(eventDetails[i]);
+                }
+            }
         }
     }
     @Override
     public String toString(){
-        String details = time.getYear() + ";" + time.getMonth() + ";" + time.getDay() ;
-        details += ";" + description + ";" + eventInGame + ";" + gameMinute + ";" ;
+        String details = time.getYear() + "!" + time.getMonth() + "!" + time.getDay() ;
+        details += "!" + description + "!" + eventInGame + "!" + gameMinute + "!" ;
         for (int i=0 ; i<playersNames.size()-1 ; i++){
-            details += playersNames.get(i)+ ";" ;
+            details += playersNames.get(i)+ "!" ;
         }
         details+=playersNames.get(playersNames.size()-1);
 

@@ -18,9 +18,13 @@ public class EventLog {
     public String toString(){
         String details = "";
         for(int i=0 ; i<events.size()-1 ; i++){
+           if(events.get(i).equals("")){
+               continue;
+           }
             details += events.get(i).toString() + ";" ;
         }
-        details += events.get(events.size()-1);
+        if( events!=null && events.size() != 0 )
+            details += events.get(events.size()-1);
         return details;
     }
 }

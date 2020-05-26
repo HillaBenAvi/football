@@ -39,7 +39,7 @@ public class GameDao implements DAO<Game> {
         String toReturn="";
         try {
             Connection connection = dbc.getConnection();
-            String sqlQuery = "SELECT * From "+getTableName()+" WHERE idGame=\'"+id+"\';";
+            String sqlQuery = "SELECT * From "+getTableName()+" WHERE idGame= \'"+id+"\';";
 
             PreparedStatement ps = connection.prepareStatement(sqlQuery); //compiling query in the DB
             ResultSet rs=ps.executeQuery();
@@ -108,7 +108,7 @@ public class GameDao implements DAO<Game> {
         try {
             Statement stmt = connection.createStatement();
 
-            String sql = "INSERT INTO"+getTableName()+
+            String sql = "INSERT INTO "+getTableName()+
                     "VALUES ("+game.toString()+");";//+game.getId()+","+game.getDateAndTimeString()+","+game.getHostTeam().getName()+","+game.getVisitorTeam().getName()+","+game.getField().getName()+");";
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
@@ -136,7 +136,7 @@ public class GameDao implements DAO<Game> {
             Statement stmt = connection.createStatement();
 
             String sql = "DELETE FROM"+getTableName()+
-                    "WHERE gameid="+id;
+                    "WHERE idGame= "+ "\'"+id+"\'";
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
@@ -148,8 +148,8 @@ public class GameDao implements DAO<Game> {
         try {
             Statement stmt = connection.createStatement();
 
-            String sqlQuery = "SELECT * FROM"+getTableName()+
-                    "WHERE gameid="+id;
+            String sqlQuery = "SELECT * FROM "+getTableName()+
+                    "WHERE idGame ="+ "\'" + id + "\'";
             ResultSet rs = stmt.executeQuery(sqlQuery);
             return rs.next();
 

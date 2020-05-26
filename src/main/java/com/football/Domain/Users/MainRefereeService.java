@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 @Service
@@ -33,20 +34,41 @@ public class MainRefereeService {
 
     /**
      * in this function a main referee can update an event in a game
-     * @param game
-     * @param timeInGame
-     * @param event
-     * @param time
+     * @param gameid
+     * @param refereeId
+     * @param year
+     * @param mounth
+     * @param day
      * @param description
-     * @param players
+     * @param gameMinute
+     * @param eventInGame
+     * @param description
+     * @param playersId
      */
 
-    public void updateGameEvent(String id, Game game, int timeInGame, EventInGame event, Date time, String description, ArrayList<String> players) throws MemberNotExist, DontHavePermissionException {
-        //todo: get the game id instead of the object-after client
-        if(dbController.existReferee(id)) {
-            Referee referee = dbController.getReferee(id);
-            if (getEditableGames(referee).contains(game)) {
-                game.addEvent(new Event(time, description, event, timeInGame, players));
+    public void updateGameEvent(String gameid, String refereeId, String year,String mounth, String day, String description, String gameMinute, String eventInGame, String playersId) throws MemberNotExist, DontHavePermissionException, ObjectNotExist {
+        if(dbController.existReferee(refereeId)) {
+            Referee referee = dbController.getReferee(refereeId);
+            if(referee instanceof MainReferee){
+                HashSet<Game> games = referee.games;
+                Game game = dbController.getGame(gameid);
+                for(Game gameR : games){
+                    if(gameid.equals(gameR.getId())){
+                        Date date = new Date( Integer.parseInt(year), Integer.parseInt(mounth),  Integer.parseInt(day));
+                        String[] playersIdS = playersId.split(";");
+                        ArrayList<String> players = new ArrayList<>();
+                        for(String playerid : playersIdS){
+                            players.add(playerid);
+                        }
+                        Event event1 = new Event(date,description,EventInGame.valueOf(eventInGame),Integer.parseInt(gameMinute),players);
+                        game.addEvent(event1);
+                        dbController.updateGame(referee,game);
+                        return;
+                    }
+                }
+            }
+            else {
+                throw new DontHavePermissionException();
             }
         }
     }
