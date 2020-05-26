@@ -44,7 +44,7 @@ public class Manager {
         return member;
     }
 
-    public String stringLogIn(String userMail, String userPassword) throws PasswordDontMatchException, MemberNotExist, DontHavePermissionException {
+    public String stringLogIn(String userMail, String userPassword) throws PasswordDontMatchException,MemberNotExist, DontHavePermissionException {
         Member member = logIn(userMail, userPassword);
         return member.getType();
     }

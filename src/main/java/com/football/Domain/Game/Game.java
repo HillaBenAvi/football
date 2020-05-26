@@ -115,7 +115,7 @@ public class Game extends Observable {
                 continue;
             }
             else{
-                String[] eventToAdd = eventString.split(";");
+                String[] eventToAdd = eventString.split("!");
                 Event event = new Event(eventToAdd);
                 this.eventLog.addEvent(event);
             }
@@ -124,8 +124,6 @@ public class Game extends Observable {
 
     @Override
     public String toString(){
-//        int year = Integer.parseInt(leagueInSeason.getSeason().getYear());
-//        Calendar dateAndTime = new GregorianCalendar(year, 0, 1, 20, 30, 0);
 
         String details =
                 "\'" + id + "\'," +

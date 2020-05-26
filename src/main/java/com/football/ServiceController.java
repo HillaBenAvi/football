@@ -30,6 +30,11 @@ public class ServiceController {
     public String login(@RequestParam(value = "id") String id,
                         @RequestParam(value = "password")String password)
             throws PasswordDontMatchException, MemberNotExist, DontHavePermissionException {
+        try{
+            manager.stringLogIn(id, password);
+        }catch (MemberNotExist memberNotExist){
+
+        }
        return manager.stringLogIn(id, password);
     }
 
