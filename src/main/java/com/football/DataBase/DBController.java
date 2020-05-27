@@ -1448,36 +1448,34 @@ public class DBController {
         return allUserMail;
     }
 
-    public void addNotifyFollowEventGame(Role role, String  userMail) throws AlreadyExistException, DontHavePermissionException {
+    public void addNotifyFollowEventGame(String  userMail) throws AlreadyExistException, DontHavePermissionException {
 
             if (NotifyFollowEventGameDao.exist(userMail))
                 throw new AlreadyExistException();
             NotifyFollowEventGameDao.save(userMail);
         }
 
-    public void addNotifyGameFinalReport(Role role, String  userMail) throws AlreadyExistException, DontHavePermissionException {
+    public void addNotifyGameFinalReport( String  userMail) throws AlreadyExistException, DontHavePermissionException {
             if (NotifyGameFinalReportDao.exist(userMail))
                 throw new AlreadyExistException();
             NotifyGameFinalReportDao.save(userMail);
         }
 
-
-    public void addNotifyCreateNewGame(Role role, String  userMail) throws AlreadyExistException, DontHavePermissionException {
+    public void addNotifyCreateNewGame(String  userMail) throws AlreadyExistException, DontHavePermissionException {
 
             if (NotifyCreateNewGameDao.exist(userMail))
                 throw new AlreadyExistException();
             NotifyCreateNewGameDao.save(userMail);
         }
 
-    public void addNotifyScheduleToGame(Role role, String  userMail) throws AlreadyExistException, DontHavePermissionException {
+    public void addNotifyScheduleToGame( String  userMail) throws AlreadyExistException, DontHavePermissionException {
 
             if (NotifyScheduleToGameDao.exist(userMail))
                 throw new AlreadyExistException();
             NotifyScheduleToGameDao.save(userMail);
         }
 
-    public void addNotifyAddAssetToTeam(Role role, String  userMail) throws AlreadyExistException, DontHavePermissionException {
-
+    public void addNotifyAddAssetToTeam( String  userMail) throws AlreadyExistException, DontHavePermissionException {
             if (NotifyAddAssetToTeamDao.exist(userMail))
                 throw new AlreadyExistException();
             NotifyAddAssetToTeamDao.save(userMail);
