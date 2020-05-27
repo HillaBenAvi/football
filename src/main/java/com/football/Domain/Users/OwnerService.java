@@ -10,6 +10,7 @@ import com.football.Domain.Game.Team;
 import com.football.Exception.*;
 import com.football.Service.ErrorLogService;
 import com.football.Service.EventLogService;
+import com.football.Service.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,8 @@ public class OwnerService {
 
     @Autowired
     private EventLogService eventLogService;
+
+    private Notification notification;
 
     public void addTeam(Owner owner, Team team) throws AlreadyExistException, DontHavePermissionException {
         try {
@@ -784,7 +787,7 @@ public class OwnerService {
     }
 
 
-    public ArrayList<String> getTeamsById(String id) throws ObjectNotExist {
+    public ArrayList<String> getTeamsById(String id) throws ObjectNotExist, AlreadyExistException, DontHavePermissionException {
         try {
             if (!dbController.existOwner(id)) {
                 errorLogService.addErrorLog("Member Not Exist");
@@ -810,7 +813,7 @@ public class OwnerService {
 
     }
 
-    public ArrayList<String> getFieldsOfOwner(String id, String teamName) throws ObjectNotExist {
+    public ArrayList<String> getFieldsOfOwner(String id, String teamName) throws ObjectNotExist, AlreadyExistException, DontHavePermissionException {
         try {
             if (!dbController.existOwner(id)) {
                 errorLogService.addErrorLog("Member Not Exist");
@@ -831,7 +834,7 @@ public class OwnerService {
         return null;
     }
 
-    public ArrayList<String> getRolesToAddManager(String id) throws ObjectNotExist {
+    public ArrayList<String> getRolesToAddManager(String id) throws ObjectNotExist, AlreadyExistException, DontHavePermissionException {
         try {
             if (!dbController.existOwner(id)) {
                 errorLogService.addErrorLog("Member Not Exist");
@@ -857,7 +860,7 @@ public class OwnerService {
 
     }
 
-    public ArrayList<String> getAllRoles(String id) throws ObjectNotExist {
+    public ArrayList<String> getAllRoles(String id) throws ObjectNotExist, AlreadyExistException, DontHavePermissionException {
         try {
             if (!dbController.existOwner(id)) {
                 errorLogService.addErrorLog("Member Not Exist");
@@ -879,7 +882,7 @@ public class OwnerService {
         return null;
     }
 
-    public ArrayList<String> getManagersOfTeam(String id, String teamName) {
+    public ArrayList<String> getManagersOfTeam(String id, String teamName) throws AlreadyExistException, DontHavePermissionException {
         try {
             if (!dbController.existOwner(id)) {
                 errorLogService.addErrorLog("Member Not Exist");
@@ -900,7 +903,7 @@ public class OwnerService {
         return null;
     }
 
-    public ArrayList<String> getPlayersOfTeam(String id, String teamName) {
+    public ArrayList<String> getPlayersOfTeam(String id, String teamName) throws AlreadyExistException, DontHavePermissionException {
         try {
             if (!dbController.existOwner(id)) {
                 errorLogService.addErrorLog("Member Not Exist");
@@ -921,7 +924,7 @@ public class OwnerService {
         return null;
     }
 
-    public ArrayList<String> getCoachesOfTeam(String id, String teamName) {
+    public ArrayList<String> getCoachesOfTeam(String id, String teamName) throws AlreadyExistException, DontHavePermissionException {
         try {
             if (!dbController.existOwner(id)) {
                 errorLogService.addErrorLog("Member Not Exist");

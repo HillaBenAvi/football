@@ -49,7 +49,7 @@ public class GuestService {
      * this function fill the logIn-form : user name , user password
      * @return String array  - details[name,password]
      */
-    public Member logIn(String userMail, String userPassword) throws MemberNotExist, PasswordDontMatchException{
+    public Member logIn(String userMail, String userPassword) throws MemberNotExist, PasswordDontMatchException, AlreadyExistException, DontHavePermissionException {
         try{
             Member existingMember;
             existingMember = (Member) dbController.getMember(userMail);
@@ -60,7 +60,7 @@ public class GuestService {
        catch(MemberNotExist e){
             errorLogService.addErrorLog("Member Not Exist");
             throw new MemberNotExist();
-       }catch(PasswordDontMatchException e){
+       }catch(PasswordDontMatchException | AlreadyExistException e){
             errorLogService.addErrorLog("Password Dont Match Exception");
             throw new PasswordDontMatchException();
         }
