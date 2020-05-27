@@ -165,45 +165,44 @@ public class ServiceController {
     /***********************to add************************/
 
 
-    //return a list of teams names of an owner
+    //return a list of teams names of an owner - Daniel 26.5
     @RequestMapping(value="/getTeamsOfOwner",method = RequestMethod.GET)
     @ResponseBody
     public ArrayList<String> getTeamsOfOwner(@RequestParam(value = "id") String ownerId){
-
-        //return manager.getTeamsByOwner(ownerId);
-        return new ArrayList<>();
+         return manager.getTeamsByOwner(ownerId);
     }
 
-    //get all the teams in the system
+    //get all the teams in the system - Daniel 26.5
     @RequestMapping(value="/getAllTeams",method = RequestMethod.GET)
     @ResponseBody
     public ArrayList<String> getAllTeams(@RequestParam(value = "id") String id) {
-
-        //return manager.getAllTeams(ownerId);
-        return new ArrayList<>();
+        return manager.getAllTeams();
     }
 
 
     /*****************team getters*******************/
     //the key of the HashMaps- id, value- name
-
-    //get all the users that can be coaches of a team
+    //get all the managers of a team- Daniel 27.5
     @RequestMapping(value="/getTeamManagers",method = RequestMethod.GET)
     @ResponseBody
     public HashMap<String,String> getTeamManagers(@RequestParam(value = "id") String id,
-                                                  @RequestParam(value = "teamName") String teamName) {
+                                                  @RequestParam(value = "teamName") String teamName) throws ObjectNotExist {
+        return manager.getTeamManagers(id, teamName);
 
-        //return manager.getTeamManagers(id, teamName);
-        return new HashMap<>();
     }
 
+    //get all players off a team - Daniel 27.5
     @RequestMapping(value="/getTeamPlayers",method = RequestMethod.GET)
     @ResponseBody
     public HashMap<String,String> getTeamPlayers(@RequestParam(value = "id") String id,
-                                                 @RequestParam(value = "teamName") String teamName) {
+                                                 @RequestParam(value = "teamName") String teamName) throws ObjectNotExist {
+        try{
+            return manager.getTeamPlayers(id, teamName);
+        }catch (ObjectNotExist e){
+            return null;
+        }
 
-        //return manager.getTeamPlayers(id, teamName);
-        return new HashMap<>();
+
     }
 
     @RequestMapping(value="/getTeamOwners",method = RequestMethod.GET)

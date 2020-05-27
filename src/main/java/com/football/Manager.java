@@ -1,12 +1,15 @@
 package com.football;
 
 import com.football.DataBase.DBController;
+import com.football.Domain.Asset.Player;
+import com.football.Domain.Game.Team;
 import com.football.Domain.Users.*;
 import com.football.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class Manager {
@@ -129,5 +132,46 @@ public class Manager {
     }
 
     public void stringLogOut(String id, String password) {
+    }
+
+    //Daniel 26.5
+    public ArrayList<String> getTeamsByOwner(String ownerId) {
+        List<Team> teams = dbController.getTeamsByOwner(ownerId);
+        ArrayList<String> strTeams = new ArrayList<>();
+        for(Team team: teams){
+            strTeams.add(team.getName());
+        }
+        return strTeams;
+    }
+
+    //Daniel 26.5
+    public ArrayList<String> getAllTeams(){
+        HashMap<String, Team> teams = dbController.getTeams();
+        ArrayList<String> strTeams = new ArrayList<>();
+        strTeams.addAll(teams.keySet());
+        return strTeams;
+
+    }
+
+    //Daniel 27.5
+    public HashMap<String, String> getTeamManagers(String id, String teamName) throws ObjectNotExist {
+        Team team = dbController.getTeam(teamName);
+        HashMap<String, String> teamManagers = new HashMap<>();
+        HashSet<com.football.Domain.Asset.Manager> managers = team.getManagers();
+        for(com.football.Domain.Asset.Manager manager: managers){
+            teamManagers.put(manager.getUserMail(), manager.getName());
+        }
+        return teamManagers;
+
+    }
+    //Daniel 27.5
+    public HashMap<String, String> getTeamPlayers(String id, String teamName) throws ObjectNotExist {
+        Team team = dbController.getTeam(teamName);
+        HashMap<String, String> teamPlayers = new HashMap<>();
+        HashSet<Player> players = team.getPlayers();
+        for(Player player: players){
+            teamPlayers.put(player.getUserMail(), player.getName());
+        }
+        return teamPlayers;
     }
 }
