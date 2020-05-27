@@ -36,9 +36,18 @@ public class ServiceController {
 
     @RequestMapping(value="/login",method = RequestMethod.POST)
     public String login(@RequestParam(value = "id") String id,
+<<<<<<< HEAD
                         @RequestParam(value = "password")String password) {
         try{
             return  manager.stringLogIn(id, password);
+=======
+                        @RequestParam(value = "password")String password)
+            throws PasswordDontMatchException, MemberNotExist, DontHavePermissionException, AlreadyExistException {
+        try{
+            manager.stringLogIn(id, password);
+        }catch (MemberNotExist | AlreadyExistException memberNotExist){
+
+>>>>>>> 479f3c27f483b276fa852eefb6c0bc55b19e7aa2
         }
         catch (PasswordDontMatchException e){
             return "incorrect Password";

@@ -18,16 +18,14 @@ public class ErrorLogService {
     @Autowired
     private DBController dbController;
     public static int id = 0;
-    //Logger logger = LoggerFactory.getLogger(ErrorLogService.class);
 
     @RequestMapping("/")
-    public void addErrorLog(String topic){
+    public void addErrorLog(String topic) throws AlreadyExistException, DontHavePermissionException {
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         String strDate = dateFormat.format(date);
         ErrorLog error = new ErrorLog(id, topic, strDate);
-
-        //dbController.addErrorLog(error);
+        dbController.addErrorLog(error);
         id++;
     }
 }

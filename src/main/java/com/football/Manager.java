@@ -43,12 +43,12 @@ public class Manager {
         return newMember;
     }
 
-    public Member logIn(String userMail, String userPassword) throws MemberNotExist, PasswordDontMatchException, DontHavePermissionException {
+    public Member logIn(String userMail, String userPassword) throws MemberNotExist, PasswordDontMatchException, DontHavePermissionException, AlreadyExistException {
         Member member =guestController.logIn(userMail, userPassword);
         return member;
     }
 
-    public String stringLogIn(String userMail, String userPassword) throws PasswordDontMatchException,MemberNotExist, DontHavePermissionException {
+    public String stringLogIn(String userMail, String userPassword) throws PasswordDontMatchException, MemberNotExist, DontHavePermissionException, AlreadyExistException {
         Member member = logIn(userMail, userPassword);
         return member.getType();
     }
@@ -187,7 +187,7 @@ public class Manager {
         }
     }
 
-    public ArrayList<String> getTeamsOfOwner(String id) throws ObjectNotExist, MemberNotExist {
+    public ArrayList<String> getTeamsOfOwner(String id) throws ObjectNotExist, MemberNotExist, AlreadyExistException, DontHavePermissionException {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
@@ -197,7 +197,7 @@ public class Manager {
         return null;
     }
 
-    public ArrayList<String> getFieldsOfOwner(String id,String teamName) throws ObjectNotExist, MemberNotExist {
+    public ArrayList<String> getFieldsOfOwner(String id,String teamName) throws ObjectNotExist, MemberNotExist, AlreadyExistException, DontHavePermissionException {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
@@ -207,7 +207,7 @@ public class Manager {
         return null;
     }
 
-    public ArrayList<String> getRolesToAddManager(String id) throws ObjectNotExist, MemberNotExist {
+    public ArrayList<String> getRolesToAddManager(String id) throws ObjectNotExist, MemberNotExist, AlreadyExistException, DontHavePermissionException {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
@@ -217,7 +217,7 @@ public class Manager {
         return null;
     }
 
-    public ArrayList<String> getAllRoles(String id) throws ObjectNotExist, MemberNotExist {
+    public ArrayList<String> getAllRoles(String id) throws ObjectNotExist, MemberNotExist, AlreadyExistException, DontHavePermissionException {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
@@ -227,7 +227,7 @@ public class Manager {
         return null;
     }
 
-    public ArrayList<String> getManagersOfTeam(String id, String teamName) throws MemberNotExist {
+    public ArrayList<String> getManagersOfTeam(String id, String teamName) throws MemberNotExist, AlreadyExistException, DontHavePermissionException {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
@@ -237,7 +237,7 @@ public class Manager {
         return null;
     }
 
-    public ArrayList<String> getPlayersOfTeam(String id, String teamName) throws MemberNotExist {
+    public ArrayList<String> getPlayersOfTeam(String id, String teamName) throws MemberNotExist, AlreadyExistException, DontHavePermissionException {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
@@ -247,7 +247,7 @@ public class Manager {
         return null;
     }
 
-    public ArrayList<String> getCoachesOfTeam(String id, String teamName) throws MemberNotExist {
+    public ArrayList<String> getCoachesOfTeam(String id, String teamName) throws MemberNotExist, AlreadyExistException, DontHavePermissionException {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
@@ -265,7 +265,7 @@ public class Manager {
         return teams;
     }
 
-    public ArrayList<String> getRefereesDoesntExistInTheLeagueAndSeason(String leagueId, String seasonId) throws DontHavePermissionException, ObjectNotExist {
+    public ArrayList<String> getRefereesDoesntExistInTheLeagueAndSeason(String leagueId, String seasonId) throws DontHavePermissionException, ObjectNotExist, AlreadyExistException {
         ArrayList<String> referees=new ArrayList<>();
         HashMap<String,Referee> gerReferees= associationDelegateService.getRefereesDoesntExistInTheLeagueAndSeason(leagueId,seasonId);
         for (String name:gerReferees.keySet()) {

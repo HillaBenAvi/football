@@ -131,7 +131,7 @@ public class AssociationDelegateService {
      * @throws DontHavePermissionException
      * @throws ObjectNotExist
      */
-    public ScorePolicy getScorePolicy(String id, String league, String season) throws ObjectNotExist{
+    public ScorePolicy getScorePolicy(String id, String league, String season) throws ObjectNotExist, AlreadyExistException, DontHavePermissionException {
        try{
            League leagueObj = dbController.getLeague(league);
            Season seasonObj = dbController.getSeason(season);
@@ -152,7 +152,7 @@ public class AssociationDelegateService {
      * @throws DontHavePermissionException
      * @throws ObjectNotExist
      */
-    public HashMap<String, Referee> getRefereesInLeagueInSeason(String league, String season) throws ObjectNotExist {
+    public HashMap<String, Referee> getRefereesInLeagueInSeason(String league, String season) throws ObjectNotExist, AlreadyExistException, DontHavePermissionException {
         try{
             League leagueObj = dbController.getLeague(league);
             Season seasonObj = dbController.getSeason(season);
@@ -174,7 +174,7 @@ public class AssociationDelegateService {
      * @return list of referees
      * @throws DontHavePermissionException
      */
-    public HashMap<String, Referee> getRefereesDoesntExistInTheLeagueAndSeason(String league, String season) throws ObjectNotExist, DontHavePermissionException {
+    public HashMap<String, Referee> getRefereesDoesntExistInTheLeagueAndSeason(String league, String season) throws ObjectNotExist, DontHavePermissionException, AlreadyExistException {
         HashMap<String, Referee> referees = new HashMap<>();
         try {
             HashMap<String, Referee> allRefereesInTheSystem = dbController.getReferees();
@@ -236,7 +236,7 @@ public class AssociationDelegateService {
         return dbController.getSchedulingPolicies();
     }
 
-    public void setSchedulingPolicyToLeagueInSeason(String id, String specificLeague, String year, String policyName) throws ObjectNotExist, IncorrectInputException, DontHavePermissionException, MemberNotExist {
+    public void setSchedulingPolicyToLeagueInSeason(String id, String specificLeague, String year, String policyName) throws ObjectNotExist, IncorrectInputException, DontHavePermissionException, MemberNotExist, AlreadyExistException {
         try {
             if (!dbController.existAssociationDelegate(id)) {
                 errorLogService.addErrorLog("Member Not Exist");
@@ -259,7 +259,7 @@ public class AssociationDelegateService {
             dbController.updateLeagueInSeason(currAssociationDelegate, leagueInSeason);
             eventLogService.addEventLog(id, "set scheduling policy to league in season");
         }
-        catch(ObjectNotExist e){
+        catch(ObjectNotExist | AlreadyExistException e){
             errorLogService.addErrorLog("Object Not Exist");
         }
     }
@@ -302,7 +302,7 @@ public class AssociationDelegateService {
      * @throws DontHavePermissionException
      * @throws ObjectNotExist
      */
-    public ASchedulingPolicy getSchedulingPolicyInLeagueInSeason(String league, String season) throws DontHavePermissionException, ObjectNotExist {
+    public ASchedulingPolicy getSchedulingPolicyInLeagueInSeason(String league, String season) throws DontHavePermissionException, ObjectNotExist, AlreadyExistException {
         try{
             Season season1 = dbController.getSeason(season);
             LeagueInSeason leagueInSeason = dbController.getLeague(league).getLeagueInSeason(season1);

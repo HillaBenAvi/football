@@ -14,6 +14,7 @@ import com.football.Domain.League.Season;
 import com.football.Exception.*;
 import com.football.Service.ErrorLogService;
 import com.football.Service.EventLogService;
+import com.football.Service.Notification;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,10 @@ public class SystemManagerService {
 
     @Autowired
     private EventLogService eventLogService;
+
+    private Notification notification;
     /********************remove members*********************/
+
 
 
     /**

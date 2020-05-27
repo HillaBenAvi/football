@@ -8,6 +8,7 @@ import com.football.Domain.Game.Game;
 import com.football.Exception.*;
 import com.football.Service.ErrorLogService;
 import com.football.Service.EventLogService;
+import com.football.Service.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,7 @@ public class MainRefereeService {
     @Autowired
     private EventLogService eventLogService;
 
+    private Notification notification;
 
     /**
      * in this function a main referee can update an event in a game
