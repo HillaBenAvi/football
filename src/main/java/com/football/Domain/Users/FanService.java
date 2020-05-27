@@ -33,7 +33,7 @@ public class FanService {
     @Autowired
     private EventLogService eventLogService;
 
-    public void followTeam(String id, Team team) throws MemberNotExist {
+    public void followTeam(String id, Team team) throws MemberNotExist, AlreadyExistException, DontHavePermissionException {
        try{
            if(dbController.existFan(id)){
                Fan fan = dbController.getFan(id);
@@ -46,7 +46,7 @@ public class FanService {
 
     }
 
-    public void followGame(String id, Game game) throws MemberNotExist {
+    public void followGame(String id, Game game) throws MemberNotExist, AlreadyExistException, DontHavePermissionException {
        try{
            if(dbController.existFan(id)){
                Fan fan = dbController.getFan(id);
@@ -78,7 +78,7 @@ public class FanService {
         }
     }
 
-    public void sendComplaint(String path, String complaint){
+    public void sendComplaint(String path, String complaint) throws AlreadyExistException, DontHavePermissionException {
         LinkedList<String> complaintsList = new LinkedList<>();
         try {
             File newText = new File(path);
