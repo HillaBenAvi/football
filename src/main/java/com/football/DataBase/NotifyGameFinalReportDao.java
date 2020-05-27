@@ -13,19 +13,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Repository
-public class NotifyFollowEventGameDao implements DAO<String> {
+public class NotifyGameFinalReportDao implements DAO<String> {
 
     @Autowired
     public DBConnector dbc=new DBConnector();
 
-    public NotifyFollowEventGameDao() {
+    public NotifyGameFinalReportDao() {
     }
 
     Connection connection=dbc.getConnection();
 
     @Override
     public String getTableName() {
-        return " NotifyFollowEventGame ";
+        return " NotifyGameFinalReport ";
     }
 
 
@@ -126,7 +126,7 @@ public class NotifyFollowEventGameDao implements DAO<String> {
             return rs.next();
 
         } catch (java.sql.SQLException e) {
-             System.out.println(e.toString());
+            System.out.println(e.toString());
         }
         return false;
     }

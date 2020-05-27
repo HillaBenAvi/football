@@ -1,5 +1,4 @@
 package com.football.DataBase;
-
 import com.football.Domain.Users.AssociationDelegate;
 import com.football.Exception.ObjectNotExist;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +12,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Repository
-public class NotifyFollowEventGameDao implements DAO<String> {
+public class NotifyScheduleToGameDao implements DAO<String> {
 
     @Autowired
     public DBConnector dbc=new DBConnector();
 
-    public NotifyFollowEventGameDao() {
+    public NotifyScheduleToGameDao() {
     }
 
     Connection connection=dbc.getConnection();
 
     @Override
     public String getTableName() {
-        return " NotifyFollowEventGame ";
+        return " NotifyScheduleToGame ";
     }
 
 
@@ -126,7 +125,7 @@ public class NotifyFollowEventGameDao implements DAO<String> {
             return rs.next();
 
         } catch (java.sql.SQLException e) {
-             System.out.println(e.toString());
+            System.out.println(e.toString());
         }
         return false;
     }

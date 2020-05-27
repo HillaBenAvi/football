@@ -62,6 +62,19 @@ public class DBController {
     public EventLogDao eventLogDao=new EventLogDao();;//= TeamDao.getInstance();
     @Autowired
     public NotificationDao notificationDao=new NotificationDao();;//= TeamDao.getInstance();
+    @Autowired
+    public NotifyFollowEventGameDao NotifyFollowEventGameDao=new NotifyFollowEventGameDao();
+    @Autowired
+    public NotifyGameFinalReportDao NotifyGameFinalReportDao=new NotifyGameFinalReportDao();
+    @Autowired
+    public NotifyCreateNewGameDao NotifyCreateNewGameDao=new NotifyCreateNewGameDao();
+    @Autowired
+    public NotifyScheduleToGameDao NotifyScheduleToGameDao=new NotifyScheduleToGameDao();
+    @Autowired
+    public NotifyAddAssetToTeamDao NotifyAddAssetToTeamDao=new NotifyAddAssetToTeamDao();
+
+
+
 
 
     public DBController() { }
@@ -1409,4 +1422,66 @@ public class DBController {
         return notification;
     }
 
+
+
+
+
+    /**************for hila peter***********/
+    public List<String> getNotifyFollowEventGame()   {
+        List<String> allUserMail = NotifyFollowEventGameDao.getAll();
+        return allUserMail;
+    }
+    public List<String> getNotifyGameFinalReport()   {
+        List<String> allUserMail = NotifyGameFinalReportDao.getAll();
+        return allUserMail;
+    }
+    public List<String> getNotifyCreateNewGame()   {
+        List<String> allUserMail = NotifyCreateNewGameDao.getAll();
+        return allUserMail;
+    }
+    public List<String> getNotifyScheduleToGame()   {
+        List<String> allUserMail = NotifyScheduleToGameDao.getAll();
+        return allUserMail;
+    }
+    public List<String> getNotifyAddAssetToTeam()   {
+        List<String> allUserMail = NotifyAddAssetToTeamDao.getAll();
+        return allUserMail;
+    }
+
+    public void addNotifyFollowEventGame(Role role, String  userMail) throws AlreadyExistException, DontHavePermissionException {
+
+            if (NotifyFollowEventGameDao.exist(userMail))
+                throw new AlreadyExistException();
+            NotifyFollowEventGameDao.save(userMail);
+        }
+
+    public void addNotifyGameFinalReport(Role role, String  userMail) throws AlreadyExistException, DontHavePermissionException {
+            if (NotifyGameFinalReportDao.exist(userMail))
+                throw new AlreadyExistException();
+            NotifyGameFinalReportDao.save(userMail);
+        }
+
+
+    public void addNotifyCreateNewGame(Role role, String  userMail) throws AlreadyExistException, DontHavePermissionException {
+
+            if (NotifyCreateNewGameDao.exist(userMail))
+                throw new AlreadyExistException();
+            NotifyCreateNewGameDao.save(userMail);
+        }
+
+    public void addNotifyScheduleToGame(Role role, String  userMail) throws AlreadyExistException, DontHavePermissionException {
+
+            if (NotifyScheduleToGameDao.exist(userMail))
+                throw new AlreadyExistException();
+            NotifyScheduleToGameDao.save(userMail);
+        }
+
+    public void addNotifyAddAssetToTeam(Role role, String  userMail) throws AlreadyExistException, DontHavePermissionException {
+
+            if (NotifyAddAssetToTeamDao.exist(userMail))
+                throw new AlreadyExistException();
+            NotifyAddAssetToTeamDao.save(userMail);
+        }
+
 }
+
