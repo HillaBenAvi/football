@@ -25,29 +25,18 @@ public class InitDB {
     Date birthDate = new Date(1995, 3, 6);
     @Autowired
     private SecurityMachine securityMachine = new SecurityMachine();
-    SystemManager systemManager = new SystemManager("forInit", "forInit@gmail.com", securityMachine.encrypt("123456"), new Date(1, 1, 1995));
+    SystemManager systemManager = new SystemManager("admin", "meretz@post.bgu.ac.il", securityMachine.encrypt("123456"), new Date(1, 1, 1995));
 
 
     public InitDB(){
-//        try {
-//            LeagueInSeason leagueInSeason = initLeagueInSeson();
-//        } catch (DontHavePermissionException e) {
-//            e.printStackTrace();
-//        } catch (ObjectNotExist objectNotExist) {
-//            objectNotExist.printStackTrace();
-//        } catch (AlreadyExistException e) {
-//            e.printStackTrace();
-//        } catch (ObjectAlreadyExist objectAlreadyExist) {
-//            objectAlreadyExist.printStackTrace();
-//        } catch (MemberNotExist memberNotExist) {
-//            memberNotExist.printStackTrace();
-//        } catch (NoEnoughMoney noEnoughMoney) {
-//            noEnoughMoney.printStackTrace();
-//        } catch (IncorrectInputException e) {
-//            e.printStackTrace();
-//        } catch (PasswordDontMatchException e) {
-//            e.printStackTrace();
-//        }
+        Fan fan = new Fan("Hillol","peterhilla@gmail.com",securityMachine.encrypt("hhh"),birthDate);
+        try {
+            dbc.addFan(systemManager,fan);
+            dbc.addSystemManager(systemManager,systemManager);
+        } catch (AlreadyExistException e) {
+        } catch (DontHavePermissionException e) {
+        }
+
     }
 
     public LeagueInSeason initLeagueInSeson() throws DontHavePermissionException, ObjectNotExist, AlreadyExistException, ObjectAlreadyExist, MemberNotExist, NoEnoughMoney, IncorrectInputException, PasswordDontMatchException {
@@ -119,7 +108,23 @@ public class InitDB {
         /*                     create team                      */
         /********************************************************/
 
-        Owner owner = new Owner("owner"+i,"owner"+i+"@gmail.com",encryptPass,birthDate);
+        String mailOwner = "";
+        String ownerName = "";
+        if(i==0){
+            mailOwner = "noa.shabtay22@gmail.com";
+            ownerName = "Noa1";
+        }if(i==1){
+            mailOwner = "noashab@post.bgu.ac.il";
+            ownerName = "Shabtay";
+        }if(i==2){
+            mailOwner = "hillapet@post.bgu.ac.il";
+            ownerName = "Hilla1";
+        }if(i==3){
+            mailOwner = "Yuval.Hilla@gmail.com ";
+            ownerName = "Peter";
+        }
+
+        Owner owner = new Owner(ownerName,mailOwner,encryptPass,birthDate);
         if(dbc.existOwner(owner.getUserMail())){
             dbc.deleteRole(systemManager,owner.getUserMail());
         }
@@ -216,8 +221,17 @@ public class InitDB {
     }
     private void enterRefereeToLeagueInSeason(LeagueInSeason leagueInSeason, int numOfReferees) throws IncorrectInputException, DontHavePermissionException, AlreadyExistException, MemberNotExist {
         String encryptPass =securityMachine.encrypt("123");
+        String mailReferee = "";
+        String refereeName = "";
         for(int i=0; i<numOfReferees/2; i++) {
-            Referee referee1 = new SecondaryReferee("referee"+i, "referee"+i+"@gmail.com", encryptPass, "r",birthDate);
+            if(i==0){
+                mailReferee = "gorsia@post.bgu.ac.il";
+                refereeName = "Dani";
+            }if(i==1){
+                mailReferee = "shacharmeretz1@gmail.com";
+                refereeName = "Shachar";
+            }
+            Referee referee1 = new SecondaryReferee(refereeName, mailReferee, encryptPass, "r",birthDate);
             if(dbc.existMember(referee1.getUserMail())){
                 dbc.deleteReferee(systemManager , referee1.getUserMail());
             }
@@ -225,7 +239,14 @@ public class InitDB {
             leagueInSeason.addReferee(referee1.getUserMail(),referee1);
         }
         for(int j=numOfReferees/2 ; j<numOfReferees; j++) {
-            Referee referee2 = new MainReferee("referee"+j, "referee"+j+"@gmail.com", encryptPass,"trainin",birthDate);
+            if(j==2){
+                mailReferee = "osnatshabtay98@gmail.com";
+                refereeName = "Osi";
+            }if(j==3){
+                mailReferee = "daniel.gorsia5@gmail.com";
+                refereeName = "Daniel";
+            }
+            Referee referee2 = new MainReferee(refereeName, mailReferee, encryptPass,"trainin",birthDate);
             if(dbc.existMember(referee2.getUserMail())){
                 dbc.deleteReferee(systemManager , referee2.getUserMail());
             }
