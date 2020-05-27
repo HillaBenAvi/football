@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfWriter;
+//import com.itextpdf.text.pdf.PdfWriter;
 
 
 import javax.activation.DataHandler;
@@ -22,34 +22,35 @@ import java.util.Properties;
 @Service
 public class Notification {
 
-    public Notification(){
+    public Notification() {
         System.out.println("Notification object created");
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Notification object created";
     }
 
 
     /**
      * the function moves on list to notify them
+     *
      * @param listToNotify
      * @param message
      */
-    public void notifyAll(List<String> listToNotify, String message){
-        for(String mail:listToNotify){
+    public void notifyAll(List<String> listToNotify, String message) {
+        for (String mail : listToNotify) {
             sendMailAndPdf(mail, message);
         }
     }
 
     /**
      * create a pdf of message and send it to mail
+     *
      * @param mail
      * @param messageContent
      */
-    private void sendMailAndPdf(String mail, String messageContent){
+    private void sendMailAndPdf(String mail, String messageContent) {
 
         //Get the session object
         Properties props = new Properties();
@@ -88,10 +89,8 @@ public class Notification {
             Paragraph paragraph1 = new Paragraph();
 
             paragraph1.setSpacingBefore(50);
-
             paragraph1.add(anchorTarget);
             document.add(paragraph1);
-
 
             document.close();
 
@@ -128,7 +127,7 @@ public class Notification {
             }
 
 
-        } catch (MessagingException | FileNotFoundException | DocumentException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

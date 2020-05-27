@@ -292,13 +292,13 @@ public class DBController {
 
     }
 
-    public void addNotification(Notification notification) throws AlreadyExistException {
-        if (notificationDao.exist(notification.getId())) {
-            throw new AlreadyExistException();
-        }
-        notificationDao.save(notification);
-
-    }
+//    public void addNotification(Notification notification) throws AlreadyExistException {
+//        if (notificationDao.exist(notification.getId())) {
+//            throw new AlreadyExistException();
+//        }
+//        notificationDao.save(notification);
+//
+//    }
 
 
     /*************************************** Getters ******************************************/
@@ -838,16 +838,16 @@ public class DBController {
     }
 
 
-    public Notification getNotification(String id) throws ObjectNotExist {
-        if (notificationDao.exist(id)) {
-            String notification = notificationDao.get(id);
-            String[] splited = notification.split(":");
-            Notification notificationObject = parseNotification(splited);
-            return notificationObject;
-        } else {
-            throw new ObjectNotExist("the notification id is not exist");
-        }
-    }
+//    public Notification getNotification(String id) throws ObjectNotExist {
+//        if (notificationDao.exist(id)) {
+//            String notification = notificationDao.get(id);
+//            String[] splited = notification.split(":");
+//            Notification notificationObject = parseNotification(splited);
+//            return notificationObject;
+//        } else {
+//            throw new ObjectNotExist("the notification id is not exist");
+//        }
+//    }
 
     public ErrorLog getErrorLog(String id) throws ObjectNotExist {
         if (errorLogDao.exist(id)) {
@@ -1398,10 +1398,10 @@ public class DBController {
     }
 
 
-    private Notification parseNotification(String[] splited) {
-        Notification notification = new Notification(splited[0], splited[1], splited[2]);
-        return notification;
-    }
+//    private Notification parseNotification(String[] splited) {
+//        Notification notification = new Notification(splited[0], splited[1], splited[2]);
+//        return notification;
+//    }
 
 
     /**************for hila peter***********/
