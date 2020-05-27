@@ -14,10 +14,8 @@ import com.football.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class Manager {
@@ -333,13 +331,13 @@ public class Manager {
     }
 
     public HashMap<String, String> getTeamOwners(String teamId) throws ObjectNotExist {
-        HashMap<String, String> teamOwneres = new HashMap<>();
+        HashMap<String, String> teamOwners = new HashMap<>();
         Team team = dbController.getTeam(teamId);
         HashSet<Owner> owners = team.getOwners();
         for(Owner owner : owners){
-            teamOwneres.put(owner.getUserMail(),owner.getName());
+            teamOwners.put(owner.getUserMail(),owner.getName());
         }
-        return teamOwneres;
+        return teamOwners;
     }
 
     public HashMap<String, String> getTeamCoaches(String teamId) throws ObjectNotExist {
@@ -385,6 +383,48 @@ public class Manager {
         }
         return playersInGame;
     }
+
+    //Daniel 26.5
+    public ArrayList<String> getTeamsByOwner(String ownerId) throws MemberNotExist {
+        Owner owner = dbController.getOwner(ownerId);
+        HashMap<String, Team> teams = owner.getTeams();
+        return new ArrayList<>(teams.keySet());
+    }
+
+    //Daniel 26.5
+    public ArrayList<String> getAllTeams(){
+        HashMap<String, Team> teams = dbController.getTeams();
+        ArrayList<String> strTeams = new ArrayList<>();
+        strTeams.addAll(teams.keySet());
+        return strTeams;
+
+    }
+
+    //get all fans - key=mail, value=name
+    public HashMap<String, String> getPotentialManagers(String id, String teamName) {
+        return getAllFans();
+    }
+
+    //get all fans - key=mail, value=name
+    public HashMap<String, String> getPotentialPlayers(String id, String teamName) {
+        return getAllFans();
+    }
+
+    //get all fans - key=mail, value=name
+    public HashMap<String, String> getPotentialCoaches(String id, String teamName) {
+        return getAllFans();
+    }
+
+    //get all fans - key=mail, value=name
+    private HashMap<String, String> getAllFans(){
+        HashMap<String, Fan> fans = dbController.getFans();
+        HashMap<String, String> strFans = new HashMap<>();
+        for(String fan : fans.keySet()){
+            strFans.put(fan, fans.get(fan).getName());
+        }
+        return strFans;
+    }
+
 
 
 }

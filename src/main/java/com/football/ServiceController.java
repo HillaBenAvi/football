@@ -1,7 +1,9 @@
 package com.football;
 
 import com.football.Domain.Users.Fan;
+import com.football.Domain.Users.Member;
 import com.football.Exception.*;
+import com.football.Service.ErrorLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +18,10 @@ public class ServiceController {
 
     @Autowired
     private Manager manager;
+
+    @Autowired
+    private ErrorLogService errorLogService;
+
 
     @RequestMapping(value="/register",method = RequestMethod.POST)
     public String register(@RequestParam(value = "userName") String userName,
@@ -328,23 +334,27 @@ public class ServiceController {
     /***********************to add************************/
 
 
-    //return a list of teams names of an owner
+    //return a list of teams names of an owner - Daniel 26.5
     @RequestMapping(value="/getTeamsOfOwner",method = RequestMethod.GET)
     @ResponseBody
-    public ArrayList<String> getTeamsOfOwner(@RequestParam(value = "id") String ownerId){
-
-        //return manager.getTeamsByOwner(ownerId);
-        return new ArrayList<>();
+    public ArrayList<String> getTeamsOfOwner(@RequestParam(value = "id") String ownerId) throws AlreadyExistException, DontHavePermissionException {
+        try{
+            return manager.getTeamsByOwner(ownerId);
+        }
+        catch(MemberNotExist e){
+            errorLogService.addErrorLog("member not exist");
+            return null;
+        }
     }
 
-    //get all the teams in the system
+    //get all the teams in the system - Daniel 26.5
     @RequestMapping(value="/getAllTeams",method = RequestMethod.GET)
     @ResponseBody
     public ArrayList<String> getAllTeams(@RequestParam(value = "id") String id) {
-
-        //return manager.getAllTeams(ownerId);
-        return new ArrayList<>();
+            return manager.getAllTeams();
     }
+
+
 
 
     /*****************team getters*******************/
@@ -353,53 +363,58 @@ public class ServiceController {
     //get all the users that can be coaches of a team
     @RequestMapping(value="/getTeamManagers",method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<String,String> getTeamManagers(@RequestParam(value = "id") String teamId){
+    public HashMap<String,String> getTeamManagers(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
 
         try {
             return manager.getTeamManagers(teamId);
         } catch (ObjectNotExist objectNotExist) {
+            errorLogService.addErrorLog("object not exist");
             return null;
         }
     }
 
     @RequestMapping(value="/getTeamPlayers",method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<String,String> getTeamPlayers(@RequestParam(value = "id") String teamId) {
+    public HashMap<String,String> getTeamPlayers(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
         try {
             return manager.getTeamPlayers(teamId);
         } catch (ObjectNotExist objectNotExist) {
+            errorLogService.addErrorLog("object not exist");
             return null;
         }
     }
 
     @RequestMapping(value="/getTeamOwners",method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<String,String> getTeamOwners(@RequestParam(value = "id") String teamId) {
+    public HashMap<String,String> getTeamOwners(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
 
         try {
             return manager.getTeamOwners(teamId);
         } catch (ObjectNotExist objectNotExist) {
+            errorLogService.addErrorLog("object not exist");
             return null;
         }
     }
 
     @RequestMapping(value="/getTeamCoaches",method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<String,String> getTeamCoaches(@RequestParam(value = "id") String teamId){
+    public HashMap<String,String> getTeamCoaches(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
         try {
             return manager.getTeamCoaches(teamId);
         } catch (ObjectNotExist objectNotExist) {
+            errorLogService.addErrorLog("object not exist");
             return null;
         }
     }
 
     @RequestMapping(value="/getRefereeGames",method = RequestMethod.GET)
     @ResponseBody
-    public HashSet<String> getRefereeGames(@RequestParam(value = "id") String refereeId){
+    public HashSet<String> getRefereeGames(@RequestParam(value = "id") String refereeId) throws AlreadyExistException, DontHavePermissionException {
 
         try {
             return manager.getRefereeGames(refereeId);
         } catch (MemberNotExist memberNotExist) {
+            errorLogService.addErrorLog("member not exist");
             return null;
         }
     }
@@ -412,11 +427,12 @@ public class ServiceController {
 
     @RequestMapping(value="/getTeamFields",method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<String,String> getTeamFields(@RequestParam(value = "id") String teamId) {
+    public HashMap<String,String> getTeamFields(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
 
         try {
             return manager.getTeamFields(teamId);
         } catch (ObjectNotExist objectNotExist) {
+            errorLogService.addErrorLog("object not exist");
             return null;
         }
     }
@@ -427,18 +443,15 @@ public class ServiceController {
     @ResponseBody
     public HashMap<String,String> getPotentialManagers(@RequestParam(value = "id") String id,
                                                   @RequestParam(value = "teamName") String teamName) {
+        return manager.getPotentialManagers(id, teamName);
 
-        //return manager.getPotentialManagers(id, teamName);
-        return new HashMap<>();
     }
 
     @RequestMapping(value="/getPotentialPlayers",method = RequestMethod.GET)
     @ResponseBody
     public HashMap<String,String> getPotentialPlayers(@RequestParam(value = "id") String id,
                                                        @RequestParam(value = "teamName") String teamName) {
-
-        //return manager.getPotentialPlayers(id, teamName);
-        return new HashMap<>();
+        return manager.getPotentialPlayers(id, teamName);
     }
 
     @RequestMapping(value="/getPotentialCoaches",method = RequestMethod.GET)
@@ -446,9 +459,6 @@ public class ServiceController {
     public HashMap<String,String> getPotentialCoaches(@RequestParam(value = "id") String id,
                                                       @RequestParam(value = "teamName") String teamName) {
 
-        //return manager.get PotentialCoaches(id, teamName);
-        return new HashMap<>();
+        return manager.getPotentialCoaches(id, teamName);
     }
-
-
 }
