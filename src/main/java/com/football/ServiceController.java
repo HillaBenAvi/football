@@ -29,10 +29,10 @@ public class ServiceController {
     @RequestMapping(value="/login",method = RequestMethod.POST)
     public String login(@RequestParam(value = "id") String id,
                         @RequestParam(value = "password")String password)
-            throws PasswordDontMatchException, MemberNotExist, DontHavePermissionException {
+            throws PasswordDontMatchException, MemberNotExist, DontHavePermissionException, AlreadyExistException {
         try{
             manager.stringLogIn(id, password);
-        }catch (MemberNotExist memberNotExist){
+        }catch (MemberNotExist | AlreadyExistException memberNotExist){
 
         }
        return manager.stringLogIn(id, password);
