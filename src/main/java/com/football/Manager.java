@@ -320,66 +320,66 @@ public class Manager {
        return gamesId;
     }
 
-    HashMap<String,String> getTeamPlayers(String teamId) throws ObjectNotExist {
-        HashMap<String, String> teamPlayers = new HashMap<>();
+    ArrayList<String> getTeamPlayers(String teamId) throws ObjectNotExist {
+        ArrayList<String> teamPlayers = new ArrayList<>();
         Team team = dbController.getTeam(teamId);
         HashSet<Player> players = team.getPlayers();
         for(Player player : players){
-            teamPlayers.put(player.getUserMail(),player.getName());
+            teamPlayers.add(player.getUserMail());
         }
         return teamPlayers;
     }
 
-    public HashMap<String, String> getTeamOwners(String teamId) throws ObjectNotExist {
-        HashMap<String, String> teamOwners = new HashMap<>();
+    public ArrayList<String> getTeamOwners(String teamId) throws ObjectNotExist {
+        ArrayList<String> teamOwners = new ArrayList<>();
         Team team = dbController.getTeam(teamId);
         HashSet<Owner> owners = team.getOwners();
         for(Owner owner : owners){
-            teamOwners.put(owner.getUserMail(),owner.getName());
+            teamOwners.add(owner.getUserMail());
         }
         return teamOwners;
     }
 
-    public HashMap<String, String> getTeamCoaches(String teamId) throws ObjectNotExist {
-        HashMap<String, String> teamCoaches = new HashMap<>();
+    public ArrayList<String> getTeamCoaches(String teamId) throws ObjectNotExist {
+        ArrayList<String> teamCoaches = new ArrayList<>();
         Team team = dbController.getTeam(teamId);
         HashSet<Coach> coaches = team.getCoaches();
         for(Coach coach : coaches){
-            teamCoaches.put(coach.getUserMail(),coach.getName());
+            teamCoaches.add(coach.getUserMail());
         }
         return teamCoaches;
     }
 
-    public HashMap<String, String> getTeamFields(String teamId) throws ObjectNotExist {
-        HashMap<String, String> teamFields = new HashMap<>();
+    public ArrayList<String> getTeamFields(String teamId) throws ObjectNotExist {
+        ArrayList<String> teamFields = new ArrayList<>();
         Team team = dbController.getTeam(teamId);
         HashSet<Field> fields = team.getTrainingFields();
         for(Field field : fields){
-            teamFields.put(field.getNameOfField(),field.getNameOfField());
+            teamFields.add(field.getNameOfField());
         }
         return teamFields;
     }
 
-    public HashMap<String, String> getTeamManagers(String teamId) throws ObjectNotExist {
-        HashMap<String, String> teamManagers = new HashMap<>();
+    public ArrayList<String> getTeamManagers(String teamId) throws ObjectNotExist {
+        ArrayList<String> teamManagers = new ArrayList<>();
         Team team = dbController.getTeam(teamId);
         HashSet<com.football.Domain.Asset.Manager> managers = team.getManagers();
         for(com.football.Domain.Asset.Manager manager : managers){
-            teamManagers.put(manager.getUserMail(),manager.getName());
+            teamManagers.add(manager.getUserMail());
         }
         return teamManagers;
     }
-    public HashMap<String, String> getGamePlayers(String gameId) {
-        HashMap<String,String> playersInGame = new HashMap<>();
+    public ArrayList<String> getGamePlayers(String gameId) {
+        ArrayList<String> playersInGame = new ArrayList<>();
         Game game = dbController.getGame(gameId);
         Team teamHost = game.getHostTeam();
         Team teamGest = game.getVisitorTeam();
 
         for(Player player : teamGest.getPlayers()){
-            playersInGame.put(player.getUserMail(), player.getName());
+            playersInGame.add(player.getUserMail());
         }
         for(Player player : teamHost.getPlayers()){
-            playersInGame.put(player.getUserMail(), player.getName());
+            playersInGame.add(player.getUserMail());
         }
         return playersInGame;
     }
@@ -401,30 +401,38 @@ public class Manager {
     }
 
     //get all fans - key=mail, value=name
-    public HashMap<String, String> getPotentialManagers(String id, String teamName) {
+    public  ArrayList<String>  getPotentialManagers(String id, String teamName) {
         return getAllFans();
     }
 
     //get all fans - key=mail, value=name
-    public HashMap<String, String> getPotentialPlayers(String id, String teamName) {
+    public ArrayList<String> getPotentialPlayers(String id, String teamName) {
         return getAllFans();
     }
 
     //get all fans - key=mail, value=name
-    public HashMap<String, String> getPotentialCoaches(String id, String teamName) {
+    public ArrayList<String> getPotentialCoaches(String id, String teamName) {
         return getAllFans();
     }
 
     //get all fans - key=mail, value=name
-    private HashMap<String, String> getAllFans(){
+    private ArrayList<String> getAllFans(){
         HashMap<String, Fan> fans = dbController.getFans();
-        HashMap<String, String> strFans = new HashMap<>();
+        ArrayList<String> strFans = new ArrayList<>();
         for(String fan : fans.keySet()){
-            strFans.put(fan, fans.get(fan).getName());
+            strFans.add(fan);
         }
         return strFans;
     }
 
 
+    public ArrayList<String> getLeagueInSeasonsIds() {
+        return dbController.getLeagueInSeasonsIds();
+    }
 
+    public ArrayList<String> getPotentialOwners() {
+        ArrayList<String> ownersAndFans = new ArrayList<>();
+        ownersAndFans.addAll(dbController.getOwnersAndFans().keySet());
+        return ownersAndFans;
+    }
 }

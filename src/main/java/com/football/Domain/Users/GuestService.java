@@ -40,8 +40,13 @@ public class GuestService {
            }
            String encryptPassword = securityMachine.encrypt(password);
            Fan newMember = new Fan(userName, userMail, encryptPassword, birthDate);
-           dbController.addFan(newMember,newMember);
-           eventLogService.addEventLog("Guest", "sign in");
+        try {
+            dbController.addFan(newMember,newMember);
+        } catch (AlreadyExistException e) {
+            errorLogService.addErrorLog("Already Exist Exception");
+            throw new AlreadyExistException();
+        }
+        eventLogService.addEventLog("Guest", "sign in");
            return newMember;
     }
 

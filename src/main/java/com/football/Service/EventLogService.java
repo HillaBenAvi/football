@@ -14,11 +14,13 @@ import java.util.Date;
 @Service
 public class EventLogService {
 
-    public static int id = 0;
+
+    public static int id ;
     @Autowired
     private DBController dbController;
 
     public void addEventLog(String userId, String actionName) throws AlreadyExistException {
+        id = dbController.getMaxEventLog() +1 ;
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         String strDate = dateFormat.format(date);

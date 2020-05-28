@@ -321,11 +321,13 @@ public class DBController {
         List<String> mainsRe = mainRefereeDao.getAll();
         for(String mainRe : mainsRe){
             String[] splitMain = mainRe.split(":");
-            String[] gamesSplited = splitMain[5].split(";");
             HashSet<Game> games = new HashSet<>();
-            for(int i=0; i<gamesSplited.length;i++){
-                Game game = new Game(gameDao.get(gamesSplited[i]));
-                games.add(game);
+            if(splitMain[5] != null){
+                String[] gamesSplited = splitMain[5].split(";");
+                for(int i=0; i<gamesSplited.length;i++){
+                    Game game = new Game(gameDao.get(gamesSplited[i]));
+                    games.add(game);
+                }
             }
             MainReferee mainReferee = new MainReferee(splitMain,games);
             result.put(mainReferee.getUserMail(),mainReferee);
@@ -1408,4 +1410,39 @@ public class DBController {
         return notification;
     }
 
+    public int getMaxEventLog() {
+        int id = 0;
+        List<String>  stringEvents =  eventLogDao.getAll();
+        for(String eventString  : stringEvents){
+            String[] splited = eventString.split(":");
+            int tmp = Integer.parseInt(splited[0]);
+            if(tmp > id){
+                id = tmp;
+            }
+        }
+        return id;
+    }
+
+    public int getMaxErrorLog() {
+        int id = 0;
+        List<String>  stringEvents =  errorLogDao.getAll();
+        for(String eventString  : stringEvents){
+            String[] splited = eventString.split(":");
+            int tmp = Integer.parseInt(splited[0]);
+            if(tmp > id){
+                id = tmp;
+            }
+        }
+        return id;
+    }
+
+    public ArrayList<String> getLeagueInSeasonsIds() {
+        ArrayList<String> lsID = new ArrayList<>();
+        List<String> leagueInSeasonsS =  leagueInSesonDao.getAll();
+        for(String ls : leagueInSeasonsS){
+            String[] lsSplit = ls.split(":");
+            lsID.add(lsSplit[0]+":"+lsSplit[1]);
+        }
+        return lsID;
+    }
 }

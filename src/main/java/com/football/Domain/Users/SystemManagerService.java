@@ -761,7 +761,7 @@ public class SystemManagerService {
     private void changeTheOwnerToFan(SystemManager manager, HashSet<Owner> allTheOwnerOfTheGroup) throws MemberNotExist, DontHavePermissionException, AlreadyExistException {
         for (Owner owner : allTheOwnerOfTheGroup
         ) {
-            if (owner.getTeams().size() == 0) {
+            if (owner.getTeams().size() == 1) {
                 Fan newFan = new Fan(owner.getName(), owner.getUserMail(), owner.getPassword(), owner.getBirthDate());
                 dbController.deleteOwner(manager, owner.getUserMail());
                 dbController.addFan(manager, newFan);

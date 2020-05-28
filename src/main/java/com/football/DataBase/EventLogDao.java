@@ -130,8 +130,8 @@ public class EventLogDao implements DAO<EventLog> {
         try {
             Statement stmt = connection.createStatement();
 
-            String sqlQuery = "SELECT * FROM"+getTableName()+
-                    "WHERE id ="+"\'"+id+"\'";
+            String sqlQuery = "SELECT * FROM "+getTableName()+
+                    "WHERE id = "+"\'"+id+"\'";
             ResultSet rs = stmt.executeQuery(sqlQuery);
             return rs.next();
 

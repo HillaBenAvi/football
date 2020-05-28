@@ -35,7 +35,7 @@ public class ServiceController {
         } catch (AlreadyExistException e) {
             return "the member already exist";
         } catch (DontHavePermissionException e) {
-            return "you dont have the permission to sign in";
+            return "you dont have the permission";
         }
         return "you register successfully";
     }
@@ -46,13 +46,13 @@ public class ServiceController {
         try{
             return manager.stringLogIn(id, password);
         } catch (PasswordDontMatchException e){
-            return "incorrect Password";
+            return "Password Dont Match";
         }
         catch (MemberNotExist e){
             return "the member does not exist";
         }
         catch (DontHavePermissionException e){
-            return "you dont have the permission to sign in";
+            return "you dont have the permission";
         } catch (AlreadyExistException e) {
             return "the member already exist";
         }
@@ -241,10 +241,9 @@ public class ServiceController {
 
     @RequestMapping(value="/schedulingGames",method = RequestMethod.POST)
     public String schedulingGames(@RequestParam(value = "id") String id,
-                           @RequestParam(value = "seasonId")String seasonId,
-                           @RequestParam(value = "leagueId")String leagueId) {
+                           @RequestParam(value = "leagueId:seasonId")String leagueIdseasonId) {
         try {
-            manager.schedulingGames(id, seasonId, leagueId);
+            manager.schedulingGames(id, leagueIdseasonId.split(":")[0], leagueIdseasonId.split(":")[1]);
         } catch (ObjectNotExist objectNotExist) {
             return "the object does not exist";
         } catch (AlreadyExistException e) {
@@ -300,7 +299,7 @@ public class ServiceController {
 
     }
 
-    @RequestMapping(value="/closeTeam",method = RequestMethod.DELETE)
+    @RequestMapping(value="/closeTeam",method = RequestMethod.POST)
     public String closeTeam(@RequestParam(value = "id") String id,
                                  @RequestParam(value = "teamName") String teamName){
         try {
@@ -359,11 +358,16 @@ public class ServiceController {
 
     /*****************team getters*******************/
     //the key of the HashMaps- id, value- name
-
+    //get all the league in season
+    @RequestMapping(value="/getLeagueInSeasons",method = RequestMethod.GET)
+    @ResponseBody
+    public  ArrayList<String>  getLeagueInSeasonsIds(){
+        return manager.getLeagueInSeasonsIds();
+    }
     //get all the users that can be coaches of a team
     @RequestMapping(value="/getTeamManagers",method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<String,String> getTeamManagers(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
+    public  ArrayList<String>  getTeamManagers(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
 
         try {
             return manager.getTeamManagers(teamId);
@@ -375,7 +379,7 @@ public class ServiceController {
 
     @RequestMapping(value="/getTeamPlayers",method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<String,String> getTeamPlayers(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
+    public  ArrayList<String>  getTeamPlayers(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
         try {
             return manager.getTeamPlayers(teamId);
         } catch (ObjectNotExist objectNotExist) {
@@ -386,7 +390,7 @@ public class ServiceController {
 
     @RequestMapping(value="/getTeamOwners",method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<String,String> getTeamOwners(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
+    public  ArrayList<String>  getTeamOwners(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
 
         try {
             return manager.getTeamOwners(teamId);
@@ -398,7 +402,7 @@ public class ServiceController {
 
     @RequestMapping(value="/getTeamCoaches",method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<String,String> getTeamCoaches(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
+    public  ArrayList<String> getTeamCoaches(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
         try {
             return manager.getTeamCoaches(teamId);
         } catch (ObjectNotExist objectNotExist) {
@@ -421,13 +425,13 @@ public class ServiceController {
     @RequestMapping(value="/getGamePlayers",method = RequestMethod.GET)
 
     @ResponseBody
-    public HashMap<String,String> getGamePlayers(@RequestParam(value = "id") String gameId){
+    public  ArrayList<String>  getGamePlayers(@RequestParam(value = "id") String gameId){
         return manager.getGamePlayers(gameId);
     }
 
     @RequestMapping(value="/getTeamFields",method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<String,String> getTeamFields(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
+    public  ArrayList<String>  getTeamFields(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
 
         try {
             return manager.getTeamFields(teamId);
@@ -438,10 +442,16 @@ public class ServiceController {
     }
 
     /*************** team potentials - all the users that can be... ******************/
+    @RequestMapping(value="/getPotentialOwners",method = RequestMethod.GET)
+    @ResponseBody
+    public  ArrayList<String>  getPotentialOwners() {
+        return manager.getPotentialOwners();
+    }
+
 
     @RequestMapping(value="/getPotentialManagers",method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<String,String> getPotentialManagers(@RequestParam(value = "id") String id,
+    public  ArrayList<String>  getPotentialManagers(@RequestParam(value = "id") String id,
                                                   @RequestParam(value = "teamName") String teamName) {
         return manager.getPotentialManagers(id, teamName);
 
@@ -449,14 +459,14 @@ public class ServiceController {
 
     @RequestMapping(value="/getPotentialPlayers",method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<String,String> getPotentialPlayers(@RequestParam(value = "id") String id,
+    public  ArrayList<String>  getPotentialPlayers(@RequestParam(value = "id") String id,
                                                        @RequestParam(value = "teamName") String teamName) {
         return manager.getPotentialPlayers(id, teamName);
     }
 
     @RequestMapping(value="/getPotentialCoaches",method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<String,String> getPotentialCoaches(@RequestParam(value = "id") String id,
+    public  ArrayList<String>  getPotentialCoaches(@RequestParam(value = "id") String id,
                                                       @RequestParam(value = "teamName") String teamName) {
 
         return manager.getPotentialCoaches(id, teamName);
