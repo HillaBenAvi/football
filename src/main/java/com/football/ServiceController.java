@@ -261,9 +261,15 @@ public class ServiceController {
     @RequestMapping(value="/setLeagueByYear",method = RequestMethod.POST)
     public String setLeagueByYear(@RequestParam(value = "id") String id,
                                 @RequestParam(value = "seasonId")String seasonId,
-                                @RequestParam(value = "leagueId")String leagueId){
+                                @RequestParam(value = "leagueId")String leagueId,
+                                  @RequestParam(value = "sWinning") String sWinning,
+                                  @RequestParam(value = "sDraw") String sDraw,
+                                  @RequestParam(value = "sLosing") String sLosing,
+                                  @RequestParam(value = "schedulingPolicyName") String schedulingPolicyName){
         try {
             manager.setLeagueByYear(id, seasonId, leagueId);
+            manager.changeScorePolicy(id, leagueId, seasonId, sWinning, sDraw, sLosing);
+            manager.insertSchedulingPolicy(id, leagueId, seasonId, schedulingPolicyName);
         } catch (ObjectNotExist objectNotExist) {
             return "the object does not exist";
         } catch (AlreadyExistException e) {
@@ -272,23 +278,24 @@ public class ServiceController {
             return "the member does not exist";
         } catch (DontHavePermissionException e) {
             return "you dont have the permission";
+        } catch (IncorrectInputException e) {
+            return "incorrect input exception";
         }
         return "Season set successfully to League";
     }
 
-    //todo: merge this with master
     @RequestMapping(value="/updateGameEvents",method = RequestMethod.POST)
     public String updateGameEvents(@RequestParam(value = "gameId") String id,
                                  @RequestParam(value = "refereeId") String refereeId,
                                  @RequestParam(value = "year") String year,
-                                 @RequestParam(value = "mounth") String mounth,
+                                 @RequestParam(value = "month") String month,
                                  @RequestParam(value = "day") String day,
                                  @RequestParam(value = "description") String description,
                                  @RequestParam(value = "gameMinute") String gameMinute,
                                  @RequestParam(value = "eventEnum") String eventInGame,
                                  @RequestParam(value = "playersId") String playersId) {
         try {
-            return manager.addGameEvents(id, refereeId,  year, mounth,  day ,description,gameMinute,eventInGame,playersId);
+            return manager.addGameEvents(id, refereeId,  year, month,  day ,description,gameMinute,eventInGame,playersId);
         } catch (MemberNotExist memberNotExist) {
             return "the member does not exist";
         } catch (DontHavePermissionException e) {
@@ -431,7 +438,7 @@ public class ServiceController {
 
     @RequestMapping(value="/getTeamFields",method = RequestMethod.GET)
     @ResponseBody
-    public  ArrayList<String>  getTeamFields(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
+    public ArrayList<String> getTeamFields(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
 
         try {
             return manager.getTeamFields(teamId);
@@ -464,6 +471,9 @@ public class ServiceController {
         return manager.getPotentialPlayers(id, teamName);
     }
 
+
+
+
     @RequestMapping(value="/getPotentialCoaches",method = RequestMethod.GET)
     @ResponseBody
     public  ArrayList<String>  getPotentialCoaches(@RequestParam(value = "id") String id,
@@ -471,4 +481,18 @@ public class ServiceController {
 
         return manager.getPotentialCoaches(id, teamName);
     }
+    @RequestMapping(value="/getAllLeagues",method = RequestMethod.GET)
+    @ResponseBody
+    public ArrayList<String> getAllLeagues(@RequestParam(value = "id") String id){
+        return manager.getLeagues();
+
+    }
+
+    @RequestMapping(value="/getAllSchedulingPolicies",method = RequestMethod.GET)
+    @ResponseBody
+    public ArrayList<String> getAllSchedulingPolicies(@RequestParam(value = "id") String id){
+        return manager.getSchedulingPolicies();
+
+    }
+
 }

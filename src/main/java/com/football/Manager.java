@@ -14,6 +14,7 @@ import com.football.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -292,10 +293,8 @@ public class Manager {
 
     public ArrayList<String> getSchedulingPolicies() {
         ArrayList<String> scheduling=new ArrayList<>();
-        HashMap<String, ASchedulingPolicy> getSchedulingPolicies= dbController.getSchedulingPolicies();
-        for (String name:getSchedulingPolicies.keySet()) {
-            scheduling.add(name);
-        }
+        scheduling.add("All teams play each other once");
+        scheduling.add("All teams play each other twice");
         return scheduling;
     }
 
