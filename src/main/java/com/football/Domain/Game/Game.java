@@ -142,4 +142,16 @@ public class Game extends Observable {
         details += "\'";
         return details;
     }
+
+    public String getReport(){
+        return id +
+                "\n" +  leagueInSeason.getSeason().getYear()+
+                "\n" + hostTeam.getName() +
+                "\n" + visitorTeam.getName() +
+                "\n" + field.getName() +
+                "\n" + result +
+                "\n" + eventLog.toString() +
+                "\n" + leagueInSeason.getLeague().getName() +
+                "\n" + leagueInSeason.getSeason().getYear()  ;
+    }
 }
