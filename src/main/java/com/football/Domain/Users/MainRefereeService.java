@@ -12,10 +12,7 @@ import com.football.Service.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.*;
 
 @Service
 public class MainRefereeService {
@@ -32,6 +29,7 @@ public class MainRefereeService {
     @Autowired
     private EventLogService eventLogService;
 
+    @Autowired
     private Notification notification;
 
     /**
@@ -65,6 +63,9 @@ public class MainRefereeService {
                         Event event1 = new Event(date,description,EventInGame.valueOf(eventInGame),Integer.parseInt(gameMinute),players);
                         game.addEvent(event1);
                         dbController.updateGame(referee,game);
+
+                        List<String> listToNotify=dbController.getNotifyScheduleToGame();
+                        notification.notifyAll(listToNotify,"The game "+game.getId()+" has updated!");
                         return;
                     }
                 }
@@ -82,16 +83,16 @@ public class MainRefereeService {
 
     public LinkedList<Game> getEditableGames (Referee referee) throws MemberNotExist, DontHavePermissionException {
 
-            LinkedList<Game> editableGames = new LinkedList();
-            for (Game game : referee.games){
-                Long now = System.currentTimeMillis();
-                long difference = (now - game.getDateCalendar().getTimeInMillis())/1000;
-                float differenceInHours= difference/(3600);
-                if(differenceInHours < 5){
-                    editableGames.add(game);
-                }
+        LinkedList<Game> editableGames = new LinkedList();
+        for (Game game : referee.games){
+            Long now = System.currentTimeMillis();
+            long difference = (now - game.getDateCalendar().getTimeInMillis())/1000;
+            float differenceInHours= difference/(3600);
+            if(differenceInHours < 5){
+                editableGames.add(game);
             }
-            return editableGames;
+        }
+        return editableGames;
     }
 
     /**
@@ -132,4 +133,11 @@ public class MainRefereeService {
         }
     }
 
+    public void createGameReport(String gameName){
+        Game game=dbController.getGame(gameName);
+        String message=game.getReport();
+
+        List<String> listToNotify=dbController.getNotifyGameFinalReport();
+        notification.notifyAll(listToNotify,"The report: /n "+message);
+    }
 }

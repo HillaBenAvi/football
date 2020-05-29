@@ -14,10 +14,7 @@ import com.football.Service.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 //for each method we get String id of the member who asks for the action.
 @Service
@@ -134,6 +131,10 @@ public class OwnerService {
                 team.addManager(manager);
                 dbController.updateTeam(currOwner, team);
                 eventLogService.addEventLog(id, "addManager");
+
+
+                List<String> listToNotify=dbController.getNotifyAddAssetToTeam();
+                notification.notifyAll(listToNotify,"add new manager- "+manager.getName()+" to team "+teamName);
             }
 
         } catch (DontHavePermissionException dontHavePermissionException) {
@@ -197,6 +198,9 @@ public class OwnerService {
 //            teams.replace(teamName, team);
                 dbController.updateTeam(currOwner, team);
                 eventLogService.addEventLog(id, "addCoach");
+
+                List<String> listToNotify=dbController.getNotifyAddAssetToTeam();
+                notification.notifyAll(listToNotify,"add new coach- "+coach.getName()+" to team "+teamName);
             }
             //todo : return !
         } catch (DontHavePermissionException dontHavePermissionException) {
@@ -258,6 +262,9 @@ public class OwnerService {
 //            teams.replace(teamName, team);
                 dbController.updateTeam(currOwner, team);
                 eventLogService.addEventLog(id, "addPlayer");
+
+                List<String> listToNotify=dbController.getNotifyAddAssetToTeam();
+                notification.notifyAll(listToNotify,"add new player- "+player.getName()+" to team "+teamName);
             }
             //todo: return!
         } catch (DontHavePermissionException dontHavePermissionException) {
@@ -306,6 +313,9 @@ public class OwnerService {
 //            teams.replace(teamName, team);
                 dbController.updateTeam(currOwner, team);
                 eventLogService.addEventLog(id, "addField");
+
+                List<String> listToNotify=dbController.getNotifyAddAssetToTeam();
+                notification.notifyAll(listToNotify,"add new field- "+field.getName()+" to team "+teamName);
             }
             //todo: return !
         } catch (MemberNotExist memberNotExist) {

@@ -37,6 +37,7 @@ public class SystemManagerService {
     @Autowired
     private EventLogService eventLogService;
 
+    @Autowired
     private Notification notification;
     /********************remove members*********************/
 
@@ -511,9 +512,14 @@ public class SystemManagerService {
                         HashSet<Referee> referees =  game.getReferees();
                         for (Referee referee : referees){
                             dbController.updateReferee(manager,referee);
+                            //when referee add
+                            List<String> listOfNotify=dbController.getNotifyScheduleToGame();
+                            notification.notifyAll(listOfNotify,"The referee "+referee.getName()+" was added to game "+game.getId());
+
                         }
                     }
                     eventLogService.addEventLog(id,"schedulingGames");
+
                 }
             }
         } catch (MemberNotExist memberNotExist) {
@@ -547,6 +553,10 @@ public class SystemManagerService {
                         changeTheOwnerToFan(manager, allTheOwnerOfTheGroup);
                         dbController.removeTeam(manager, teamName);
                         eventLogService.addEventLog(id,"closeTeam");
+
+                        List<String> listToNotify=dbController.getNotifyFollowEventGame();
+                        notification.notifyAll(listToNotify,"The team "+teamName+" was closed ");
+
                         return true;
                     } else {
                         errorLogService.addErrorLog("Incorrect Input Exception");
@@ -611,6 +621,9 @@ public class SystemManagerService {
                         dbController.updateOwner(manager, owner);
                         dbController.addTeam(manager, newTeam);
                         eventLogService.addEventLog(id,"addNewTeam");
+
+                        List<String> listToNotify=dbController.getNotifyCreateNewGame();
+                        notification.notifyAll(listToNotify,"The new team "+teamName+" was added to system successfully!");
                     }
                 }
             }
