@@ -25,7 +25,7 @@ public class InitDB {
     Date birthDate = new Date(1995, 3, 6);
     @Autowired
     private SecurityMachine securityMachine = new SecurityMachine();
-    SystemManager systemManager = new SystemManager("admin", "meretz@post.bgu.ac.il", securityMachine.encrypt("123456"), new Date(1, 1, 1995));
+    SystemManager systemManager = new SystemManager("admin", "hillapet@post.bgu.ac.il" , securityMachine.encrypt("123456"), new Date(1, 1, 1995));
 
 
     public InitDB(){
@@ -117,7 +117,7 @@ public class InitDB {
             mailOwner = "noashab@post.bgu.ac.il";
             ownerName = "Shabtay";
         }if(i==2){
-            mailOwner = "hillapet@post.bgu.ac.il";
+            mailOwner ="meretz@post.bgu.ac.il" ;
             ownerName = "Hilla1";
         }if(i==3){
             mailOwner = "Yuval.Hilla@gmail.com ";

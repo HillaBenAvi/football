@@ -1,3 +1,4 @@
+
 package com.football;
 
 import com.football.DataBase.DBController;
@@ -14,10 +15,9 @@ import com.football.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class Manager {
@@ -179,6 +179,7 @@ public class Manager {
     }
 
     public void insertSchedulingPolicy(String id, String league, String season, String sPolicy) throws MemberNotExist, DontHavePermissionException, ObjectNotExist, AlreadyExistException {
+        sPolicy = removegarbij(sPolicy);
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof AssociationDelegate){
@@ -283,25 +284,23 @@ public class Manager {
         return seasons;
     }
 
-    public ArrayList<String> getLeagues() {
-        ArrayList<String> leagues=new ArrayList<>();
-        HashMap<String, League> getLeagues= dbController.getLeagues();
-        for (String name:getLeagues.keySet()) {
-            leagues.add(name);
-        }
-        return leagues;
+    public ArrayList<String> getLeaguesIds() {
+        ArrayList<String> getLeagues= dbController.getLeaguesIds();
+
+        return getLeagues;
     }
 
     public ArrayList<String> getSchedulingPolicies() {
         ArrayList<String> scheduling=new ArrayList<>();
-        HashMap<String, ASchedulingPolicy> getSchedulingPolicies= dbController.getSchedulingPolicies();
-        for (String name:getSchedulingPolicies.keySet()) {
-            scheduling.add(name);
-        }
+        scheduling.add("All teams play each other once");
+        scheduling.add("All teams play each other twice");
         return scheduling;
     }
 
-    public String addGameEvents(String id, String refereeId, String year,String mounth, String day, String description, String gameMinute, String eventInGame, String playersId) throws MemberNotExist, DontHavePermissionException, ObjectNotExist {
+    public String addGameEvents(String id, String refereeId, String year,String mounth, String day, String description, String gameMinute, String eventInGame, String playersId) throws MemberNotExist, DontHavePermissionException, ObjectNotExist, AlreadyExistException {
+        id = removegarbij(id);
+        description = removegarbij(description);
+
         mainRefereeService.updateGameEvent(id,refereeId, year, mounth,  day, description, gameMinute, eventInGame, playersId);
         String playersInvolved = "";
         for(String player : playersId.split(";")){
@@ -310,6 +309,20 @@ public class Manager {
         return refereeId + " entered Event to game \'" + id +"\':\n"+
                 day+"/"+mounth+"/"+year+" -- " + description + " at "+ gameMinute + " minute.\n" +
                 "players involved: \n" + playersInvolved + "game event category = "+ eventInGame ;
+    }
+
+    private String removegarbij(String str) {
+        String res = "";
+        for(int i = 0; i<str.length(); i++){
+            if(str.charAt(i) == '%' && str.charAt(i+1) == '2' && str.charAt(i+2) == '0'){
+                res += ' ';
+                i+=2;
+            }
+            else{
+                res += str.charAt(i);
+            }
+        }
+        return res;
     }
 
     public HashSet<String> getRefereeGames(String refereeId) throws MemberNotExist {
@@ -322,88 +335,151 @@ public class Manager {
         return gamesId;
     }
 
-    HashMap<String,String> getTeamPlayers(String teamId) throws ObjectNotExist {
-        HashMap<String, String> teamPlayers = new HashMap<>();
+    ArrayList<String> getTeamPlayers(String teamId) throws ObjectNotExist {
+        ArrayList<String> teamPlayers = new ArrayList<>();
         Team team = dbController.getTeam(teamId);
         HashSet<Player> players = team.getPlayers();
         for(Player player : players){
-            teamPlayers.put(player.getUserMail(),player.getName());
+            teamPlayers.add(player.getUserMail());
         }
         return teamPlayers;
     }
 
-    public HashMap<String, String> getTeamOwners(String teamId) throws ObjectNotExist {
-        HashMap<String, String> teamOwneres = new HashMap<>();
+    public ArrayList<String> getTeamOwners(String teamId) throws ObjectNotExist {
+        ArrayList<String> teamOwners = new ArrayList<>();
         Team team = dbController.getTeam(teamId);
         HashSet<Owner> owners = team.getOwners();
         for(Owner owner : owners){
-            teamOwneres.put(owner.getUserMail(),owner.getName());
+            teamOwners.add(owner.getUserMail());
         }
-        return teamOwneres;
+        return teamOwners;
     }
 
-    public HashMap<String, String> getTeamCoaches(String teamId) throws ObjectNotExist {
-        HashMap<String, String> teamCoaches = new HashMap<>();
+    public ArrayList<String> getTeamCoaches(String teamId) throws ObjectNotExist {
+        ArrayList<String> teamCoaches = new ArrayList<>();
         Team team = dbController.getTeam(teamId);
         HashSet<Coach> coaches = team.getCoaches();
         for(Coach coach : coaches){
-            teamCoaches.put(coach.getUserMail(),coach.getName());
+            teamCoaches.add(coach.getUserMail());
         }
         return teamCoaches;
     }
 
-    public HashMap<String, String> getTeamFields(String teamId) throws ObjectNotExist {
-        HashMap<String, String> teamFields = new HashMap<>();
+    public ArrayList<String> getTeamFields(String teamId) throws ObjectNotExist {
+        ArrayList<String> teamFields = new ArrayList<>();
         Team team = dbController.getTeam(teamId);
         HashSet<Field> fields = team.getTrainingFields();
         for(Field field : fields){
-            teamFields.put(field.getNameOfField(),field.getNameOfField());
+            teamFields.add(field.getNameOfField());
         }
         return teamFields;
     }
 
-    public HashMap<String, String> getTeamManagers(String teamId) throws ObjectNotExist {
-        HashMap<String, String> teamManagers = new HashMap<>();
+    public ArrayList<String> getTeamManagers(String teamId) throws ObjectNotExist {
+        ArrayList<String> teamManagers = new ArrayList<>();
         Team team = dbController.getTeam(teamId);
         HashSet<com.football.Domain.Asset.Manager> managers = team.getManagers();
         for(com.football.Domain.Asset.Manager manager : managers){
-            teamManagers.put(manager.getUserMail(),manager.getName());
+            teamManagers.add(manager.getUserMail());
         }
         return teamManagers;
     }
-    public HashMap<String, String> getGamePlayers(String gameId) {
-        HashMap<String,String> playersInGame = new HashMap<>();
-        Game game = dbController.getGame(gameId);
+    public ArrayList<String> getGamePlayers(String gameId) {
+        String gameId2 = "";
+        for(int i = 0 ; i<gameId.length() ; i++){
+            if(gameId.charAt(i)!='-'){
+                gameId2+=gameId.charAt(i);
+            }
+            else{
+                gameId2+=' ';
+            }
+        }
+        // gameId.replace('-', ' ');
+        ArrayList<String> playersInGame = new ArrayList<>();
+        Game game = dbController.getGame(gameId2);
         Team teamHost = game.getHostTeam();
         Team teamGest = game.getVisitorTeam();
 
         for(Player player : teamGest.getPlayers()){
-            playersInGame.put(player.getUserMail(), player.getName());
+            playersInGame.add(player.getUserMail());
         }
         for(Player player : teamHost.getPlayers()){
-            playersInGame.put(player.getUserMail(), player.getName());
+            playersInGame.add(player.getUserMail());
         }
         return playersInGame;
     }
 
+    //Daniel 26.5
+    public ArrayList<String> getTeamsByOwner(String ownerId) throws MemberNotExist {
+        Owner owner = dbController.getOwner(ownerId);
+        HashMap<String, Team> teams = owner.getTeams();
+        return new ArrayList<>(teams.keySet());
+    }
+
+    //Daniel 26.5
+    public ArrayList<String> getAllTeams(){
+        HashMap<String, Team> teams = dbController.getTeams();
+        ArrayList<String> strTeams = new ArrayList<>();
+        strTeams.addAll(teams.keySet());
+        return strTeams;
+
+    }
+
+    //get all fans - key=mail, value=name
+    public  ArrayList<String>  getPotentialManagers(String id, String teamName) {
+        return getAllFans();
+    }
+
+    //get all fans - key=mail, value=name
+    public ArrayList<String> getPotentialPlayers(String id, String teamName) {
+        return getAllFans();
+    }
+
+    //get all fans - key=mail, value=name
+    public ArrayList<String> getPotentialCoaches(String id, String teamName) {
+        return getAllFans();
+    }
+
+    //get all fans - key=mail, value=name
+    private ArrayList<String> getAllFans(){
+        HashMap<String, Fan> fans = dbController.getFans();
+        ArrayList<String> strFans = new ArrayList<>();
+        for(String fan : fans.keySet()){
+            strFans.add(fan);
+        }
+        return strFans;
+    }
+
+
+    public ArrayList<String> getLeagueInSeasonsIds() {
+        return dbController.getLeagueInSeasonsIds();
+    }
+
+    public ArrayList<String> getPotentialOwners() {
+        ArrayList<String> ownersAndFans = new ArrayList<>();
+        ownersAndFans.addAll(dbController.getOwnersAndFans().keySet());
+        return ownersAndFans;
+    }
 
     public void addNotifyFollowEventGame(String userMail) throws AlreadyExistException, DontHavePermissionException {
-        dbController.addNotifyFollowEventGame(userMail);
+        //dbController.addNotifyFollowEventGame(userMail);
     }
 
     public void addNotifyGameFinalReport(String userMail) throws AlreadyExistException, DontHavePermissionException {
-        dbController.addNotifyGameFinalReport(userMail);
+        //dbController.addNotifyGameFinalReport(userMail);
     }
 
     public void addNotifyCreateNewGame(String userMail) throws AlreadyExistException, DontHavePermissionException {
-        dbController.addNotifyCreateNewGame(userMail);
+        //dbController.addNotifyCreateNewGame(userMail);
     }
 
     public void addNotifyScheduleToGame(String userMail) throws AlreadyExistException, DontHavePermissionException {
-        dbController.addNotifyScheduleToGame(userMail);
+        //dbController.addNotifyScheduleToGame(userMail);
     }
 
     public void addNotifyAddAssetToTeam(String userMail) throws AlreadyExistException, DontHavePermissionException {
-        dbController.addNotifyAddAssetToTeam(userMail);
+        //dbController.addNotifyAddAssetToTeam(userMail);
     }
+
+
 }

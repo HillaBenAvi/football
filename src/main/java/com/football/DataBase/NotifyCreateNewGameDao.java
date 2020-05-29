@@ -78,7 +78,7 @@ public class NotifyCreateNewGameDao implements DAO<String> {
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO"+getTableName()+
-                    "VALUES ("+userMail+");";//"\'"+associationDelegate.getUserMail()+"\'"+","+"\'"+associationDelegate.getPassword()+"\'"+","+"\'"+associationDelegate.getName()+"\'"+","+"\'"+associationDelegate.getBirthDate().toString()+"\'"+");";
+                    "VALUES (\'"+userMail+"\');";//"\'"+associationDelegate.getUserMail()+"\'"+","+"\'"+associationDelegate.getPassword()+"\'"+","+"\'"+associationDelegate.getName()+"\'"+","+"\'"+associationDelegate.getBirthDate().toString()+"\'"+");";
             stmt.executeUpdate(sql);
         } catch (java.sql.SQLException e) {
             System.out.println(e.toString());
