@@ -165,7 +165,7 @@ public class OwnerService {
             //set amount
             account.setAmountOfTeam(account.getAmountOfTeam() - 50);
 
-            HashMap<String, Fan> roles = dbController.getFans();
+            HashMap<String, Role> roles = dbController.getRoles();
             Role role = roles.get(mailId);
             Coach coach = null;
             if (role instanceof SystemManager) {

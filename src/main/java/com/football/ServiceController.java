@@ -1,9 +1,7 @@
 package com.football;
 
 import com.football.Domain.Users.Fan;
-import com.football.Domain.Users.Member;
 import com.football.Exception.*;
-import com.football.Service.ErrorLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,43 +17,25 @@ public class ServiceController {
     @Autowired
     private Manager manager;
 
-    @Autowired
-    private ErrorLogService errorLogService;
-
-
     @RequestMapping(value="/register",method = RequestMethod.POST)
-    public String register(@RequestParam(value = "userName") String userName,
+    public void register(@RequestParam(value = "userName") String userName,
                        @RequestParam(value = "userMail") String userMail,
                        @RequestParam(value = "password") String password
-    )  {
-        try {
-            manager.register(userName,userMail,password);
-        } catch (IncorrectInputException e) {
-            return "incorrect input";
-        } catch (AlreadyExistException e) {
-            return "the member already exist";
-        } catch (DontHavePermissionException e) {
-            return "you dont have the permission";
-        }
-        return "you register successfully";
+    ) throws IncorrectInputException, DontHavePermissionException, AlreadyExistException {
+        manager.register(userName,userMail,password);
+
     }
 
     @RequestMapping(value="/login",method = RequestMethod.POST)
     public String login(@RequestParam(value = "id") String id,
-                        @RequestParam(value = "password")String password) {
+                        @RequestParam(value = "password")String password)
+            throws PasswordDontMatchException, MemberNotExist, DontHavePermissionException, AlreadyExistException {
         try{
-            return manager.stringLogIn(id, password);
-        } catch (PasswordDontMatchException e){
-            return "Password Dont Match";
+            manager.stringLogIn(id, password);
+        }catch (MemberNotExist | AlreadyExistException memberNotExist){
+
         }
-        catch (MemberNotExist e){
-            return "the member does not exist";
-        }
-        catch (DontHavePermissionException e){
-            return "you dont have the permission";
-        } catch (AlreadyExistException e) {
-            return "the member already exist";
-        }
+       return manager.stringLogIn(id, password);
     }
 
     @RequestMapping(value="/logout",method = RequestMethod.POST)
@@ -68,261 +48,119 @@ public class ServiceController {
     /*****************add assets to team ********************/
 
     @RequestMapping(value="/addManagerToTeam",method = RequestMethod.POST)
-    public String addManagerToTeam(@RequestParam(value = "id") String id,
+    public void addManagerToTeam(@RequestParam(value = "id") String id,
                                  @RequestParam(value = "managerId")String managerId,
-                                 @RequestParam(value = "teamName")String teamName) {
-        try {
-            manager.addManagerToTeam(id, teamName, managerId);
-        } catch (PasswordDontMatchException e) {
-            return "Password Dont Match";
-        } catch (MemberNotExist memberNotExist) {
-            return "the member does not exist";
-        } catch (DontHavePermissionException e) {
-            return "you dont have the permission";
-        } catch (AlreadyExistException e) {
-            return "the member already exist";
-        }
-        return "Manager added successfully";
+                                 @RequestParam(value = "teamName")String teamName)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
+        manager.addManagerToTeam(id, teamName, managerId);
     }
 
     @RequestMapping(value="/addCoachToTeam",method = RequestMethod.POST)
-    public String addCoachToTeam(@RequestParam(value = "id") String id,
+    public void addCoachToTeam(@RequestParam(value = "id") String id,
                                @RequestParam(value = "mailId")String mailId,
-                                 @RequestParam(value = "teamName")String teamName) {
-        try {
-            manager.addCoachToTeam(id, teamName, mailId);
-        } catch (PasswordDontMatchException e) {
-            return "Password Dont Match";
-        } catch (MemberNotExist memberNotExist) {
-            return "the member does not exist";
-        } catch (DontHavePermissionException e) {
-            return "you dont have the permission";
-        } catch (AlreadyExistException e) {
-            return "the member already exist";
-        }
-        return "Coach added successfully";
+                                 @RequestParam(value = "teamName")String teamName)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
+        manager.addCoachToTeam(id, teamName, mailId);
     }
 
     @RequestMapping(value="/addPlayerToTeam",method = RequestMethod.POST)
-    public String addPlayerToTeam(@RequestParam(value = "id") String id,
+    public void addPlayerToTeam(@RequestParam(value = "id") String id,
                                  @RequestParam(value = "teamName")String teamName,
                                  @RequestParam(value = "mailId")String mailId,
                                @RequestParam(value = "year")int year,
                                @RequestParam(value = "month")int month,
                                @RequestParam(value = "day")int day,
-                               @RequestParam(value = "roleInPlayers")String roleInPlayers) {
-        try {
-            manager.addPlayerToTeam(id, teamName, mailId, year, month, day, roleInPlayers);
-        } catch (PasswordDontMatchException e) {
-            return "Password Dont Match";
-        } catch (MemberNotExist memberNotExist) {
-            return "the member does not exist";
-        } catch (DontHavePermissionException e) {
-            return "you dont have the permission";
-        } catch (AlreadyExistException e) {
-            return "the member already exist";
-        }
-        return "Player added successfully";
+                               @RequestParam(value = "roleInPlayers")String roleInPlayers)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
+        manager.addPlayerToTeam(id, teamName, mailId, year, month, day, roleInPlayers);
     }
 
     @RequestMapping(value="/addFieldToTeam",method = RequestMethod.POST)
-    public String addFieldToTeam(@RequestParam(value = "id") String id,
+    public void addFieldToTeam(@RequestParam(value = "id") String id,
                                @RequestParam(value = "fieldName")String fieldName,
-                               @RequestParam(value = "teamName")String teamName) {
-        try{
-            manager.addFieldToTeam(id, teamName, fieldName);
-        }catch (PasswordDontMatchException e) {
-            return "Password Dont Match";
-        } catch (MemberNotExist memberNotExist) {
-            return "the member does not exist";
-        } catch (DontHavePermissionException e) {
-            return "you dont have the permission";
-        } catch (AlreadyExistException e) {
-            return "the object already exist";
-        }
-        return "Field added successfully";
+                               @RequestParam(value = "teamName")String teamName)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
+        manager.addFieldToTeam(id, teamName, fieldName);
     }
 
     /*****************remove assets to team ********************/
 
     @DeleteMapping(value="/removeTeamManager")
-    public String removeTeamManager(@RequestParam(value = "id") String id,
+    public void removeTeamManager(@RequestParam(value = "id") String id,
                                  @RequestParam(value = "teamName")String teamName,
-                                 @RequestParam(value = "mailId")String mailId) {
-        try {
-            manager.removeTeamManager(id, teamName, mailId);
-        }catch (PasswordDontMatchException e) {
-            return "Password Dont Match";
-        } catch (MemberNotExist memberNotExist) {
-            return "the member does not exist";
-        } catch (DontHavePermissionException e) {
-            return "you dont have the permission";
-        } catch (AlreadyExistException e) {
-            return "the object already exist";
-        }
-        return "Manager removed successfully";
+                                 @RequestParam(value = "mailId")String mailId)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
+        manager.removeTeamManager(id, teamName, mailId);
     }
 
     @RequestMapping(value="/removeTeamCoach",method = RequestMethod.POST)
-    public String removeTeamCoach(@RequestParam(value = "id") String id,
+    public void removeTeamCoach(@RequestParam(value = "id") String id,
                                   @RequestParam(value = "teamName")String teamName,
-                                  @RequestParam(value = "mailId")String mailId) {
-        try{
-            manager.removeTeamCoach(id, teamName, mailId);
-        }catch (PasswordDontMatchException e) {
-            return "Password Dont Match";
-        } catch (MemberNotExist memberNotExist) {
-            return "the member does not exist";
-        } catch (DontHavePermissionException e) {
-            return "you dont have the permission";
-        } catch (AlreadyExistException e) {
-            return "the object already exist";
-        }
-            return "Coach removed successfully";
+                                  @RequestParam(value = "mailId")String mailId)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
+        manager.removeTeamCoach(id, teamName, mailId);
     }
 
     @RequestMapping(value="/removeTeamPlayer",method = RequestMethod.POST)
-    public String removeTeamPlayer(@RequestParam(value = "id") String id,
+    public void removeTeamPlayer(@RequestParam(value = "id") String id,
                                   @RequestParam(value = "teamName")String teamName,
-                                  @RequestParam(value = "mailId")String mailId) {
-        try{
-            manager.removeTeamPlayer(id, teamName, mailId);
-        }catch (PasswordDontMatchException e) {
-            return "Password Dont Match";
-        } catch (MemberNotExist memberNotExist) {
-            return "the member does not exist";
-        } catch (DontHavePermissionException e) {
-            return "you dont have the permission";
-        } catch (AlreadyExistException e) {
-            return "the object already exist";
-        }
-        return "Player removed successfully";
+                                  @RequestParam(value = "mailId")String mailId)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
+        manager.removeTeamPlayer(id, teamName, mailId);
     }
 
     @RequestMapping(value="/removeTeamField",method = RequestMethod.POST)
-    public String removeTeamField(@RequestParam(value = "id") String id,
+    public void removeTeamField(@RequestParam(value = "id") String id,
                                   @RequestParam(value = "teamName")String teamName,
-                                  @RequestParam(value = "fieldName")String fieldName) {
-        try{
-            manager.removeTeamField(id, teamName, fieldName);
-        }catch (PasswordDontMatchException e) {
-            return "Password Dont Match";
-        } catch (MemberNotExist memberNotExist) {
-            return "the member does not exist";
-        } catch (DontHavePermissionException e) {
-            return "you dont have the permission";
-        } catch (AlreadyExistException e) {
-            return "the object already exist";
-        }
-        return "Field removed successfully";
+                                  @RequestParam(value = "fieldName")String fieldName)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException {
+        manager.removeTeamField(id, teamName, fieldName);
     }
 
     @RequestMapping(value="/addNewTeam",method = RequestMethod.POST)
-    public String addNewTeam(@RequestParam(value = "id") String id,
+    public void addNewTeam(@RequestParam(value = "id") String id,
                                 @RequestParam(value = "teamName")String teamName,
-                                @RequestParam(value = "ownerId")String ownerId) {
-        try {
-            manager.addNewTeam(id, teamName, ownerId);
-        } catch (DontHavePermissionException e) {
-            return "you dont have the permission";
-        } catch (IncorrectInputException e) {
-            return "incorrect Password";
-        } catch (ObjectNotExist objectNotExist) {
-            return "the object does not exist";
-        } catch (ObjectAlreadyExist objectAlreadyExist) {
-            return "the object already exist";
-        } catch (AlreadyExistException e) {
-            return "the object already exist";
-        } catch (MemberNotExist memberNotExist) {
-            return "the member does not exist";
-        }
-        return "Team added successfully";
+                                @RequestParam(value = "ownerId")String ownerId)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException, ObjectNotExist, IncorrectInputException, ObjectAlreadyExist {
+        manager.addNewTeam(id, teamName, ownerId);
     }
 
     @RequestMapping(value="/schedulingGames",method = RequestMethod.POST)
-    public String schedulingGames(@RequestParam(value = "id") String id,
-                           @RequestParam(value = "leagueId:seasonId")String leagueIdseasonId) {
-        try {
-            manager.schedulingGames(id, leagueIdseasonId.split(":")[1], leagueIdseasonId.split(":")[0]);
-        } catch (ObjectNotExist objectNotExist) {
-            return "the object does not exist";
-        } catch (AlreadyExistException e) {
-            return "the object already exist";
-        } catch (DontHavePermissionException e) {
-            return "you dont have the permission";
-        } catch (MemberNotExist memberNotExist) {
-            return "the member does not exist";
-        } catch (IncorrectInputException e) {
-            return "Incorrect Input";
-        }
-        return "Games schedule successfully";
+    public void schedulingGames(@RequestParam(value = "id") String id,
+                           @RequestParam(value = "seasonId")String seasonId,
+                           @RequestParam(value = "leagueId")String leagueId)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException, ObjectNotExist, IncorrectInputException, ObjectAlreadyExist {
+        manager.schedulingGames(id, seasonId, leagueId);
     }
 
     @RequestMapping(value="/setLeagueByYear",method = RequestMethod.POST)
-    public String setLeagueByYear(@RequestParam(value = "id") String id,
+    public void setLeagueByYear(@RequestParam(value = "id") String id,
                                 @RequestParam(value = "seasonId")String seasonId,
-                                @RequestParam(value = "leagueId")String leagueId,
-                                  @RequestParam(value = "sWinning") String sWinning,
-                                  @RequestParam(value = "sDraw") String sDraw,
-                                  @RequestParam(value = "sLosing") String sLosing,
-                                  @RequestParam(value = "schedulingPolicyName") String schedulingPolicyName){
-        try {
-            manager.setLeagueByYear(id, seasonId, leagueId);
-            manager.changeScorePolicy(id, leagueId, seasonId, sWinning, sDraw, sLosing);
-            manager.insertSchedulingPolicy(id, leagueId, seasonId, schedulingPolicyName);
-        } catch (ObjectNotExist objectNotExist) {
-            return "the object does not exist";
-        } catch (AlreadyExistException e) {
-            return "the object already exist";
-        } catch (MemberNotExist memberNotExist) {
-            return "the member does not exist";
-        } catch (DontHavePermissionException e) {
-            return "you dont have the permission";
-        } catch (IncorrectInputException e) {
-            return "incorrect input exception";
-        }
-        return "Season set successfully to League";
+                                @RequestParam(value = "leagueId")String leagueId)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException, ObjectNotExist, IncorrectInputException, ObjectAlreadyExist {
+        manager.setLeagueByYear(id, seasonId, leagueId);
     }
 
+    //todo: merge this with master
     @RequestMapping(value="/updateGameEvents",method = RequestMethod.POST)
     public String updateGameEvents(@RequestParam(value = "gameId") String id,
                                  @RequestParam(value = "refereeId") String refereeId,
                                  @RequestParam(value = "year") String year,
-                                 @RequestParam(value = "month") String month,
+                                 @RequestParam(value = "mounth") String mounth,
                                  @RequestParam(value = "day") String day,
                                  @RequestParam(value = "description") String description,
                                  @RequestParam(value = "gameMinute") String gameMinute,
                                  @RequestParam(value = "eventEnum") String eventInGame,
-                                 @RequestParam(value = "playersId") String playersId) {
-        try {
-            return manager.addGameEvents(id, refereeId,  year, month,  day ,description,gameMinute,eventInGame,playersId);
-        } catch (MemberNotExist memberNotExist) {
-            return "the member does not exist";
-        } catch (DontHavePermissionException e) {
-            return "you dont have the permission";
-        } catch (ObjectNotExist objectNotExist) {
-            return "the object does not exist";
-        }
-
+                                 @RequestParam(value = "playersId") String playersId)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException, ObjectNotExist, IncorrectInputException, ObjectAlreadyExist {
+       return manager.addGameEvents(id, refereeId,  year, mounth,  day ,description,gameMinute,eventInGame,playersId);
     }
 
-    @RequestMapping(value="/closeTeam",method = RequestMethod.POST)
-    public String closeTeam(@RequestParam(value = "id") String id,
-                                 @RequestParam(value = "teamName") String teamName){
-        try {
-            manager.closeTeam(id, teamName);
-        } catch (DontHavePermissionException e) {
-            return "you dont have the permission";
-        } catch (AlreadyExistException e) {
-            return "the object already exist";
-        } catch (MemberNotExist memberNotExist) {
-            return "the member does not exist";
-        } catch (ObjectNotExist objectNotExist) {
-            return "the object does not exist";
-        } catch (IncorrectInputException e) {
-            return "Incorrect Input";
-        }
-        return "Team closed successfully";
+    @RequestMapping(value="/closeTeam",method = RequestMethod.DELETE)
+    public void closeTeam(@RequestParam(value = "id") String id,
+                                 @RequestParam(value = "teamName") String teamName)
+            throws DontHavePermissionException, PasswordDontMatchException, MemberNotExist, AlreadyExistException, ObjectNotExist, IncorrectInputException, ObjectAlreadyExist {
+        manager.closeTeam(id, teamName);
     }
 
     //todo: after the client
@@ -340,193 +178,110 @@ public class ServiceController {
     /***********************to add************************/
 
 
-    //return a list of teams names of an owner - Daniel 26.5
+    //return a list of teams names of an owner
     @RequestMapping(value="/getTeamsOfOwner",method = RequestMethod.GET)
     @ResponseBody
-    public ArrayList<String> getTeamsOfOwner(@RequestParam(value = "id") String ownerId) throws AlreadyExistException, DontHavePermissionException {
-        try{
-            return manager.getTeamsByOwner(ownerId);
-        }
-        catch(MemberNotExist e){
-            errorLogService.addErrorLog("member not exist");
-            return null;
-        }
+    public ArrayList<String> getTeamsOfOwner(@RequestParam(value = "id") String ownerId){
+
+        //return manager.getTeamsByOwner(ownerId);
+        return new ArrayList<>();
     }
 
-    //get all the teams in the system - Daniel 26.5
+    //get all the teams in the system
     @RequestMapping(value="/getAllTeams",method = RequestMethod.GET)
     @ResponseBody
     public ArrayList<String> getAllTeams(@RequestParam(value = "id") String id) {
-            return manager.getAllTeams();
+
+        //return manager.getAllTeams(ownerId);
+        return new ArrayList<>();
     }
-
-
 
 
     /*****************team getters*******************/
     //the key of the HashMaps- id, value- name
-    //get all the league in season
-    @RequestMapping(value="/getLeagueInSeasonsIds",method = RequestMethod.GET)
-    @ResponseBody
-    public  ArrayList<String>  getLeagueInSeasonsIds(){
-        return manager.getLeagueInSeasonsIds();
-    }
+
     //get all the users that can be coaches of a team
     @RequestMapping(value="/getTeamManagers",method = RequestMethod.GET)
     @ResponseBody
-    public  ArrayList<String>  getTeamManagers(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
+    public HashMap<String,String> getTeamManagers(@RequestParam(value = "id") String teamId)
+            throws ObjectNotExist {
 
-        try {
-            return manager.getTeamManagers(teamId);
-        } catch (ObjectNotExist objectNotExist) {
-            errorLogService.addErrorLog("object not exist");
-            return null;
-        }
+        return manager.getTeamManagers(teamId);
     }
 
     @RequestMapping(value="/getTeamPlayers",method = RequestMethod.GET)
     @ResponseBody
-    public  ArrayList<String>  getTeamPlayers(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
-        try {
-            return manager.getTeamPlayers(teamId);
-        } catch (ObjectNotExist objectNotExist) {
-            errorLogService.addErrorLog("object not exist");
-            return null;
-        }
+    public HashMap<String,String> getTeamPlayers(@RequestParam(value = "id") String teamId)
+            throws ObjectNotExist {
+        return manager.getTeamPlayers(teamId);
     }
 
     @RequestMapping(value="/getTeamOwners",method = RequestMethod.GET)
     @ResponseBody
-    public  ArrayList<String>  getTeamOwners(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
+    public HashMap<String,String> getTeamOwners(@RequestParam(value = "id") String teamId)
+            throws ObjectNotExist {
 
-        try {
-            return manager.getTeamOwners(teamId);
-        } catch (ObjectNotExist objectNotExist) {
-            errorLogService.addErrorLog("object not exist");
-            return null;
-        }
+        return manager.getTeamOwners(teamId);
     }
 
     @RequestMapping(value="/getTeamCoaches",method = RequestMethod.GET)
     @ResponseBody
-    public  ArrayList<String> getTeamCoaches(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
-        try {
-            return manager.getTeamCoaches(teamId);
-        } catch (ObjectNotExist objectNotExist) {
-            errorLogService.addErrorLog("object not exist");
-            return null;
-        }
+    public HashMap<String,String> getTeamCoaches(@RequestParam(value = "id") String teamId)
+            throws ObjectNotExist {
+        return manager.getTeamCoaches(teamId);
     }
 
     @RequestMapping(value="/getRefereeGames",method = RequestMethod.GET)
     @ResponseBody
-    public HashSet<String> getRefereeGames(@RequestParam(value = "id") String refereeId) throws AlreadyExistException, DontHavePermissionException {
-
-        try {
-            return manager.getRefereeGames(refereeId);
-        } catch (MemberNotExist memberNotExist) {
-            errorLogService.addErrorLog("member not exist");
-            return null;
-        }
+    public HashSet<String> getRefereeGames(@RequestParam(value = "id") String refereeId) throws MemberNotExist {
+        return manager.getRefereeGames(refereeId);
     }
     @RequestMapping(value="/getGamePlayers",method = RequestMethod.GET)
 
     @ResponseBody
-    public  ArrayList<String>  getGamePlayers(@RequestParam(value = "id") String gameId){
+    public HashMap<String,String> getGamePlayers(@RequestParam(value = "id") String gameId){
         return manager.getGamePlayers(gameId);
     }
 
     @RequestMapping(value="/getTeamFields",method = RequestMethod.GET)
     @ResponseBody
-    public ArrayList<String> getTeamFields(@RequestParam(value = "id") String teamId) throws AlreadyExistException, DontHavePermissionException {
+    public HashMap<String,String> getTeamFields(@RequestParam(value = "id") String teamId) throws ObjectNotExist {
 
-        try {
-            return manager.getTeamFields(teamId);
-        } catch (ObjectNotExist objectNotExist) {
-            errorLogService.addErrorLog("object not exist");
-            return null;
-        }
+        return manager.getTeamFields(teamId);
     }
 
     /*************** team potentials - all the users that can be... ******************/
-    @RequestMapping(value="/getPotentialOwners",method = RequestMethod.GET)
-    @ResponseBody
-    public  ArrayList<String>  getPotentialOwners() {
-        return manager.getPotentialOwners();
-    }
-
 
     @RequestMapping(value="/getPotentialManagers",method = RequestMethod.GET)
     @ResponseBody
-    public  ArrayList<String>  getPotentialManagers(@RequestParam(value = "id") String id,
+    public HashMap<String,String> getPotentialManagers(@RequestParam(value = "id") String id,
                                                   @RequestParam(value = "teamName") String teamName) {
-        return manager.getPotentialManagers(id, teamName);
 
+        //return manager.getPotentialManagers(id, teamName);
+        return new HashMap<>();
     }
 
     @RequestMapping(value="/getPotentialPlayers",method = RequestMethod.GET)
     @ResponseBody
-    public  ArrayList<String>  getPotentialPlayers(@RequestParam(value = "id") String id,
+    public HashMap<String,String> getPotentialPlayers(@RequestParam(value = "id") String id,
                                                        @RequestParam(value = "teamName") String teamName) {
-        return manager.getPotentialPlayers(id, teamName);
+
+        //return manager.getPotentialPlayers(id, teamName);
+        return new HashMap<>();
     }
-
-
-
 
     @RequestMapping(value="/getPotentialCoaches",method = RequestMethod.GET)
     @ResponseBody
-    public  ArrayList<String>  getPotentialCoaches(@RequestParam(value = "id") String id,
+    public HashMap<String,String> getPotentialCoaches(@RequestParam(value = "id") String id,
                                                       @RequestParam(value = "teamName") String teamName) {
 
-        return manager.getPotentialCoaches(id, teamName);
-    }
-    @RequestMapping(value="/getAllLeagues",method = RequestMethod.GET)
-    @ResponseBody
-    public ArrayList<String> getAllLeagues(@RequestParam(value = "id") String id){
-        return manager.getLeaguesIds();
-
-    }
-
-    @RequestMapping(value="/getAllSchedulingPolicies",method = RequestMethod.GET)
-    @ResponseBody
-    public ArrayList<String> getAllSchedulingPolicies(@RequestParam(value = "id") String id){
-        return manager.getSchedulingPolicies();
-
-    }
-
-    /******Notifiers*********/
-    @RequestMapping(value="/addNotifyFollowEventGame",method = RequestMethod.POST)
-    public void addNotifyFollowEventGame(@RequestParam(value = "userMail") String userMail
-    ) throws AlreadyExistException, DontHavePermissionException {
-        manager.addNotifyFollowEventGame(userMail);
-    }
-
-    @RequestMapping(value="/addNotifyGameFinalReport",method = RequestMethod.POST)
-    public void addNotifyGameFinalReport(@RequestParam(value = "userMail") String userMail
-    ) throws AlreadyExistException, DontHavePermissionException {
-        manager.addNotifyGameFinalReport(userMail);
+        //return manager.getPotentialCoaches(id, teamName);
+        return new HashMap<>();
     }
 
 
-    @RequestMapping(value="/addNotifyCreateNewGame",method = RequestMethod.POST)
-    public void addNotifyCreateNewGame(@RequestParam(value = "userMail") String userMail
-    ) throws AlreadyExistException, DontHavePermissionException {
-        manager.addNotifyCreateNewGame(userMail);
-    }
 
 
-    @RequestMapping(value="/addNotifyScheduleToGame",method = RequestMethod.POST)
-    public void addNotifyScheduleToGame(@RequestParam(value = "userMail") String userMail
-    ) throws AlreadyExistException, DontHavePermissionException {
-        manager.addNotifyScheduleToGame(userMail);
-    }
 
-
-    @RequestMapping(value="/addNotifyAddAssetToTeam",method = RequestMethod.POST)
-    public void addNotifyAddAssetToTeam(@RequestParam(value = "userMail") String userMail
-    ) throws AlreadyExistException, DontHavePermissionException {
-        manager.addNotifyAddAssetToTeam(userMail);
-    }
 
 }
