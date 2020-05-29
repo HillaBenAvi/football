@@ -21,6 +21,7 @@ public class ErrorLogService {
 
     @RequestMapping("/")
     public void addErrorLog(String topic) throws AlreadyExistException, DontHavePermissionException {
+        id = dbController.getMaxErrorLog() +1 ;
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         String strDate = dateFormat.format(date);

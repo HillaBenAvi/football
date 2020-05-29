@@ -32,6 +32,7 @@ public class OwnerService {
     @Autowired
     private EventLogService eventLogService;
 
+    @Autowired
     private Notification notification;
 
     public void addTeam(Owner owner, Team team) throws AlreadyExistException, DontHavePermissionException {

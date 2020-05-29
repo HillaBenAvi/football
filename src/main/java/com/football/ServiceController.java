@@ -279,7 +279,39 @@ public class ServiceController {
         return new HashMap<>();
     }
 
+    /*******************Notifiers****************************/
+    @RequestMapping(value="/addNotifyFollowEventGame",method = RequestMethod.POST)
+    public void addNotifyFollowEventGame(@RequestParam(value = "userMail") String userMail
+    ) throws AlreadyExistException, DontHavePermissionException {
+        manager.addNotifyFollowEventGame(userMail);
+    }
 
+    @RequestMapping(value="/addNotifyGameFinalReport",method = RequestMethod.POST)
+    public void addNotifyGameFinalReport(@RequestParam(value = "userMail") String userMail
+    ) throws AlreadyExistException, DontHavePermissionException {
+        manager.addNotifyGameFinalReport(userMail);
+    }
+
+
+    @RequestMapping(value="/addNotifyCreateNewGame",method = RequestMethod.POST)
+    public void addNotifyCreateNewGame(@RequestParam(value = "userMail") String userMail
+    ) throws AlreadyExistException, DontHavePermissionException {
+        manager.addNotifyCreateNewGame(userMail);
+    }
+
+
+    @RequestMapping(value="/addNotifyScheduleToGame",method = RequestMethod.POST)
+    public void addNotifyScheduleToGame(@RequestParam(value = "userMail") String userMail
+    ) throws AlreadyExistException, DontHavePermissionException {
+        manager.addNotifyScheduleToGame(userMail);
+    }
+
+
+    @RequestMapping(value="/addNotifyAddAssetToTeam",method = RequestMethod.POST)
+    public void addNotifyAddAssetToTeam(@RequestParam(value = "userMail") String userMail
+    ) throws AlreadyExistException, DontHavePermissionException {
+        manager.addNotifyAddAssetToTeam(userMail);
+    }
 
 
 

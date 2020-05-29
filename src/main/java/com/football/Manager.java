@@ -54,7 +54,7 @@ public class Manager {
     }
 
     public void logOut(String id, String password) {
-       //todo!
+        //todo!
     }
 
     /****************add assets****************/
@@ -119,7 +119,7 @@ public class Manager {
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof Owner){
-             ownerService.removePlayer(id,teamName, mailId);
+                ownerService.removePlayer(id,teamName, mailId);
             }
         }
     }
@@ -308,8 +308,8 @@ public class Manager {
             playersInvolved+= player +"\n";
         }
         return refereeId + " entered Event to game \'" + id +"\':\n"+
-                    day+"/"+mounth+"/"+year+" -- " + description + " at "+ gameMinute + " minute.\n" +
-                    "players involved: \n" + playersInvolved + "game event category = "+ eventInGame ;
+                day+"/"+mounth+"/"+year+" -- " + description + " at "+ gameMinute + " minute.\n" +
+                "players involved: \n" + playersInvolved + "game event category = "+ eventInGame ;
     }
 
     public HashSet<String> getRefereeGames(String refereeId) throws MemberNotExist {
@@ -319,7 +319,7 @@ public class Manager {
         for(Game game : games){
             gamesId.add(game.getId());
         }
-       return gamesId;
+        return gamesId;
     }
 
     HashMap<String,String> getTeamPlayers(String teamId) throws ObjectNotExist {
@@ -387,4 +387,23 @@ public class Manager {
     }
 
 
+    public void addNotifyFollowEventGame(String userMail) throws AlreadyExistException, DontHavePermissionException {
+        dbController.addNotifyFollowEventGame(userMail);
+    }
+
+    public void addNotifyGameFinalReport(String userMail) throws AlreadyExistException, DontHavePermissionException {
+        dbController.addNotifyGameFinalReport(userMail);
+    }
+
+    public void addNotifyCreateNewGame(String userMail) throws AlreadyExistException, DontHavePermissionException {
+        dbController.addNotifyCreateNewGame(userMail);
+    }
+
+    public void addNotifyScheduleToGame(String userMail) throws AlreadyExistException, DontHavePermissionException {
+        dbController.addNotifyScheduleToGame(userMail);
+    }
+
+    public void addNotifyAddAssetToTeam(String userMail) throws AlreadyExistException, DontHavePermissionException {
+        dbController.addNotifyAddAssetToTeam(userMail);
+    }
 }
