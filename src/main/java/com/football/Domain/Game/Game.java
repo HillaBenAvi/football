@@ -37,7 +37,7 @@ public class Game extends Observable {
         if(gameDetails.length()>1){
             String[] da = splitGameDetails[1].split(" ");
             this.dateAndTime = new GregorianCalendar(Integer.parseInt(da[0]),Integer.parseInt(da[1]),Integer.parseInt(da[2])
-                                    ,Integer.parseInt(da[3]),Integer.parseInt(da[4]));
+                    ,Integer.parseInt(da[3]),Integer.parseInt(da[4]));
         }
     }
     public String getId(){
@@ -141,5 +141,17 @@ public class Game extends Observable {
         }
         details += "\'";
         return details;
+    }
+
+    public String getReport(){
+        return id +
+                "\n" +  leagueInSeason.getSeason().getYear()+
+                "\n" + hostTeam.getName() +
+                "\n" + visitorTeam.getName() +
+                "\n" + field.getName() +
+                "\n" + result +
+                "\n" + eventLog.toString() +
+                "\n" + leagueInSeason.getLeague().getName() +
+                "\n" + leagueInSeason.getSeason().getYear()  ;
     }
 }

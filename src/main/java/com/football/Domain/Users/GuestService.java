@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 @Service
 public class GuestService {
 
-//    @Autowired
+    //    @Autowired
 //    private DBController dbController;
     @Autowired
     private SecurityMachine securityMachine;
@@ -30,19 +30,19 @@ public class GuestService {
 
 
     public Member signIn(String userMail, String userName, String password , Date birthDate) throws AlreadyExistException, IncorrectPasswordInputException, IncorrectInputException, DontHavePermissionException {
-           if (! checkMailInput(userMail)) {
-               errorLogService.addErrorLog("Incorrect Input Exception");
-               throw new IncorrectInputException("incorrect mail input");
-           }
-           if (! checkPasswordValue(password)) {
-               errorLogService.addErrorLog(" Incorrect Password Input Exception");
-               throw new IncorrectPasswordInputException();
-           }
-           String encryptPassword = securityMachine.encrypt(password);
-           Fan newMember = new Fan(userName, userMail, encryptPassword, birthDate);
-           dbController.addFan(newMember,newMember);
-           eventLogService.addEventLog("Guest", "sign in");
-           return newMember;
+        if (! checkMailInput(userMail)) {
+            errorLogService.addErrorLog("Incorrect Input Exception");
+            throw new IncorrectInputException("incorrect mail input");
+        }
+        if (! checkPasswordValue(password)) {
+            errorLogService.addErrorLog(" Incorrect Password Input Exception");
+            throw new IncorrectPasswordInputException();
+        }
+        String encryptPassword = securityMachine.encrypt(password);
+        Fan newMember = new Fan(userName, userMail, encryptPassword, birthDate);
+        dbController.addFan(newMember,newMember);
+        eventLogService.addEventLog("Guest", "sign in");
+        return newMember;
     }
 
     /**
@@ -57,10 +57,10 @@ public class GuestService {
             eventLogService.addEventLog(userMail, "log in");
             return existingMember;
         }
-       catch(MemberNotExist e){
+        catch(MemberNotExist e){
             errorLogService.addErrorLog("Member Not Exist");
             throw new MemberNotExist();
-       }catch(PasswordDontMatchException | AlreadyExistException e){
+        }catch(PasswordDontMatchException | AlreadyExistException e){
             errorLogService.addErrorLog("Password Dont Match Exception");
             throw new PasswordDontMatchException();
         }

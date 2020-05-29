@@ -6,10 +6,12 @@ import com.football.Domain.League.*;
 import com.football.Exception.*;
 import com.football.Service.ErrorLogService;
 import com.football.Service.EventLogService;
+import com.football.Service.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
 
 //for each method we get String id of the member who asks for the action.
@@ -25,29 +27,32 @@ public class AssociationDelegateService {
     @Autowired
     private EventLogService eventLogService;
 
+    @Autowired
+    private Notification notification;
+
     public AssociationDelegateService(){ }
 
     public void setLeague(String id, String leagueName) throws AlreadyExistException, IncorrectInputException, DontHavePermissionException, MemberNotExist, ObjectNotExist {
-           if (!dbController.existAssociationDelegate(id)) {
-               errorLogService.addErrorLog("member not exist");
-               throw new MemberNotExist();
-           }
-           AssociationDelegate currAssociationDelegate = dbController.getAssociationDelegate(id);
-           HashMap<String, League> leagues = dbController.getLeagues();
-           League league;
-           if (Pattern.matches("[a-zA-Z]+", leagueName)) { //checks that the name contains only letters(true=just letters)
-               if (!leagues.containsKey(leagueName)) {
-                   league = new League(leagueName);
-                   dbController.addLeague(currAssociationDelegate, league);
-                   eventLogService.addEventLog(id, "set league");
-               } else {
-                   errorLogService.addErrorLog(" already exist exception");
-                   throw new AlreadyExistException();
-               }
-           } else {
-               errorLogService.addErrorLog(" incorrect input exception");
-               throw new IncorrectInputException(leagueName);
-           }
+        if (!dbController.existAssociationDelegate(id)) {
+            errorLogService.addErrorLog("member not exist");
+            throw new MemberNotExist();
+        }
+        AssociationDelegate currAssociationDelegate = dbController.getAssociationDelegate(id);
+        HashMap<String, League> leagues = dbController.getLeagues();
+        League league;
+        if (Pattern.matches("[a-zA-Z]+", leagueName)) { //checks that the name contains only letters(true=just letters)
+            if (!leagues.containsKey(leagueName)) {
+                league = new League(leagueName);
+                dbController.addLeague(currAssociationDelegate, league);
+                eventLogService.addEventLog(id, "set league");
+            } else {
+                errorLogService.addErrorLog(" already exist exception");
+                throw new AlreadyExistException();
+            }
+        } else {
+            errorLogService.addErrorLog(" incorrect input exception");
+            throw new IncorrectInputException(leagueName);
+        }
     }
 
     public void setLeagueByYear(String id, String specificLeague, String year) throws ObjectNotExist, AlreadyExistException, DontHavePermissionException, MemberNotExist {
@@ -132,15 +137,15 @@ public class AssociationDelegateService {
      * @throws ObjectNotExist
      */
     public ScorePolicy getScorePolicy(String id, String league, String season) throws ObjectNotExist, AlreadyExistException, DontHavePermissionException {
-       try{
-           League leagueObj = dbController.getLeague(league);
-           Season seasonObj = dbController.getSeason(season);
-           LeagueInSeason leagueInSeason = leagueObj.getLeagueInSeason(seasonObj);
-           return leagueInSeason.getScorePolicy();
-       }catch(ObjectNotExist e){
-           errorLogService.addErrorLog("Object Not Exist");
-           throw new ObjectNotExist("");
-       }
+        try{
+            League leagueObj = dbController.getLeague(league);
+            Season seasonObj = dbController.getSeason(season);
+            LeagueInSeason leagueInSeason = leagueObj.getLeagueInSeason(seasonObj);
+            return leagueInSeason.getScorePolicy();
+        }catch(ObjectNotExist e){
+            errorLogService.addErrorLog("Object Not Exist");
+            throw new ObjectNotExist("");
+        }
     }
 
     /**
@@ -287,6 +292,10 @@ public class AssociationDelegateService {
             leagueInSeason.addTeam(team);
             dbController.updateLeagueInSeason(currAssociationDelegate, leagueInSeason);
             eventLogService.addEventLog(id, "add team to league in season");
+
+            List<String> listToNotify=dbController.getNotifyFollowEventGame();
+            notification.notifyAll(listToNotify,"The team "+teamName+" was added to league "+leagueInSeason.getLeague().getName()+" and to season "+leagueInSeason.getSeason().getYear());
+
         }catch(ObjectNotExist e){
             errorLogService.addErrorLog("Object Not Exist");
             throw new ObjectNotExist("");

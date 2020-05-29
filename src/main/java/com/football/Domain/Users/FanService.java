@@ -9,6 +9,7 @@ import com.football.Exception.IncorrectInputException;
 import com.football.Exception.MemberNotExist;
 import com.football.Service.ErrorLogService;
 import com.football.Service.EventLogService;
+import com.football.Service.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 @Service
@@ -33,29 +35,34 @@ public class FanService {
     @Autowired
     private EventLogService eventLogService;
 
+    @Autowired
+    private Notification notification;
+
     public void followTeam(String id, Team team) throws MemberNotExist, AlreadyExistException, DontHavePermissionException {
-       try{
-           if(dbController.existFan(id)){
-               Fan fan = dbController.getFan(id);
-               team.addNewFollower(fan);
-           }
-       }catch(MemberNotExist e){
-           errorLogService.addErrorLog("Member Not Exist");
-           throw new MemberNotExist();
-       }
+        try{
+            if(dbController.existFan(id)){
+                Fan fan = dbController.getFan(id);
+                team.addNewFollower(fan);
+            }
+        }catch(MemberNotExist e){
+            errorLogService.addErrorLog("Member Not Exist");
+            throw new MemberNotExist();
+        }
 
     }
 
     public void followGame(String id, Game game) throws MemberNotExist, AlreadyExistException, DontHavePermissionException {
-       try{
-           if(dbController.existFan(id)){
-               Fan fan = dbController.getFan(id);
-               game.addNewFollower(fan);
-           }
-       }catch(MemberNotExist e){
-           errorLogService.addErrorLog("Member Not Exist");
-           throw new MemberNotExist();
-       }
+        try{
+            if(dbController.existFan(id)){
+                Fan fan = dbController.getFan(id);
+                game.addNewFollower(fan);
+                dbController.addNotifyCreateNewGame(id);
+
+            }
+        }catch(MemberNotExist e){
+            errorLogService.addErrorLog("Member Not Exist");
+            throw new MemberNotExist();
+        }
 
     }
 
