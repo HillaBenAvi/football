@@ -387,4 +387,23 @@ public class Manager {
     }
 
 
+    public void addNotifyFollowEventGame(String userMail) throws AlreadyExistException, DontHavePermissionException {
+        dbController.addNotifyFollowEventGame(userMail);
+    }
+
+    public void addNotifyGameFinalReport(String userMail) throws AlreadyExistException, DontHavePermissionException {
+        dbController.addNotifyGameFinalReport(userMail);
+    }
+
+    public void addNotifyCreateNewGame(String userMail) throws AlreadyExistException, DontHavePermissionException {
+        dbController.addNotifyCreateNewGame(userMail);
+    }
+
+    public void addNotifyScheduleToGame(String userMail) throws AlreadyExistException, DontHavePermissionException {
+        dbController.addNotifyScheduleToGame(userMail);
+    }
+
+    public void addNotifyAddAssetToTeam(String userMail) throws AlreadyExistException, DontHavePermissionException {
+        dbController.addNotifyAddAssetToTeam(userMail);
+    }
 }

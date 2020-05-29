@@ -133,7 +133,8 @@ public class MainRefereeService {
         }
     }
 
-    public void createGameReport(Game game){
+    public void createGameReport(String gameName){
+        Game game=dbController.getGame(gameName);
         String message=game.getReport();
 
         List<String> listToNotify=dbController.getNotifyGameFinalReport();
