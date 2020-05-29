@@ -1,19 +1,14 @@
 package com.football.Service;
 
-import com.itextpdf.text.pdf.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfWriter;
 
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
-import javax.mail.*;
-import javax.mail.internet.*;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
