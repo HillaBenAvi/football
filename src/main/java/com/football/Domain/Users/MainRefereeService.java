@@ -12,6 +12,7 @@ import com.football.Service.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Ref;
 import java.util.*;
 
 @Service
@@ -46,7 +47,7 @@ public class MainRefereeService {
      * @param playersId
      */
 
-    public void updateGameEvent(String gameid, String refereeId, String year,String mounth, String day, String description, String gameMinute, String eventInGame, String playersId) throws MemberNotExist, DontHavePermissionException, ObjectNotExist {
+    public void updateGameEvent(String gameid, String refereeId, String year,String mounth, String day, String description, String gameMinute, String eventInGame, String playersId) throws MemberNotExist, DontHavePermissionException, ObjectNotExist, AlreadyExistException {
         if(dbController.existReferee(refereeId)) {
             Referee referee = dbController.getReferee(refereeId);
             if(referee instanceof MainReferee){
@@ -63,7 +64,9 @@ public class MainRefereeService {
                         Event event1 = new Event(date,description,EventInGame.valueOf(eventInGame),Integer.parseInt(gameMinute),players);
                         game.addEvent(event1);
                         dbController.updateGame(referee,game);
-
+                        //add them to notify
+                        dbController.addNotifyScheduleToGame(refereeId);
+                        //send them notify
                         List<String> listToNotify=dbController.getNotifyScheduleToGame();
                         notification.notifyAll(listToNotify,"The game "+game.getId()+" has updated!");
                         return;
@@ -133,10 +136,23 @@ public class MainRefereeService {
         }
     }
 
-    public void createGameReport(String gameName){
+    public void createGameReport(String gameName) throws AlreadyExistException, DontHavePermissionException {
         Game game=dbController.getGame(gameName);
-        String message=game.getReport();
 
+        //referees
+        for (Referee r:game.getReferees() ) {
+            dbController.addNotifyGameFinalReport(r.getUserMail());
+        }
+        //host
+        for (Owner o:game.getHostTeam().getOwners()) {
+            dbController.addNotifyGameFinalReport(o.getUserMail());
+        }
+        //visitors
+        for (Owner o:game.getVisitorTeam().getOwners()) {
+            dbController.addNotifyGameFinalReport(o.getUserMail());
+        }
+        String message=game.getReport();
+        //notify them
         List<String> listToNotify=dbController.getNotifyGameFinalReport();
         notification.notifyAll(listToNotify,"The report: /n "+message);
     }

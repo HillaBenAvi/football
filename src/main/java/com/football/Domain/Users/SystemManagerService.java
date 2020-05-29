@@ -622,6 +622,9 @@ public class SystemManagerService {
                         dbController.addTeam(manager, newTeam);
                         eventLogService.addEventLog(id,"addNewTeam");
 
+                        //add notifier
+                        dbController.addNotifyCreateNewGame(id);
+                        //notify
                         List<String> listToNotify=dbController.getNotifyCreateNewGame();
                         notification.notifyAll(listToNotify,"The new team "+teamName+" was added to system successfully!");
                     }
