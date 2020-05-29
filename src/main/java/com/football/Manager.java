@@ -178,6 +178,7 @@ public class Manager {
     }
 
     public void insertSchedulingPolicy(String id, String league, String season, String sPolicy) throws MemberNotExist, DontHavePermissionException, ObjectNotExist, AlreadyExistException {
+        sPolicy = removegarbij(sPolicy);
         if(dbController.existMember(id)){
             Role member = dbController.getMember(id);
             if (member instanceof AssociationDelegate){
@@ -282,13 +283,10 @@ public class Manager {
         return seasons;
     }
 
-    public ArrayList<String> getLeagues() {
-        ArrayList<String> leagues=new ArrayList<>();
-        HashMap<String, League> getLeagues= dbController.getLeagues();
-        for (String name:getLeagues.keySet()) {
-            leagues.add(name);
-        }
-        return leagues;
+    public ArrayList<String> getLeaguesIds() {
+        ArrayList<String> getLeagues= dbController.getLeaguesIds();
+
+        return getLeagues;
     }
 
     public ArrayList<String> getSchedulingPolicies() {
@@ -299,6 +297,9 @@ public class Manager {
     }
 
     public String addGameEvents(String id, String refereeId, String year,String mounth, String day, String description, String gameMinute, String eventInGame, String playersId) throws MemberNotExist, DontHavePermissionException, ObjectNotExist {
+        id = removegarbij(id);
+        description = removegarbij(description);
+
         mainRefereeService.updateGameEvent(id,refereeId, year, mounth,  day, description, gameMinute, eventInGame, playersId);
         String playersInvolved = "";
         for(String player : playersId.split(";")){
@@ -307,6 +308,20 @@ public class Manager {
         return refereeId + " entered Event to game \'" + id +"\':\n"+
                     day+"/"+mounth+"/"+year+" -- " + description + " at "+ gameMinute + " minute.\n" +
                     "players involved: \n" + playersInvolved + "game event category = "+ eventInGame ;
+    }
+
+    private String removegarbij(String str) {
+        String res = "";
+        for(int i = 0; i<str.length(); i++){
+            if(str.charAt(i) == '%' && str.charAt(i+1) == '2' && str.charAt(i+2) == '0'){
+                res += ' ';
+                i+=2;
+            }
+            else{
+                res += str.charAt(i);
+            }
+        }
+        return res;
     }
 
     public HashSet<String> getRefereeGames(String refereeId) throws MemberNotExist {
@@ -369,8 +384,18 @@ public class Manager {
         return teamManagers;
     }
     public ArrayList<String> getGamePlayers(String gameId) {
+        String gameId2 = "";
+        for(int i = 0 ; i<gameId.length() ; i++){
+            if(gameId.charAt(i)!='-'){
+                gameId2+=gameId.charAt(i);
+            }
+            else{
+                gameId2+=' ';
+            }
+        }
+       // gameId.replace('-', ' ');
         ArrayList<String> playersInGame = new ArrayList<>();
-        Game game = dbController.getGame(gameId);
+        Game game = dbController.getGame(gameId2);
         Team teamHost = game.getHostTeam();
         Team teamGest = game.getVisitorTeam();
 
@@ -434,4 +459,26 @@ public class Manager {
         ownersAndFans.addAll(dbController.getOwnersAndFans().keySet());
         return ownersAndFans;
     }
+
+    public void addNotifyFollowEventGame(String userMail) throws AlreadyExistException, DontHavePermissionException {
+        //dbController.addNotifyFollowEventGame(userMail);
+    }
+
+    public void addNotifyGameFinalReport(String userMail) throws AlreadyExistException, DontHavePermissionException {
+        //dbController.addNotifyGameFinalReport(userMail);
+    }
+
+    public void addNotifyCreateNewGame(String userMail) throws AlreadyExistException, DontHavePermissionException {
+        //dbController.addNotifyCreateNewGame(userMail);
+    }
+
+    public void addNotifyScheduleToGame(String userMail) throws AlreadyExistException, DontHavePermissionException {
+        //dbController.addNotifyScheduleToGame(userMail);
+    }
+
+    public void addNotifyAddAssetToTeam(String userMail) throws AlreadyExistException, DontHavePermissionException {
+        //dbController.addNotifyAddAssetToTeam(userMail);
+    }
+
+
 }

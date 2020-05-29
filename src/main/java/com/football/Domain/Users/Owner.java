@@ -70,4 +70,8 @@ public class Owner extends Member {
             this.teams.put(team.getName(), team);
         }
     }
+
+    public void removeTeam(String teamName) {
+        this.teams.remove(teamName);
+    }
 }

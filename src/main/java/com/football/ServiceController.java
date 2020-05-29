@@ -243,7 +243,7 @@ public class ServiceController {
     public String schedulingGames(@RequestParam(value = "id") String id,
                            @RequestParam(value = "leagueId:seasonId")String leagueIdseasonId) {
         try {
-            manager.schedulingGames(id, leagueIdseasonId.split(":")[0], leagueIdseasonId.split(":")[1]);
+            manager.schedulingGames(id, leagueIdseasonId.split(":")[1], leagueIdseasonId.split(":")[0]);
         } catch (ObjectNotExist objectNotExist) {
             return "the object does not exist";
         } catch (AlreadyExistException e) {
@@ -366,7 +366,7 @@ public class ServiceController {
     /*****************team getters*******************/
     //the key of the HashMaps- id, value- name
     //get all the league in season
-    @RequestMapping(value="/getLeagueInSeasons",method = RequestMethod.GET)
+    @RequestMapping(value="/getLeagueInSeasonsIds",method = RequestMethod.GET)
     @ResponseBody
     public  ArrayList<String>  getLeagueInSeasonsIds(){
         return manager.getLeagueInSeasonsIds();
@@ -484,7 +484,7 @@ public class ServiceController {
     @RequestMapping(value="/getAllLeagues",method = RequestMethod.GET)
     @ResponseBody
     public ArrayList<String> getAllLeagues(@RequestParam(value = "id") String id){
-        return manager.getLeagues();
+        return manager.getLeaguesIds();
 
     }
 
@@ -493,6 +493,40 @@ public class ServiceController {
     public ArrayList<String> getAllSchedulingPolicies(@RequestParam(value = "id") String id){
         return manager.getSchedulingPolicies();
 
+    }
+
+    /******Notifiers*********/
+    @RequestMapping(value="/addNotifyFollowEventGame",method = RequestMethod.POST)
+    public void addNotifyFollowEventGame(@RequestParam(value = "userMail") String userMail
+    ) throws AlreadyExistException, DontHavePermissionException {
+        manager.addNotifyFollowEventGame(userMail);
+    }
+
+    @RequestMapping(value="/addNotifyGameFinalReport",method = RequestMethod.POST)
+    public void addNotifyGameFinalReport(@RequestParam(value = "userMail") String userMail
+    ) throws AlreadyExistException, DontHavePermissionException {
+        manager.addNotifyGameFinalReport(userMail);
+    }
+
+
+    @RequestMapping(value="/addNotifyCreateNewGame",method = RequestMethod.POST)
+    public void addNotifyCreateNewGame(@RequestParam(value = "userMail") String userMail
+    ) throws AlreadyExistException, DontHavePermissionException {
+        manager.addNotifyCreateNewGame(userMail);
+    }
+
+
+    @RequestMapping(value="/addNotifyScheduleToGame",method = RequestMethod.POST)
+    public void addNotifyScheduleToGame(@RequestParam(value = "userMail") String userMail
+    ) throws AlreadyExistException, DontHavePermissionException {
+        manager.addNotifyScheduleToGame(userMail);
+    }
+
+
+    @RequestMapping(value="/addNotifyAddAssetToTeam",method = RequestMethod.POST)
+    public void addNotifyAddAssetToTeam(@RequestParam(value = "userMail") String userMail
+    ) throws AlreadyExistException, DontHavePermissionException {
+        manager.addNotifyAddAssetToTeam(userMail);
     }
 
 }

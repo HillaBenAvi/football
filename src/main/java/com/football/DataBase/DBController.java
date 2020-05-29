@@ -97,24 +97,24 @@ public class DBController {
                 throw new AlreadyExistException();
 
             seasonDao.save(season);
-            HashMap<League, LeagueInSeason> lsList = season.getLeagues();
-            if(season.getLeagues().size()>0){
-                for(League league : lsList.keySet()){
-                    if(leagueDao.exist(league.getName())) {
-                        leagueDao.update(league.getName(), league);
-                    }
-                    else{
-                        leagueDao.save(league);
-                    }
-
-                    if(leagueInSesonDao.exist(league.getName()+":"+season.getYear())){
-                        leagueInSesonDao.update(league.getName()+":"+season.getYear(),lsList.get(league));
-                    }
-                    else{
-                        leagueInSesonDao.save(lsList.get(league));
-                    }
-                }
-            }
+//            HashMap<League, LeagueInSeason> lsList = season.getLeagues();
+//            if(season.getLeagues().size()>0){
+//                for(League league : lsList.keySet()){
+//                    if(leagueDao.exist(league.getName())) {
+//                        leagueDao.update(league.getName(), league);
+//                    }
+//                    else{
+//                        leagueDao.save(league);
+//                    }
+//
+//                    if(leagueInSesonDao.exist(league.getName()+":"+season.getYear())){
+//                        leagueInSesonDao.update(league.getName()+":"+season.getYear(),lsList.get(league));
+//                    }
+//                    else{
+//                        leagueInSesonDao.save(lsList.get(league));
+//                    }
+//                }
+//            }
         } else {
             throw new DontHavePermissionException();
         }
@@ -127,22 +127,22 @@ public class DBController {
 
             leagueDao.save(league);
             HashMap<Season, LeagueInSeason> lsList = league.getSeasons();
-            if(league.getSeasons().size()>0){
-                for(Season season : lsList.keySet()){
-                    if(seasonDao.exist(season.getYear())) {
-                        seasonDao.update(season.getYear(), season);
-                    }
-                    else {
-                        seasonDao.save(season);
-                    }
-                    if(leagueInSesonDao.exist(league.getName()+":"+season.getYear())){
-                        leagueInSesonDao.update(league.getName()+":"+season.getYear(),lsList.get(season));
-                    }
-                    else{
-                        leagueInSesonDao.save(lsList.get(season));
-                    }
-                }
-            }
+//            if(league.getSeasons().size()>0){
+//                for(Season season : lsList.keySet()){
+//                    if(seasonDao.exist(season.getYear())) {
+//                        seasonDao.update(season.getYear(), season);
+//                    }
+//                    else {
+//                        seasonDao.save(season);
+//                    }
+//                    if(leagueInSesonDao.exist(league.getName()+":"+season.getYear())){
+//                        leagueInSesonDao.update(league.getName()+":"+season.getYear(),lsList.get(season));
+//                    }
+//                    else{
+//                        leagueInSesonDao.save(lsList.get(season));
+//                    }
+//                }
+//            }
         } else {
             throw new DontHavePermissionException();
         }
@@ -1444,5 +1444,15 @@ public class DBController {
             lsID.add(lsSplit[0]+":"+lsSplit[1]);
         }
         return lsID;
+    }
+
+    public ArrayList<String> getLeaguesIds() {
+        ArrayList<String> legueIDs = new ArrayList<>();
+        List<String> leagues =  leagueDao.getAll();
+        for(String league : leagues){
+            String[] lsSplit = league.split(":");
+            legueIDs.add(lsSplit[0]);
+        }
+        return legueIDs;
     }
 }

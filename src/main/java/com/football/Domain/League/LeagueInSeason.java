@@ -205,7 +205,7 @@ public class LeagueInSeason {
             details += " \',\'";
         }
         if(this.scorePolicy != null )
-            details += this.scorePolicy.toString() + "\',\'";
+            details += this.scorePolicy.toString() + "\'";
         else{
             details += "\'";
         }
