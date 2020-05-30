@@ -462,23 +462,20 @@ public class Manager {
     }
 
     public void addNotifyFollowEventGame(String userMail) throws AlreadyExistException, DontHavePermissionException {
-        //dbController.addNotifyFollowEventGame(userMail);
+        dbController.addNotifyFollowEventGame(userMail);
     }
 
-    public void addNotifyGameFinalReport(String userMail) throws AlreadyExistException, DontHavePermissionException {
-        //dbController.addNotifyGameFinalReport(userMail);
-    }
-
-    public void addNotifyCreateNewGame(String userMail) throws AlreadyExistException, DontHavePermissionException {
-        //dbController.addNotifyCreateNewGame(userMail);
-    }
-
-    public void addNotifyScheduleToGame(String userMail) throws AlreadyExistException, DontHavePermissionException {
-        //dbController.addNotifyScheduleToGame(userMail);
+    public void addNotifyGameFinalReport(String userMail, String gameId) throws AlreadyExistException, DontHavePermissionException, MemberNotExist {
+        if (dbController.existMember(userMail)) {
+            Role member = dbController.getMember(userMail);
+            if (member instanceof MainReferee) {
+                mainRefereeService.createGameReport(gameId);
+            }
+        }
     }
 
     public void addNotifyAddAssetToTeam(String userMail) throws AlreadyExistException, DontHavePermissionException {
-        //dbController.addNotifyAddAssetToTeam(userMail);
+        dbController.addNotifyAddAssetToTeam(userMail);
     }
 
 

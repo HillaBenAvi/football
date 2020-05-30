@@ -498,36 +498,56 @@ public class ServiceController {
 
     /******Notifiers*********/
     @RequestMapping(value="/addNotifyFollowEventGame",method = RequestMethod.POST)
-    public void addNotifyFollowEventGame(@RequestParam(value = "userMail") String userMail
-    ) throws AlreadyExistException, DontHavePermissionException {
+    public String addNotifyFollowEventGame(@RequestParam(value = "userMail") String userMail) {
+    try{
         manager.addNotifyFollowEventGame(userMail);
+        return "now you are following the event game";
+    }
+    catch (AlreadyExistException e)
+    {
+        return "the object already exist";
+    }
+    catch (DontHavePermissionException e)
+    {
+        return "you dont have the permission";
+    }
     }
 
     @RequestMapping(value="/addNotifyGameFinalReport",method = RequestMethod.POST)
-    public void addNotifyGameFinalReport(@RequestParam(value = "userMail") String userMail
-    ) throws AlreadyExistException, DontHavePermissionException {
-        manager.addNotifyGameFinalReport(userMail);
-    }
+    public String addNotifyGameFinalReport(@RequestParam(value = "userMail" ) String userMail ,@RequestParam(value = "gameId") String gameId) throws AlreadyExistException, DontHavePermissionException, MemberNotExist {
+        try{
+            manager.addNotifyGameFinalReport(userMail , gameId);
+            return "now you are following the game report";
+        }
+        catch (AlreadyExistException e)
+        {
+            return "the object already exist";
+        }
+        catch (DontHavePermissionException e)
+        {
+            return "you dont have the permission";
+        }
 
 
-    @RequestMapping(value="/addNotifyCreateNewGame",method = RequestMethod.POST)
-    public void addNotifyCreateNewGame(@RequestParam(value = "userMail") String userMail
-    ) throws AlreadyExistException, DontHavePermissionException {
-        manager.addNotifyCreateNewGame(userMail);
-    }
-
-
-    @RequestMapping(value="/addNotifyScheduleToGame",method = RequestMethod.POST)
-    public void addNotifyScheduleToGame(@RequestParam(value = "userMail") String userMail
-    ) throws AlreadyExistException, DontHavePermissionException {
-        manager.addNotifyScheduleToGame(userMail);
     }
 
 
     @RequestMapping(value="/addNotifyAddAssetToTeam",method = RequestMethod.POST)
-    public void addNotifyAddAssetToTeam(@RequestParam(value = "userMail") String userMail
-    ) throws AlreadyExistException, DontHavePermissionException {
-        manager.addNotifyAddAssetToTeam(userMail);
+    public String addNotifyAddAssetToTeam(@RequestParam(value = "userMail") String userMail)
+    {
+        try{
+            manager.addNotifyAddAssetToTeam(userMail);
+            return "now you are following the team assets";
+        }
+        catch (AlreadyExistException e)
+        {
+            return "the object already exist";
+        }
+        catch (DontHavePermissionException e)
+        {
+            return "you dont have the permission";
+        }
+
     }
 
 }

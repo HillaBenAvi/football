@@ -81,7 +81,7 @@ public class Notification {
             message.setSubject("Notification from Football system!");
 
 
-            String filename = "./tempPdfContent.pdf";//change accordingly
+            String filename = "./footballReport.pdf";//change accordingly
 
             Document document = new Document(PageSize.A4, 50, 50, 50, 50);
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));

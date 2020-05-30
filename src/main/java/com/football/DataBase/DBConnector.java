@@ -29,8 +29,8 @@ public class DBConnector {
 
     public Connection makeConnection() {
         try {
-            conn = //DriverManager.getConnection("jdbc:mysql://132.72.65.124:3306/football?" +"user=root&password=root&useLegacyDatetimeCode=false&serverTimezone=UTC");
-                    DriverManager.getConnection(URL,USER,PASS);
+            conn = DriverManager.getConnection("jdbc:mysql://132.72.65.124:3306/football?" +"user=root&password=root&useLegacyDatetimeCode=false&serverTimezone=UTC");
+                    //DriverManager.getConnection(URL,USER,PASS);
             return conn;
         } catch (SQLException ex) {
             throw new RuntimeException("Error connecting to the database", ex);
