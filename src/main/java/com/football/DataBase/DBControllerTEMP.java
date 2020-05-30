@@ -226,7 +226,7 @@
 //
 //        /**************delete function function***************/
 //
-//        public void deleteRole(Role role, String id) throws MemberNotExist, DontHavePermissionException {
+//        public void removeRole(Role role, String id) throws MemberNotExist, DontHavePermissionException {
 //            if (role instanceof SystemManager || role instanceof Owner || role instanceof AssociationDelegate) {
 //                if (!db.existMember(id))
 //                    throw new MemberNotExist();
@@ -514,4 +514,3 @@
 //
 //
 //    }
-//

@@ -19,7 +19,7 @@
 //
 //
 //public class SystemManagerTesting {
-//    Date birthdate = new Date(1993, 10, 12);
+//    Date date = new Date(1993, 10, 12);
 // SystemController controller;
 //
 //    public SystemManagerTesting() throws IncorrectInputException, DontHavePermissionException, AlreadyExistException {
@@ -30,9 +30,9 @@
 //    public void init() throws IncorrectInputException, DontHavePermissionException, AlreadyExistException{
 //        controller = new SystemController("");
 //        controller.deleteDBcontroller();
-//        controller.signIn("owner", "owner@gmail.com", "1", birthdate);
-//        controller.signIn("systemManager", "systemManager@gmail.com", "1", birthdate);
-//        controller.signIn("referee", "referee@gmail.com", "123", birthdate);
+//        controller.signIn("owner", "owner@gmail.com", "1", date);
+//        controller.signIn("systemManager", "systemManager@gmail.com", "1", date);
+//        controller.signIn("referee", "referee@gmail.com", "123", date);
 //    }
 //
 //    @Rule
@@ -59,7 +59,7 @@
 //    /*******************************************************************************/
 //    @Test
 //    public void addSystemManager() throws DontHavePermissionException, MemberNotExist, PasswordDontMatchException, ObjectNotExist, ObjectAlreadyExist, AlreadyExistException, IncorrectInputException {
-//        //controller.signIn("systemManager","systemManager@gmail.com" ,"1" , birthdate );
+//        //controller.signIn("systemManager","systemManager@gmail.com" ,"1" , date );
 //        controller.logIn("admin@gmail.com", "123");
 //        int sizeBefore = this.controller.getSystemManager().size();
 //
@@ -103,7 +103,7 @@
 //    /*******************************************************************************/
 //    @Test
 //    public void removeAssociationDeligate() throws DontHavePermissionException, MemberNotExist, PasswordDontMatchException, ObjectNotExist, ObjectAlreadyExist, AlreadyExistException, IncorrectInputException {
-//        controller.signIn("assocaiation","association@gmail.com" ,"1" , birthdate );
+//        controller.signIn("assocaiation","association@gmail.com" ,"1" , date );
 //        controller.logIn("admin@gmail.com", "123");
 //        int sizeBefore = this.controller.getRoles().size();
 //        controller.addAssociationDelegate("association@gmail.com");
@@ -119,7 +119,7 @@
 //    /*******************************************************************************/
 //    @Test
 //    public void addAssocaitionDeligate() throws DontHavePermissionException, MemberNotExist, PasswordDontMatchException, ObjectNotExist, ObjectAlreadyExist, AlreadyExistException, IncorrectInputException {
-//        controller.signIn("assocaiation","association@gmail.com" ,"1" , birthdate );
+//        controller.signIn("assocaiation","association@gmail.com" ,"1" , date );
 //        controller.logIn("admin@gmail.com", "123");
 //        int sizeBefore = this.controller.getRoles().size();
 //
@@ -361,7 +361,7 @@
 //    @Test
 //    public void removeMemberFan() throws MemberNotExist, PasswordDontMatchException, IncorrectInputException, DontHavePermissionException, AlreadyExistException, MemberAlreadyExistException, NotReadyToDelete {
 //        /*init*/
-//        controller.signIn("fan" , "fan@gmail.com" , "123" ,birthdate);
+//        controller.signIn("fan" , "fan@gmail.com" , "123" ,date);
 //        controller.logIn("admin@gmail.com", "123");
 //        int size = controller.getRoles().size();
 //
@@ -400,19 +400,19 @@
 //        }
 //    }
 //    private void addUsers(int i) throws IncorrectInputException, DontHavePermissionException, AlreadyExistException {
-//        controller.signIn("palyer0"+i,"p0"+i+"@gmail.com","1",birthdate);
-//        controller.signIn("palyer1"+i,"p1"+i+"@gmail.com","1",birthdate);
-//        controller.signIn("palyer2"+i,"p2"+i+"@gmail.com","1",birthdate);
-//        controller.signIn("palyer3"+i,"p3"+i+"@gmail.com","1",birthdate);
-//        controller.signIn("palyer4"+i,"p4"+i+"@gmail.com","1",birthdate);
-//        controller.signIn("palyer5"+i,"p5"+i+"@gmail.com","1",birthdate);
-//        controller.signIn("palyer6"+i,"p6"+i+"@gmail.com","1",birthdate);
-//        controller.signIn("palyer7"+i,"p7"+i+"@gmail.com","1",birthdate);
-//        controller.signIn("palyer8"+i,"p8"+i+"@gmail.com","1",birthdate);
-//        controller.signIn("palyer9"+i,"p9"+i+"@gmail.com","1",birthdate);
-//        controller.signIn("palyer10"+i,"p10"+i+"@gmail.com","1",birthdate);
-//        controller.signIn("coach"+i,"coach"+i+"@gmail.com","1",birthdate);
-//        controller.signIn("manager"+i,"manager"+i+"@gmail.com","1",birthdate);
+//        controller.signIn("palyer0"+i,"p0"+i+"@gmail.com","1",date);
+//        controller.signIn("palyer1"+i,"p1"+i+"@gmail.com","1",date);
+//        controller.signIn("palyer2"+i,"p2"+i+"@gmail.com","1",date);
+//        controller.signIn("palyer3"+i,"p3"+i+"@gmail.com","1",date);
+//        controller.signIn("palyer4"+i,"p4"+i+"@gmail.com","1",date);
+//        controller.signIn("palyer5"+i,"p5"+i+"@gmail.com","1",date);
+//        controller.signIn("palyer6"+i,"p6"+i+"@gmail.com","1",date);
+//        controller.signIn("palyer7"+i,"p7"+i+"@gmail.com","1",date);
+//        controller.signIn("palyer8"+i,"p8"+i+"@gmail.com","1",date);
+//        controller.signIn("palyer9"+i,"p9"+i+"@gmail.com","1",date);
+//        controller.signIn("palyer10"+i,"p10"+i+"@gmail.com","1",date);
+//        controller.signIn("coach"+i,"coach"+i+"@gmail.com","1",date);
+//        controller.signIn("manager"+i,"manager"+i+"@gmail.com","1",date);
 //    }
 //    private void addTeamsWithoutPlayers(int mumOfTeams) throws IncorrectInputException, DontHavePermissionException, AlreadyExistException, ObjectNotExist, ObjectAlreadyExist, MemberNotExist, PasswordDontMatchException, NoEnoughMoney {
 //        for(int i=0 ; i< mumOfTeams ; i++){
@@ -445,14 +445,14 @@
 //        controller.logOut();
 //    }
 //    private void addTeam(int i) throws IncorrectInputException, DontHavePermissionException, AlreadyExistException, MemberNotExist, PasswordDontMatchException, ObjectAlreadyExist, ObjectNotExist, NoEnoughMoney {
-//        controller.signIn("owner"+i,"owner"+i+"@gmail.com","1",birthdate);
+//        controller.signIn("owner"+i,"owner"+i+"@gmail.com","1",date);
 //        controller.logIn("admin@gmail.com","123");
 //        controller.addTeam("team"+i,"owner"+i+"@gmail.com");
 //        controller.logOut();
 //    }
 //    private void enterReferee(int numOfReferees) throws IncorrectInputException, DontHavePermissionException, AlreadyExistException {
 //        for(int i=0; i<numOfReferees; i++)
-//        controller.signIn("referee"+i, "referee"+i+"@gmail.com", "123", birthdate);
+//        controller.signIn("referee"+i, "referee"+i+"@gmail.com", "123", date);
 //    }
 //    private void addRefereesToLeagueInSeason(int numOfReferees) throws DontHavePermissionException, IncorrectInputException, MemberAlreadyExistException, MemberNotExist, AlreadyExistException, PasswordDontMatchException, ObjectNotExist {
 //

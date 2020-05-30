@@ -17,7 +17,6 @@ import com.football.Service.SecurityMachine;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class InitDB {
@@ -39,7 +38,7 @@ public class InitDB {
 
     }
 
-    public LeagueInSeason initLeagueInSeson() throws DontHavePermissionException, ObjectNotExist, AlreadyExistException, ObjectAlreadyExist, MemberNotExist, NoEnoughMoney, IncorrectInputException, PasswordDontMatchException {
+    public LeagueInSeason initLeagueInSeason() throws DontHavePermissionException, ObjectNotExist, AlreadyExistException, ObjectAlreadyExist, MemberNotExist, NoEnoughMoney, IncorrectInputException, PasswordDontMatchException {
         if(dbc.existLeagueInSeason("league88Test:2020")){
             return dbc.getLeagueInSeason("league88Test","2020");
         }
@@ -126,7 +125,7 @@ public class InitDB {
 
         Owner owner = new Owner(ownerName,mailOwner,encryptPass,birthDate);
         if(dbc.existOwner(owner.getUserMail())){
-            dbc.deleteRole(systemManager,owner.getUserMail());
+            dbc.removeRole(systemManager,owner.getUserMail());
         }
         dbc.addOwner(systemManager,owner);
         Account account = new Account();

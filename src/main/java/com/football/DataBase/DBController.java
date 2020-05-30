@@ -12,15 +12,13 @@ import com.football.Exception.ObjectNotExist;
 import com.football.Domain.Game.Game;
 import com.football.Domain.Game.Team;
 import com.football.Service.ErrorLog;
-import com.football.Service.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Repository
-public class DBController {
+public class DBController implements DAOController {
 
     // private DAO associationDelegateDao = AssociationDelegateDao.getInstance();
     @Autowired
@@ -36,7 +34,7 @@ public class DBController {
     @Autowired
     public LeagueDao leagueDao = new LeagueDao();// = LeagueDao.getInstance();
     @Autowired
-    public LeagueInSeasonDao leagueInSesonDao = new LeagueInSeasonDao();//= LeagueInSeasonDao.getInstance();
+    public LeagueInSeasonDao leagueInSeasonDao = new LeagueInSeasonDao();//= LeagueInSeasonDao.getInstance();
     @Autowired
     public MainRefereeDao mainRefereeDao = new MainRefereeDao();//= MainRefereeDao.getInstance();
     @Autowired
@@ -110,28 +108,26 @@ public class DBController {
 
     public void addSeason(Role role, Season season) throws AlreadyExistException, DontHavePermissionException, ObjectNotExist {
         if (role instanceof SystemManager || role instanceof AssociationDelegate) {
-            if(seasonDao.exist(season.getYear()))
+            if (seasonDao.exist(season.getYear()))
                 throw new AlreadyExistException();
 
             seasonDao.save(season);
-//            HashMap<League, LeagueInSeason> lsList = season.getLeagues();
-//            if(season.getLeagues().size()>0){
-//                for(League league : lsList.keySet()){
-//                    if(leagueDao.exist(league.getName())) {
-//                        leagueDao.update(league.getName(), league);
-//                    }
-//                    else{
-//                        leagueDao.save(league);
-//                    }
-//
-//                    if(leagueInSesonDao.exist(league.getName()+":"+season.getYear())){
-//                        leagueInSesonDao.update(league.getName()+":"+season.getYear(),lsList.get(league));
-//                    }
-//                    else{
-//                        leagueInSesonDao.save(lsList.get(league));
-//                    }
-//                }
-//            }
+            HashMap<League, LeagueInSeason> lsList = season.getLeagues();
+            if (season.getLeagues().size() > 0) {
+                for (League league : lsList.keySet()) {
+                    if (leagueDao.exist(league.getName())) {
+                        leagueDao.update(league.getName(), league);
+                    } else {
+                        leagueDao.save(league);
+                    }
+
+                    if (leagueInSeasonDao.exist(league.getName() + ":" + season.getYear())) {
+                        leagueInSeasonDao.update(league.getName() + ":" + season.getYear(), lsList.get(league));
+                    } else {
+                        leagueInSeasonDao.save(lsList.get(league));
+                    }
+                }
+            }
         } else {
             throw new DontHavePermissionException();
         }
@@ -139,27 +135,25 @@ public class DBController {
 
     public void addLeague(Role role, League league) throws AlreadyExistException, DontHavePermissionException, ObjectNotExist {
         if (role instanceof SystemManager || role instanceof AssociationDelegate) {
-            if(leagueDao.exist(league.getName()))
+            if (leagueDao.exist(league.getName()))
                 throw new AlreadyExistException();
 
             leagueDao.save(league);
             HashMap<Season, LeagueInSeason> lsList = league.getSeasons();
-//            if(league.getSeasons().size()>0){
-//                for(Season season : lsList.keySet()){
-//                    if(seasonDao.exist(season.getYear())) {
-//                        seasonDao.update(season.getYear(), season);
-//                    }
-//                    else {
-//                        seasonDao.save(season);
-//                    }
-//                    if(leagueInSesonDao.exist(league.getName()+":"+season.getYear())){
-//                        leagueInSesonDao.update(league.getName()+":"+season.getYear(),lsList.get(season));
-//                    }
-//                    else{
-//                        leagueInSesonDao.save(lsList.get(season));
-//                    }
-//                }
-//            }
+            if (league.getSeasons().size() > 0) {
+                for (Season season : lsList.keySet()) {
+                    if (seasonDao.exist(season.getYear())) {
+                        seasonDao.update(season.getYear(), season);
+                    } else {
+                        seasonDao.save(season);
+                    }
+                    if (leagueInSeasonDao.exist(league.getName() + ":" + season.getYear())) {
+                        leagueInSeasonDao.update(league.getName() + ":" + season.getYear(), lsList.get(season));
+                    } else {
+                        leagueInSeasonDao.save(lsList.get(season));
+                    }
+                }
+            }
         } else {
             throw new DontHavePermissionException();
         }
@@ -167,8 +161,8 @@ public class DBController {
 
     public void addLeagueInSeason(Role role, LeagueInSeason leagueInSeason) throws AlreadyExistException, DontHavePermissionException {
         if (role instanceof SystemManager || role instanceof AssociationDelegate) {
-            if (!leagueInSesonDao.exist(leagueInSeason.getLeague().getName() + ":" + leagueInSeason.getSeason().getYear()))
-                leagueInSesonDao.save(leagueInSeason);
+            if (!leagueInSeasonDao.exist(leagueInSeason.getLeague().getName() + ":" + leagueInSeason.getSeason().getYear()))
+                leagueInSeasonDao.save(leagueInSeason);
             else {
                 throw new AlreadyExistException();
             }
@@ -333,38 +327,33 @@ public class DBController {
     }
 
     public HashMap<String, Referee> getReferees() {
-        HashMap<String , Referee> result = new HashMap<>();
+        HashMap<String, Referee> result = new HashMap<>();
         List<String> mainsRe = mainRefereeDao.getAll();
-        for(String mainRe : mainsRe){
+        for (String mainRe : mainsRe) {
             String[] splitMain = mainRe.split(":");
+            String[] gamesSplited = splitMain[5].split(";");
             HashSet<Game> games = new HashSet<>();
-            if(splitMain[5] != null){
-                String[] gamesSplited = splitMain[5].split(";");
-                for(int i=0; i<gamesSplited.length;i++){
-                    Game game = new Game(gameDao.get(gamesSplited[i]));
-                    games.add(game);
-                }
+            for (int i = 0; i < gamesSplited.length; i++) {
+                Game game = new Game(gameDao.get(gamesSplited[i]));
+                games.add(game);
             }
-            MainReferee mainReferee = new MainReferee(splitMain,games);
-            result.put(mainReferee.getUserMail(),mainReferee);
+            MainReferee mainReferee = new MainReferee(splitMain, games);
+            result.put(mainReferee.getUserMail(), mainReferee);
         }
         List<String> secondRe = seconaryRefereeDao.getAll();
-        for(String second : secondRe){
+        for (String second : secondRe) {
             String[] splitSecond = second.split(":");
+            String[] gamesSplited = splitSecond[5].split(";");
             HashSet<Game> games = new HashSet<>();
-            if(splitSecond[5] != null) {
-                String[] gamesSplited = splitSecond[5].split(";");
-                for(int i=0; i<gamesSplited.length;i++){
-                    Game game = new Game(gameDao.get(gamesSplited[i]));
-                    games.add(game);
-                }
+            for (int i = 0; i < gamesSplited.length; i++) {
+                Game game = new Game(gameDao.get(gamesSplited[i]));
+                games.add(game);
             }
-            SecondaryReferee secondaryReferee = new SecondaryReferee(splitSecond,games);
-            result.put(secondaryReferee.getUserMail(),secondaryReferee);
+            SecondaryReferee secondaryReferee = new SecondaryReferee(splitSecond, games);
+            result.put(secondaryReferee.getUserMail(), secondaryReferee);
         }
         return result;
     }
-
 
     public HashMap<String, Role> getRoles() {
         HashMap<String, Role> roleHashMap = new HashMap<>();
@@ -750,8 +739,8 @@ public class DBController {
     }
 
     public LeagueInSeason getLeagueInSeason(String league, String season) throws ObjectNotExist {
-        if (leagueInSesonDao.exist(league + ":" + season)) {
-            String leagueInSeasonString = leagueInSesonDao.get(league + ":" + season);
+        if (leagueInSeasonDao.exist(league + ":" + season)) {
+            String leagueInSeasonString = leagueInSeasonDao.get(league + ":" + season);
             //  String[] splited = leagueInSeasonString.split(":");
             League league1 = getLeague(league);
             Season season1 = league1.getSeason(season);
@@ -874,7 +863,7 @@ public class DBController {
 
     /***************************************delete function function******************************************/
 
-    public void deleteRole(Role role, String id) throws MemberNotExist, DontHavePermissionException {
+    public void removeRole(Role role, String id) throws MemberNotExist, DontHavePermissionException {
         if (role instanceof SystemManager || role instanceof Owner || role instanceof AssociationDelegate) {
             if (seconaryRefereeDao.exist(id)) {
                 seconaryRefereeDao.delete(id);
@@ -903,9 +892,9 @@ public class DBController {
 
     public void removeLeagueInSeason(Role role, String name) throws ObjectNotExist, DontHavePermissionException {
         if (role instanceof SystemManager || role instanceof AssociationDelegate) {
-            if (!leagueInSesonDao.exist(name))
+            if (!leagueInSeasonDao.exist(name))
                 throw new ObjectNotExist("");
-            leagueInSesonDao.delete(name);
+            leagueInSeasonDao.delete(name);
         } else {
             throw new DontHavePermissionException();
         }
@@ -941,7 +930,7 @@ public class DBController {
     public void deleteMember(Role role, String id) throws MemberNotExist, DontHavePermissionException {
         if (role instanceof SystemManager || role instanceof Owner) {
             if (existMember(id)) {
-                deleteRole(role, id);
+                removeRole(role, id);
             } else {
                 throw new MemberNotExist();
             }
@@ -1086,7 +1075,7 @@ public class DBController {
     }
 
     public boolean existLeagueInSeason(String name) {
-        return leagueInSesonDao.exist(name);
+        return leagueInSeasonDao.exist(name);
     }
 
     public boolean existNotification(String id) {
@@ -1190,8 +1179,8 @@ public class DBController {
     public void updateLeagueInSeason(Role role, LeagueInSeason leagueInSeason) throws ObjectNotExist, DontHavePermissionException {
         if (role instanceof SystemManager || role instanceof AssociationDelegate) {
             String id = leagueInSeason.getLeague().getName() + ":" + leagueInSeason.getSeason().getYear();
-            if (leagueInSesonDao.exist(id))
-                leagueInSesonDao.update(id, leagueInSeason);
+            if (leagueInSeasonDao.exist(id))
+                leagueInSeasonDao.update(id, leagueInSeason);
         } else {
             throw new DontHavePermissionException();
         }
@@ -1326,7 +1315,7 @@ public class DBController {
         Season season = new Season(splitedSeasonString[0]);
         for (int i = 1; i < splitedSeasonString.length; i++) {
             League league = new League(splitedSeasonString[i]);
-            String leagueInSeasonString = leagueInSesonDao.get(splitedSeasonString[i] + ":" + splitedSeasonString[0]);
+            String leagueInSeasonString = leagueInSeasonDao.get(splitedSeasonString[i] + ":" + splitedSeasonString[0]);
             LeagueInSeason leagueInSeason = parseLeagueInSeason(leagueInSeasonString, league, season);
             league.addLeagueInSeason(leagueInSeason);
             season.addLeagueInSeason(leagueInSeason);
@@ -1338,7 +1327,7 @@ public class DBController {
         League league = new League(splitedLeagueString[0]);
         for (int i = 1; i < splitedLeagueString.length; i++) {
             Season season = new Season(splitedLeagueString[i]);
-            String leagueInSeasonString = leagueInSesonDao.get(splitedLeagueString[0] + ":" + splitedLeagueString[i]);
+            String leagueInSeasonString = leagueInSeasonDao.get(splitedLeagueString[0] + ":" + splitedLeagueString[i]);
             LeagueInSeason leagueInSeason = parseLeagueInSeason(leagueInSeasonString, league, season);
             league.addLeagueInSeason(leagueInSeason);
             season.addLeagueInSeason(leagueInSeason);
@@ -1437,7 +1426,7 @@ public class DBController {
 
     public ArrayList<String> getLeagueInSeasonsIds() {
         ArrayList<String> lsID = new ArrayList<>();
-        List<String> leagueInSeasonsS =  leagueInSesonDao.getAll();
+        List<String> leagueInSeasonsS =  leagueInSeasonDao.getAll();
         for(String ls : leagueInSeasonsS){
             String[] lsSplit = ls.split(":");
             lsID.add(lsSplit[0]+":"+lsSplit[1]);
@@ -1504,31 +1493,6 @@ public class DBController {
             throw new AlreadyExistException();
         NotifyAddAssetToTeamDao.save(userMail);
     }
-
-    public boolean existNotifyFollowEventGame(String userMail) {
-
-       return NotifyFollowEventGameDao.exist(userMail);
-    }
-
-    public boolean existNotifyGameFinalReport(String userMail) {
-        return NotifyGameFinalReportDao.exist(userMail);
-    }
-
-    public boolean existNotifyCreateNewGame(String userMail)  {
-
-         return NotifyCreateNewGameDao.exist(userMail);
-    }
-
-    public boolean existNotifyScheduleToGame(String userMail) {
-
-        return NotifyScheduleToGameDao.exist(userMail);
-    }
-
-    public boolean existNotifyAddAssetToTeam(String userMail){
-         return NotifyAddAssetToTeamDao.exist(userMail);
-    }
-
-
 
     /***************interface iteraion 4************/
 
