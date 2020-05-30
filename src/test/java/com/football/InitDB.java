@@ -125,7 +125,7 @@ public class InitDB {
 
         Owner owner = new Owner(ownerName,mailOwner,encryptPass,birthDate);
         if(dbc.existOwner(owner.getUserMail())){
-            dbc.removeRole(systemManager,owner.getUserMail());
+            dbc.deleteRole(systemManager,owner.getUserMail());
         }
         dbc.addOwner(systemManager,owner);
         Account account = new Account();

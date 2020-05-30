@@ -638,7 +638,7 @@ public class DataBaseTest {
 
         Owner owner = new Owner("owner"+i,"owner"+i+"@gmail.com","1",birthDate);
         if(dbc.existOwner(owner.getUserMail())){
-            dbc.removeRole(systemManager,owner.getUserMail());
+            dbc.deleteRole(systemManager,owner.getUserMail());
         }
         dbc.addOwner(systemManager,owner);
         Account account = new Account();
