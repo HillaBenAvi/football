@@ -110,26 +110,28 @@ public class DBController {
 
     public void addSeason(Role role, Season season) throws AlreadyExistException, DontHavePermissionException, ObjectNotExist {
         if (role instanceof SystemManager || role instanceof AssociationDelegate) {
-            if (seasonDao.exist(season.getYear()))
+            if(seasonDao.exist(season.getYear()))
                 throw new AlreadyExistException();
 
             seasonDao.save(season);
-            HashMap<League, LeagueInSeason> lsList = season.getLeagues();
-            if (season.getLeagues().size() > 0) {
-                for (League league : lsList.keySet()) {
-                    if (leagueDao.exist(league.getName())) {
-                        leagueDao.update(league.getName(), league);
-                    } else {
-                        leagueDao.save(league);
-                    }
-
-                    if (leagueInSesonDao.exist(league.getName() + ":" + season.getYear())) {
-                        leagueInSesonDao.update(league.getName() + ":" + season.getYear(), lsList.get(league));
-                    } else {
-                        leagueInSesonDao.save(lsList.get(league));
-                    }
-                }
-            }
+//            HashMap<League, LeagueInSeason> lsList = season.getLeagues();
+//            if(season.getLeagues().size()>0){
+//                for(League league : lsList.keySet()){
+//                    if(leagueDao.exist(league.getName())) {
+//                        leagueDao.update(league.getName(), league);
+//                    }
+//                    else{
+//                        leagueDao.save(league);
+//                    }
+//
+//                    if(leagueInSesonDao.exist(league.getName()+":"+season.getYear())){
+//                        leagueInSesonDao.update(league.getName()+":"+season.getYear(),lsList.get(league));
+//                    }
+//                    else{
+//                        leagueInSesonDao.save(lsList.get(league));
+//                    }
+//                }
+//            }
         } else {
             throw new DontHavePermissionException();
         }
@@ -137,25 +139,27 @@ public class DBController {
 
     public void addLeague(Role role, League league) throws AlreadyExistException, DontHavePermissionException, ObjectNotExist {
         if (role instanceof SystemManager || role instanceof AssociationDelegate) {
-            if (leagueDao.exist(league.getName()))
+            if(leagueDao.exist(league.getName()))
                 throw new AlreadyExistException();
 
             leagueDao.save(league);
             HashMap<Season, LeagueInSeason> lsList = league.getSeasons();
-            if (league.getSeasons().size() > 0) {
-                for (Season season : lsList.keySet()) {
-                    if (seasonDao.exist(season.getYear())) {
-                        seasonDao.update(season.getYear(), season);
-                    } else {
-                        seasonDao.save(season);
-                    }
-                    if (leagueInSesonDao.exist(league.getName() + ":" + season.getYear())) {
-                        leagueInSesonDao.update(league.getName() + ":" + season.getYear(), lsList.get(season));
-                    } else {
-                        leagueInSesonDao.save(lsList.get(season));
-                    }
-                }
-            }
+//            if(league.getSeasons().size()>0){
+//                for(Season season : lsList.keySet()){
+//                    if(seasonDao.exist(season.getYear())) {
+//                        seasonDao.update(season.getYear(), season);
+//                    }
+//                    else {
+//                        seasonDao.save(season);
+//                    }
+//                    if(leagueInSesonDao.exist(league.getName()+":"+season.getYear())){
+//                        leagueInSesonDao.update(league.getName()+":"+season.getYear(),lsList.get(season));
+//                    }
+//                    else{
+//                        leagueInSesonDao.save(lsList.get(season));
+//                    }
+//                }
+//            }
         } else {
             throw new DontHavePermissionException();
         }
@@ -329,33 +333,38 @@ public class DBController {
     }
 
     public HashMap<String, Referee> getReferees() {
-        HashMap<String, Referee> result = new HashMap<>();
+        HashMap<String , Referee> result = new HashMap<>();
         List<String> mainsRe = mainRefereeDao.getAll();
-        for (String mainRe : mainsRe) {
+        for(String mainRe : mainsRe){
             String[] splitMain = mainRe.split(":");
-            String[] gamesSplited = splitMain[5].split(";");
             HashSet<Game> games = new HashSet<>();
-            for (int i = 0; i < gamesSplited.length; i++) {
-                Game game = new Game(gameDao.get(gamesSplited[i]));
-                games.add(game);
+            if(splitMain[5] != null){
+                String[] gamesSplited = splitMain[5].split(";");
+                for(int i=0; i<gamesSplited.length;i++){
+                    Game game = new Game(gameDao.get(gamesSplited[i]));
+                    games.add(game);
+                }
             }
-            MainReferee mainReferee = new MainReferee(splitMain, games);
-            result.put(mainReferee.getUserMail(), mainReferee);
+            MainReferee mainReferee = new MainReferee(splitMain,games);
+            result.put(mainReferee.getUserMail(),mainReferee);
         }
         List<String> secondRe = seconaryRefereeDao.getAll();
-        for (String second : secondRe) {
+        for(String second : secondRe){
             String[] splitSecond = second.split(":");
-            String[] gamesSplited = splitSecond[5].split(";");
             HashSet<Game> games = new HashSet<>();
-            for (int i = 0; i < gamesSplited.length; i++) {
-                Game game = new Game(gameDao.get(gamesSplited[i]));
-                games.add(game);
+            if(splitSecond[5] != null) {
+                String[] gamesSplited = splitSecond[5].split(";");
+                for(int i=0; i<gamesSplited.length;i++){
+                    Game game = new Game(gameDao.get(gamesSplited[i]));
+                    games.add(game);
+                }
             }
-            SecondaryReferee secondaryReferee = new SecondaryReferee(splitSecond, games);
-            result.put(secondaryReferee.getUserMail(), secondaryReferee);
+            SecondaryReferee secondaryReferee = new SecondaryReferee(splitSecond,games);
+            result.put(secondaryReferee.getUserMail(),secondaryReferee);
         }
         return result;
     }
+
 
     public HashMap<String, Role> getRoles() {
         HashMap<String, Role> roleHashMap = new HashMap<>();
