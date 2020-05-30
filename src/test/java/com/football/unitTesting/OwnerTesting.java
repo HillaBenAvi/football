@@ -1,8 +1,10 @@
 //package com.football.unitTesting;
 //
-//import Domain.Users.Fan;
-//import Exception.*;
-//import Service.SystemController;
+//import com.football.DataBase.DBController;
+//import com.football.Domain.Users.Fan;
+//import com.football.Domain.Users.Owner;
+//import com.football.Domain.Users.OwnerService;
+//import com.football.Exception.*;
 //import org.junit.Before;
 //import org.junit.Rule;
 //import org.junit.Test;
@@ -14,19 +16,15 @@
 //import static org.junit.Assert.*;
 //
 //public class OwnerTesting {
-//    SystemController controller = new SystemController("");
-//    Date birthdate = new Date(1993, 8, 11);
-//
-//    public OwnerTesting() {
-//    }
+//    OwnerService controller = new OwnerService();
+//    DBController dbController = new DBController();
+//    Date date = new Date(1993, 8, 11);
 //
 //    @Before
 //    public void init() throws IncorrectInputException, DontHavePermissionException, AlreadyExistException {
-//        controller = new SystemController("");
-//        controller.deleteDBcontroller();
-//        controller.signIn("player0", "p0@gmail.com", "1", birthdate);
-//        controller.signIn("manager", "manager@gmail.com", "1", birthdate);
-//        controller.signIn("owner", "owner@gmail.com", "1", birthdate);
+//        controller.register("player0", "p0@gmail.com", "1", date);
+//        controller.signIn("manager", "manager@gmail.com", "1", date);
+//        controller.signIn("owner", "owner@gmail.com", "1", date);
 //    }
 //
 //    @Rule
@@ -45,33 +43,28 @@
 //        controller.addManager("team", "newManager@gmail.com");
 //
 //        controller.logOut();
-//        controller.signIn("M", "newManager@gmail.com", "123", birthdate);
+//        controller.signIn("M", "newManager@gmail.com", "123", date);
 //        controller.logIn("owner@gmail.com", "1");
-//
 //        controller.addManager("teamNotExist", "newManager@gmail.com");
 //    }
 //
 //    @Test
 //    public void addManagerToTeamNotExistInSystem() throws MemberNotExist, PasswordDontMatchException, DontHavePermissionException, IncorrectInputException, AlreadyExistException, ObjectNotExist, NoEnoughMoney, ObjectAlreadyExist {
 //        thrown.expect(ObjectNotExist.class);
-//
 //        controller.logIn("admin@gmail.com", "123");
 //        controller.addTeam("team", "owner@gmail.com");
 //        controller.logOut();
-//        controller.signIn("M", "newManager@gmail.com", "123", birthdate);
+//        controller.signIn("M", "newManager@gmail.com", "123", date);
 //        controller.logIn("owner@gmail.com", "1");
-//
 //        controller.addManager("teamNotExist", "newManager@gmail.com");
 //    }
 //
 //    @Test
 //    public void addPlayerAlreadyExistInSystem() throws MemberNotExist, PasswordDontMatchException, DontHavePermissionException, IncorrectInputException, AlreadyExistException, ObjectNotExist, NoEnoughMoney, ObjectAlreadyExist {
 //        thrown.expect(ObjectNotExist.class);
-//
 //        controller.logIn("admin@gmail.com", "123");
 //        controller.addTeam("team", "owner@gmail.com");
 //        controller.logOut();
-//
 //        controller.logIn("owner@gmail.com", "1");
 //
 //        //try to add player already exist
@@ -82,7 +75,6 @@
 //    @Test
 //    public void addFieldToTeamNotExist() throws DontHavePermissionException, ObjectNotExist, MemberNotExist, NoEnoughMoney, AlreadyExistException, PasswordDontMatchException, IncorrectInputException, ObjectAlreadyExist {
 //        thrown.expect(ObjectNotExist.class);
-//
 //        controller.logIn("admin@gmail.com", "123");
 //        controller.addTeam("team", "owner@gmail.com");
 //        controller.logOut();

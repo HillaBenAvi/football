@@ -6,39 +6,22 @@ import com.football.Domain.Asset.Field;
 import com.football.Domain.Asset.Manager;
 import com.football.Domain.Asset.Player;
 import com.football.Domain.Game.Account;
-import com.football.Domain.Game.Game;
 import com.football.Domain.Game.Team;
 import com.football.Domain.League.*;
 import com.football.Domain.Users.*;
 import com.football.Exception.*;
 import com.football.Service.ErrorLog;
 import com.football.Service.EventLog;
-import com.football.Service.Notification;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import com.football.Domain.Asset.Coach;
-import com.football.Domain.Asset.Player;
-import com.football.Domain.Game.Account;
-import com.football.Domain.Game.Team;
+
 import com.football.Domain.League.League;
 import com.football.Domain.League.LeagueInSeason;
 import com.football.Domain.League.Season;
-import com.football.Domain.Users.*;
-import com.football.Exception.*;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.Date;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.*;
 
 public class DataBaseTest {
@@ -491,7 +474,7 @@ public class DataBaseTest {
         /*                         Init                         */
         /********************************************************/
         InitDB initDB = new InitDB();
-        LeagueInSeason leagueInSeason = initDB.initLeagueInSeson();
+        LeagueInSeason leagueInSeason = initDB.initLeagueInSeason();
 
 
 //        Set<Game> games = new HashSet<>();
@@ -580,7 +563,7 @@ public class DataBaseTest {
 
         Owner owner = new Owner("owner"+i,"owner"+i+"@gmail.com","1",birthDate);
         if(dbc.existOwner(owner.getUserMail())){
-            dbc.deleteRole(systemManager,owner.getUserMail());
+            dbc.removeRole(systemManager,owner.getUserMail());
         }
         dbc.addOwner(systemManager,owner);
         Account account = new Account();
