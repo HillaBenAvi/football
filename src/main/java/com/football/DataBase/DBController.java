@@ -1499,6 +1499,31 @@ public class DBController {
         NotifyAddAssetToTeamDao.save(userMail);
     }
 
+    public boolean existNotifyFollowEventGame(String userMail) {
+
+       return NotifyFollowEventGameDao.exist(userMail);
+    }
+
+    public boolean existNotifyGameFinalReport(String userMail) {
+        return NotifyGameFinalReportDao.exist(userMail);
+    }
+
+    public boolean existNotifyCreateNewGame(String userMail)  {
+
+         return NotifyCreateNewGameDao.exist(userMail);
+    }
+
+    public boolean existNotifyScheduleToGame(String userMail) {
+
+        return NotifyScheduleToGameDao.exist(userMail);
+    }
+
+    public boolean existNotifyAddAssetToTeam(String userMail){
+         return NotifyAddAssetToTeamDao.exist(userMail);
+    }
+
+
+
     /***************interface iteraion 4************/
 
     public boolean addPayment(String teamName, String date, double amount) {
