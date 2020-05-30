@@ -123,7 +123,7 @@ public class DBController implements DAOController {
 
                     if (leagueInSeasonDao.exist(league.getName() + ":" + season.getYear())) {
                         leagueInSeasonDao.update(league.getName() + ":" + season.getYear(), lsList.get(league));
-                    } else {
+                    } else {*
                         leagueInSeasonDao.save(lsList.get(league));
                     }
                 }
