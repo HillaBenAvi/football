@@ -286,12 +286,12 @@ public class Team {
     /***********************Remove methods*************************/
 
     public void removeManager(Manager someone) {
-        if (someone != null && !this.managers.contains(someone))
+        if (someone != null && this.managers.contains(someone))
             this.managers.remove(someone);
     }
 
     public void removeCoach(Coach someone) {
-        if (someone != null && !this.coaches.contains(someone))
+        if (someone != null && this.coaches.contains(someone))
             this.coaches.remove(someone);
     }
 

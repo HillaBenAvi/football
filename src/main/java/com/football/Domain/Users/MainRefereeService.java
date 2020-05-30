@@ -67,7 +67,7 @@ public class MainRefereeService {
                         //add them to notify
                         dbController.addNotifyScheduleToGame(refereeId);
                         //send them notify
-                        List<String> listToNotify=dbController.getNotifyScheduleToGame();
+                        List<String> listToNotify=dbController.getNotifyFollowEventGame();
                         notification.notifyAll(listToNotify,"The game "+game.getId()+" has updated!");
                         return;
                     }

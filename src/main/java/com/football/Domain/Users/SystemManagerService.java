@@ -551,6 +551,7 @@ public class SystemManagerService {
                     if (team.getGamesSize() == 0) {
                         HashSet<Owner> allTheOwnerOfTheGroup = team.getOwners();
                         for(Owner owner : allTheOwnerOfTheGroup) {
+                            owner  = dbController.getOwner(owner.getUserMail());
                             if (owner.getTeams().size() > 1) {
                                 owner.removeTeam(teamName);
                                 dbController.updateOwner(manager, owner);

@@ -151,7 +151,7 @@ public class ServiceController {
                                     @RequestParam(value = "mailId")String mailId) {
         try {
             manager.removeTeamManager(id, teamName, mailId);
-        }catch (PasswordDontMatchException e) {
+        } catch (PasswordDontMatchException e) {
             return "Password Dont Match";
         } catch (MemberNotExist memberNotExist) {
             return "the member does not exist";

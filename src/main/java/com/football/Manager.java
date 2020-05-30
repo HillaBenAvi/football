@@ -394,7 +394,6 @@ public class Manager {
                 gameId2+=' ';
             }
         }
-        // gameId.replace('-', ' ');
         ArrayList<String> playersInGame = new ArrayList<>();
         Game game = dbController.getGame(gameId2);
         Team teamHost = game.getHostTeam();
@@ -469,6 +468,7 @@ public class Manager {
         if (dbController.existMember(userMail)) {
             Role member = dbController.getMember(userMail);
             if (member instanceof MainReferee) {
+                gameId = removegarbij(gameId);
                 mainRefereeService.createGameReport(gameId);
             }
         }

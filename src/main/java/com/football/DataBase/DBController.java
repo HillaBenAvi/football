@@ -630,8 +630,10 @@ public class DBController {
                 String[] coaches = splitTeamDetails[2].split(";");
                 for (String coach : coaches) {
                     String[] splitCoach = coachDao.get(coach).split(":");
-                    Coach coach1 = new Coach(splitCoach);
-                    coachLinkedList.add(coach1);
+                    if(splitCoach!=null && splitCoach.length!=1){
+                        Coach coach1 = new Coach(splitCoach);
+                        coachLinkedList.add(coach1);
+                    }
                 }
             }
 
@@ -1483,23 +1485,18 @@ public class DBController {
     }
 
     public void addNotifyGameFinalReport(String userMail) throws AlreadyExistException, DontHavePermissionException {
-        if (NotifyGameFinalReportDao.exist(userMail))
-            throw new AlreadyExistException();
-        NotifyGameFinalReportDao.save(userMail);
+        if (!NotifyGameFinalReportDao.exist(userMail))
+            NotifyGameFinalReportDao.save(userMail);
     }
 
     public void addNotifyCreateNewGame(String userMail) throws AlreadyExistException, DontHavePermissionException {
-
-        if (NotifyCreateNewGameDao.exist(userMail))
-            throw new AlreadyExistException();
-        NotifyCreateNewGameDao.save(userMail);
+        if (!NotifyCreateNewGameDao.exist(userMail))
+            NotifyCreateNewGameDao.save(userMail);
     }
 
     public void addNotifyScheduleToGame(String userMail) throws AlreadyExistException, DontHavePermissionException {
-
-        if (NotifyScheduleToGameDao.exist(userMail))
-            throw new AlreadyExistException();
-        NotifyScheduleToGameDao.save(userMail);
+        if (!NotifyScheduleToGameDao.exist(userMail))
+            NotifyScheduleToGameDao.save(userMail);
     }
 
     public void addNotifyAddAssetToTeam(String userMail) throws AlreadyExistException, DontHavePermissionException {
