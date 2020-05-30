@@ -126,7 +126,7 @@ public class OwnerService {
             }
             if (manager != null) {
                 manager.addTeam(team);
-                dbController.removeRole(currOwner, mailId);
+                dbController.deleteRole(currOwner, mailId);
                 dbController.addManager(currOwner, manager);
                 team.addManager(manager);
                 dbController.updateTeam(currOwner, team);
@@ -191,7 +191,7 @@ public class OwnerService {
             }
             if (coach != null) {
                 coach.addTeam(team);
-                dbController.removeRole(currOwner, mailId);
+                dbController.deleteRole(currOwner, mailId);
                 dbController.addCoach(currOwner, coach);
                 team.addCoach(coach);
 //            HashMap<String, Team> teams = dbController.getTeams();
@@ -255,7 +255,7 @@ public class OwnerService {
             }
             if (player != null) {
                 player.addTeam(team);
-                dbController.removeRole(currOwner, mailId);
+                dbController.deleteRole(currOwner, mailId);
                 dbController.addPlayer(currOwner, player);
                 team.addPlayer(player);
 //            HashMap<String, Team> teams = dbController.getTeams();
@@ -349,7 +349,7 @@ public class OwnerService {
                 if (manager.getUserMail().equals(mailInput)) {
                     Fan fan = new Fan(manager.getName(), manager.getUserMail(), manager.getPassword(), manager.getBirthDate());
                     team.removeManager(manager);
-                    dbController.removeRole(currOwner, mailInput);
+                    dbController.deleteRole(currOwner, mailInput);
 //                HashSet<Manager> managersAll= team.getManagers(); we did it
 //                managersAll.remove(manager);
                     HashMap<String, Team> teams = dbController.getTeams();
@@ -394,7 +394,7 @@ public class OwnerService {
                 if (coach.getUserMail().equals(mailInput)) {
                     Fan fan = new Fan(coach.getName(), coach.getUserMail(), coach.getPassword(), coach.getBirthDate());
                     team.removeCoach(coach);
-                    dbController.removeRole(currOwner, mailInput);
+                    dbController.deleteRole(currOwner, mailInput);
                     dbController.addFan(currOwner, fan);
 //                HashMap<String, Team> teams = dbController.getTeams(); why?
 //                teams.replace(teamName, team);
@@ -437,7 +437,7 @@ public class OwnerService {
                     Fan fan = new Fan(player.getName(), player.getUserMail(), player.getPassword(), player.getBirthDate());
                     team.removePlayer(player);
                     dbController.getPlayers().remove(player);
-                    dbController.removeRole(currOwner, mailInput);
+                    dbController.deleteRole(currOwner, mailInput);
                     dbController.addFan(currOwner, fan);
 //                HashMap<String, Team> teams = dbController.getTeams();
 //                teams.replace(teamName, team);
@@ -543,7 +543,7 @@ public class OwnerService {
             }
             if (owner != null) {
                 owner.getTeams().put(team.getName(), team);
-                dbController.removeRole(currOwner, mailId);
+                dbController.deleteRole(currOwner, mailId);
                 dbController.addOwner(currOwner, owner);
                 team.addOwner(owner);
 //            HashMap<String, Team> teams = dbController.getTeams();

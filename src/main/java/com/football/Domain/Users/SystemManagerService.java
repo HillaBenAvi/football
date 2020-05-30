@@ -367,7 +367,7 @@ public class SystemManagerService {
                 if (dbController.existFan(associationDelegateId)) {
                     Member member = (Member) this.dbController.getMember(associationDelegateId);
                     AssociationDelegate newA_D = new AssociationDelegate(member.getName(), member.getUserMail(), member.getPassword(), member.getBirthDate());
-                    this.dbController.removeRole(manager, associationDelegateId);
+                    this.dbController.deleteRole(manager, associationDelegateId);
                     this.dbController.addAssociationDelegate(manager, newA_D);
                     eventLogService.addEventLog(id,"addAssociationDelegate");
                 }
@@ -396,7 +396,7 @@ public class SystemManagerService {
                 if (this.dbController.getFans().containsKey(ownerId)) {
                     Member member = (Member) this.dbController.getMember(ownerId);
                     Owner newOwner = new Owner(member.getName(), member.getUserMail(), member.getPassword(), member.getBirthDate());
-                    this.dbController.removeRole(manager, ownerId);
+                    this.dbController.deleteRole(manager, ownerId);
                     this.dbController.addOwner(manager, newOwner);
                     eventLogService.addEventLog(id,"addOwner");
                 }
@@ -426,7 +426,7 @@ public class SystemManagerService {
                 if (this.dbController.getFans().containsKey(systemManagerId)) {
                     Member member = (Member) this.dbController.getMember(systemManagerId);
                     SystemManager newSystemManager = new SystemManager(member.getName(), member.getUserMail(), member.getPassword(), member.getBirthDate());
-                    this.dbController.removeRole(manager, systemManagerId);
+                    this.dbController.deleteRole(manager, systemManagerId);
                     this.dbController.addSystemManager(manager, newSystemManager);
                     eventLogService.addEventLog(id,"addSystemManager");
                 }
