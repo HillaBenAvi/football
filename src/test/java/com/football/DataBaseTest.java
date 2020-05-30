@@ -466,6 +466,81 @@ public class DataBaseTest {
             objectNotExist.printStackTrace();
         }
     }
+    @Test
+    public void notifyAddAssetToTeamDao(){
+        try {
+            String userMail="try@gmail.com";
+            if(dbc.existNotifyAddAssetToTeam(userMail)==false) {
+                dbc.addNotifyAddAssetToTeam(userMail);
+            }
+            assertTrue(dbc.existNotifyAddAssetToTeam(userMail));
+
+        } catch (AlreadyExistException e) {
+            e.printStackTrace();
+        }  catch (DontHavePermissionException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void notifyCreateNewGameDao(){
+        try {
+            String userMail="try@gmail.com";
+            if(dbc.existNotifyCreateNewGame(userMail)==false) {
+                dbc.addNotifyCreateNewGame(userMail);
+            }
+            assertTrue(dbc.existNotifyCreateNewGame(userMail));
+
+        } catch (AlreadyExistException e) {
+            e.printStackTrace();
+        }  catch (DontHavePermissionException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void notifyFollowEventGameDao(){
+        try {
+            String userMail="try@gmail.com";
+            if(dbc.existNotifyFollowEventGame(userMail)==false) {
+                dbc.addNotifyFollowEventGame(userMail);
+            }
+            assertTrue(dbc.existNotifyFollowEventGame(userMail));
+
+        } catch (AlreadyExistException e) {
+            e.printStackTrace();
+        }  catch (DontHavePermissionException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void notifyGameFinalReportDao(){
+        try {
+            String userMail="try@gmail.com";
+            if(dbc.existNotifyGameFinalReport(userMail)==false) {
+                dbc.addNotifyGameFinalReport(userMail);
+            }
+            assertTrue(dbc.existNotifyGameFinalReport(userMail));
+
+        } catch (AlreadyExistException e) {
+            e.printStackTrace();
+        }  catch (DontHavePermissionException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void notifyScheduleToGameDao(){
+        try {
+            String userMail="try@gmail.com";
+            if(dbc.existNotifyScheduleToGame(userMail)==false) {
+                dbc.addNotifyScheduleToGame(userMail);
+            }
+            assertTrue(dbc.existNotifyScheduleToGame(userMail));
+
+        } catch (AlreadyExistException e) {
+            e.printStackTrace();
+        }  catch (DontHavePermissionException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     private void schedulingGames() throws PasswordDontMatchException, DontHavePermissionException, IncorrectInputException, ObjectNotExist, ObjectAlreadyExist, NoEnoughMoney, AlreadyExistException, MemberNotExist, MemberAlreadyExistException {

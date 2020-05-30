@@ -90,7 +90,12 @@ public class AssociationDelegateService {
             throw new MemberNotExist();
         }
         AssociationDelegate currAssociationDelegate = dbController.getAssociationDelegate(id);
-        SchedulingPolicyAllTeamsPlayTwice policy = new SchedulingPolicyAllTeamsPlayTwice();
+        ASchedulingPolicy policy ;
+        if(sPolicy.equals("All teams play each other twice"))
+            policy = new SchedulingPolicyAllTeamsPlayTwice();
+        else{
+            policy = new SchedulingPolicyAllTeamsPlayOnce();
+        }
         League leagueObj = dbController.getLeague( league);
         Season seasonObj = dbController.getSeason( season);
         LeagueInSeason leagueInSeason = leagueObj.getLeagueInSeason(seasonObj);

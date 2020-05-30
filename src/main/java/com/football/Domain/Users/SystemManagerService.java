@@ -550,7 +550,18 @@ public class SystemManagerService {
                     Team team = dbController.getTeam(teamName);
                     if (team.getGamesSize() == 0) {
                         HashSet<Owner> allTheOwnerOfTheGroup = team.getOwners();
-                        changeTheOwnerToFan(manager, allTheOwnerOfTheGroup);
+                        for(Owner owner : allTheOwnerOfTheGroup) {
+                            if (owner.getTeams().size() > 1) {
+                                owner.removeTeam(teamName);
+                                dbController.updateOwner(manager, owner);
+                            }
+                            else if (owner.getTeams().size() == 1) {
+                                Fan newFan = new Fan(owner.getName(), owner.getUserMail(), owner.getPassword(), owner.getBirthDate());
+                                dbController.deleteOwner(manager, owner.getUserMail());
+                                dbController.addFan(manager, newFan);
+                            }
+                        }
+                        //changeTheOwnerToFan(manager, allTheOwnerOfTheGroup);
                         dbController.removeTeam(manager, teamName);
                         eventLogService.addEventLog(id,"closeTeam");
 
